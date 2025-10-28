@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36603.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TPI_Comercio_Eq-14", "TPI_Comercio_Eq-14.csproj", "{A6B33EDD-DD34-4ACF-8B85-E952EDB6C1CC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Dominio", "..\Dominio\Dominio.csproj", "{81CC36D0-8764-4668-BC9E-52594A27FB53}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Negocio", "..\Negocio\Negocio.csproj", "{1B914822-F681-4796-90B5-43F6614E93C6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A6B33EDD-DD34-4ACF-8B85-E952EDB6C1CC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A6B33EDD-DD34-4ACF-8B85-E952EDB6C1CC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A6B33EDD-DD34-4ACF-8B85-E952EDB6C1CC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A6B33EDD-DD34-4ACF-8B85-E952EDB6C1CC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{81CC36D0-8764-4668-BC9E-52594A27FB53}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{81CC36D0-8764-4668-BC9E-52594A27FB53}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{81CC36D0-8764-4668-BC9E-52594A27FB53}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{81CC36D0-8764-4668-BC9E-52594A27FB53}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1B914822-F681-4796-90B5-43F6614E93C6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1B914822-F681-4796-90B5-43F6614E93C6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1B914822-F681-4796-90B5-43F6614E93C6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1B914822-F681-4796-90B5-43F6614E93C6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4370FE73-95AE-4E80-BC6F-03E322F64CA0}
+	EndGlobalSection
+EndGlobal
