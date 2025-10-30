@@ -9,7 +9,6 @@ namespace Dominio
     public class Articulos
     {
         public int IdArticulo { get; set; }
-        public string CodigoBarra { get; set; }
         public string Nombre { get; set; }
         public string Descripcion { get; set; }
         public decimal PrecioCompra { get; set; }

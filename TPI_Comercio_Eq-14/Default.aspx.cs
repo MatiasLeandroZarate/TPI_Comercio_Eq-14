@@ -29,7 +29,7 @@ namespace TPC_Comercio_Eq_14
             usuario = txtEmail.Text.ToUpper();
             Contraseña = txtContraseña.Text.ToUpper();
 
-            Response.Redirect("PageInicio.aspx",false);
+            Response.Redirect("Inicio.aspx", false);
         }
     }
 }

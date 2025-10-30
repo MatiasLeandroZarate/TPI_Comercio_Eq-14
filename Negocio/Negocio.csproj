@@ -43,14 +43,10 @@
   <ItemGroup>
     <Compile Include="AcessoBD.cs" />
     <Compile Include="ArticulosNegocio.cs" />
-    <Compile Include="CargosNegocio.cs" />
     <Compile Include="CategoriasNegocio.cs" />
     <Compile Include="ClientesNegocio.cs" />
-    <Compile Include="EmpleadosNegocio.cs" />
-    <Compile Include="FormasPagoNegocio.cs" />
-    <Compile Include="ImagenesNegocio.cs" />
+    <Compile Include="UsuariosNegocio.cs" />
     <Compile Include="MarcasNegocio.cs" />
-    <Compile Include="PagoSueldosNegocio.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ProveedoresNegocio.cs" />
   </ItemGroup>

@@ -12,21 +12,19 @@ namespace Negocio
         public List<Articulos> ListarART()
         {
             List<Articulos> lista = new List<Articulos>();
-            List<Imagenes> imagenes = new List<Imagenes>();
 
             AccesoBD datos = new AccesoBD();
 
             try
             {
                 //datos.setearStoreProcedure("storeListarART");
-                datos.setearQuery("SELECT IDArticulo, CodigoBarra, Nombre, Descripcion, PrecioCompra, PrecioVenta, Stock, IDMarca, IDCategoria, Activo  FROM Articulos");
+                datos.setearQuery("SELECT IDArticulo, Nombre, Descripcion, PrecioCompra, PrecioVenta, Stock, IDMarca, IDCategoria, Activo  FROM Articulos");
                 datos.ejecutarLectura();
                 while (datos.Lector.Read())
                 {
                     Articulos aux = new Articulos();
 
                     aux.IdArticulo = (int)datos.Lector["Id"];
-                    aux.CodigoBarra = (string)datos.Lector["Codigo"];
                     aux.Nombre = (string)datos.Lector["Nombre"];
                     aux.Descripcion = (string)datos.Lector["Descripcion"];
                     aux.PrecioCompra = (decimal)datos.Lector["PrecioCompra"];

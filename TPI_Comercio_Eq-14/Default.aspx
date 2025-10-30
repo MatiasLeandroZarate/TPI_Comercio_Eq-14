@@ -1,5 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/PageMaster.Master" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="TPC_Comercio_Eq_14.Default" %>
-
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Default.Master" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="TPC_Comercio_Eq_14.Default" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
@@ -21,7 +20,7 @@
                 <asp:TextBox ID="txtContraseña" runat="server" CssClass="form-control" TextMode="Password" />
 
                 <asp:CheckBox ID="chkVerContraseña" runat="server" AutoPostBack="true"
-                    Text="Mostrar contraseña" OnCheckChange="VerContraseña" />
+                    Text="Mostrar contraseña" OnCheckedChange="VerContraseña" />
                 <br />
                 <asp:Button Text="Ingresar" ID="btnSiguiente" CssClass="btn btn-primary"
                     OnClick="btnSiguiente_Click" runat="server" />
@@ -30,6 +29,5 @@
         </div>
         
     </div>
-
 
 </asp:Content>
