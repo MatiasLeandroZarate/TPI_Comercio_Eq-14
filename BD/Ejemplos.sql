@@ -62,16 +62,10 @@ INSERT INTO Articulos (Nombre, Descripcion, PrecioCompra, PrecioVenta, Stock, ID
 ('Monitor Dell 27"', 'QHD IPS', 180000, 210000, 8, 2, 3);
 
 INSERT INTO Usuarios (Email, Contraseña) VALUES
-('admin@tpc.com', 'admin123'),
-('juan@tpc.com', 'passjuan'),
-('maria@tpc.com', 'clave2024'),
-('sofia@tpc.com', 'sofiapass'),
-('carlos@tpc.com', '123carlitos'),
-('nicolas@tpc.com', 'nico_2025'),
-('laura@tpc.com', 'laura*pwd'),
-('diego@tpc.com', 'diegoseguro'),
-('ana@tpc.com', 'ana321'),
-('valen@tpc.com', 'valenpass');
+('admin@tpc.com', 'admin'),
+('vendedor1@tpc.com', 'vend1'),
+('vendedor2@tpc.com', 'vend2');
+
 
 INSERT INTO ComprasDetalle (IDArticulo, IDProveedor, Cantidad, PrecioUnitario, Subtotal, IVA, Total) VALUES
 (1,1,10,450000,4500000,0.21,5445000),

@@ -20,7 +20,7 @@
     <form id="form1" runat="server">
     <nav class="navbar navbar-expand-lg bg-dark border-bottom border-body" data-bs-theme="dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">Proyecto Web Integrador - 2025 - Equipo 14A</a>
+            <a class="navbar-brand" href="/Inicio.aspx">Proyecto Web Integrador - 2025 - Equipo 14A</a>
 
             <!-- Menú -->
             <div class="collapse navbar-collapse" id="navbarNav">

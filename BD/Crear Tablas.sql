@@ -89,4 +89,3 @@ Create Table VentasDetalle(
 	FOREIGN KEY (IDArticulo) References Articulos(IDArticulo),
 	FOREIGN KEY (IDCliente) References Clientes(IDCliente)
 )
-go

@@ -24,18 +24,16 @@ namespace Negocio
                 {
                     Articulos aux = new Articulos();
 
-                    aux.IdArticulo = (int)datos.Lector["Id"];
+                    aux.IdArticulo = (int)datos.Lector["IDArticulo"];
                     aux.Nombre = (string)datos.Lector["Nombre"];
                     aux.Descripcion = (string)datos.Lector["Descripcion"];
                     aux.PrecioCompra = (decimal)datos.Lector["PrecioCompra"];
                     aux.PrecioVenta = (decimal)datos.Lector["PrecioVenta"];
                     aux.Stock = (int)datos.Lector["Stock"];
-                    aux.Marca.Descripcion = (string)datos.Lector["Marca"];
+                    aux.Marca.Nombre = (string)datos.Lector["Marca"];
                     aux.Categoria.Descripcion = (string)datos.Lector["Categoria"];
 
                     aux.Activo = (bool)datos.Lector["Activo"];
-
-
 
                     lista.Add(aux);
                 }
