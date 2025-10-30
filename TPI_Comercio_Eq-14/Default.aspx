@@ -11,12 +11,12 @@
         <div class="row justify-content-center">
 
             <div class="col-4">
-                <label for="IngresarMail" class="form-label">Ingrese Mail</label>
+                <label for="IngresarMail" class="form-label">Email:</label>
                 <asp:TextBox type="email" CssClass="form-control" ID="txtEmail" aria-describedby="emailHelp" runat="server" ToolTip="Ingrese el Mail" />
 
                 <br />
 
-                <label for="Ingresarpass" class="form-label">Ingrese Contraseña</label>
+                <label for="Ingresarpass" class="form-label">Contraseña:</label>
                 <asp:TextBox ID="txtContraseña" runat="server" CssClass="form-control" TextMode="Password" />
 
                 <asp:CheckBox ID="chkVerContraseña" runat="server" AutoPostBack="true"

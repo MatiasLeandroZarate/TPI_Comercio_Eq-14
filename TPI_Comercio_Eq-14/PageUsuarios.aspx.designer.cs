@@ -11,7 +11,7 @@ namespace TPC_Comercio_Eq_14
 {
 
 
-    public partial class Usuarios
+    public partial class PageUsuarios
     {
     }
 }

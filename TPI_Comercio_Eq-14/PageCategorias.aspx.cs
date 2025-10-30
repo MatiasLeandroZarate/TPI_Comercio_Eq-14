@@ -7,7 +7,7 @@ using System.Web.UI.WebControls;
 
 namespace TPC_Comercio_Eq_14
 {
-    public partial class Categorias : System.Web.UI.Page
+    public partial class PageCategorias : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {

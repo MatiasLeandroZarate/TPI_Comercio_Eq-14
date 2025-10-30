@@ -20,19 +20,19 @@
     <form id="form1" runat="server">
     <nav class="navbar navbar-expand-lg bg-dark border-bottom border-body" data-bs-theme="dark">
         <div class="container-fluid">
-            <a class="navbar-brand" href="/Inicio.aspx">Proyecto Web Integrador - 2025 - Equipo 14A</a>
+            <a class="navbar-brand" href="/PageInicio.aspx">Proyecto Web Integrador - 2025 - Equipo 14A</a>
 
             <!-- Menú -->
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
-                    <li class="nav-item"><a class="nav-link" runat="server" href="~/Inicio.aspx">Inicio</a></li>
-                    <li class="nav-item"><a class="nav-link" runat="server" href="~/Clientes.aspx">Clientes</a></li>
-                    <li class="nav-item"><a class="nav-link" runat="server" href="~/Proveedores.aspx">Proveedores</a></li>
-                    <li class="nav-item"><a class="nav-link" runat="server" href="~/Marcas.aspx">Marcas</a></li>
-                    <li class="nav-item"><a class="nav-link" runat="server" href="~/Categorias.aspx">Categorías</a></li>
-                    <li class="nav-item"><a class="nav-link" runat="server" href="~/Articulos.aspx">Artículos</a></li>
-                    <li class="nav-item"><a class="nav-link" runat="server" href="~/Compras.aspx">Compras</a></li>
-                    <li class="nav-item"><a class="nav-link" runat="server" href="~/Ventas.aspx">Ventas</a></li>
+                    <li class="nav-item"><a class="nav-link" runat="server" href="~/PageInicio.aspx">Inicio</a></li>
+                    <li class="nav-item"><a class="nav-link" runat="server" href="~/PageClientes.aspx">Clientes</a></li>
+                    <li class="nav-item"><a class="nav-link" runat="server" href="~/PageProveedores.aspx">Proveedores</a></li>
+                    <li class="nav-item"><a class="nav-link" runat="server" href="~/PageMarcas.aspx">Marcas</a></li>
+                    <li class="nav-item"><a class="nav-link" runat="server" href="~/PageCategorias.aspx">Categorías</a></li>
+                    <li class="nav-item"><a class="nav-link" runat="server" href="~/PageArticulos.aspx">Artículos</a></li>
+                    <li class="nav-item"><a class="nav-link" runat="server" href="~/PageCompras.aspx">Compras</a></li>
+                    <li class="nav-item"><a class="nav-link" runat="server" href="~/PageVentas.aspx">Ventas</a></li>
                 </ul>
             </div>
         </div>
