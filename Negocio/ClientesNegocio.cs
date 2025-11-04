@@ -26,7 +26,7 @@ namespace Negocio
 
                     aux.IdCliente = (int)datos.Lector["IDCliente"];
                     aux.DNI = (string)datos.Lector["DNI"];
-                    aux.CUIT = (string)datos.Lector["CUIT"];
+                    if (datos.Lector["CUIT"] != DBNull.Value) aux.CUIT = (string)datos.Lector["CUIT"]; aux.CUIT = "-";
                     aux.Apellido = (string)datos.Lector["Apellido"];
                     aux.Nombre = (string)datos.Lector["Nombre"];
                     aux.Telefono = (string)datos.Lector["Telefono"];

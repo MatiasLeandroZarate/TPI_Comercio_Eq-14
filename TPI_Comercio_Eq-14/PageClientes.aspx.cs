@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Dominio;
+using Negocio;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -11,6 +13,24 @@ namespace TPC_Comercio_Eq_14
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            ClientesNegocio negocio = new ClientesNegocio();
+            List<Clientes> lista = new List<Clientes>();
+            if (!IsPostBack)
+            {
+                try
+                {
+                    lista = negocio.ListarCLI();
+
+                    rptClientes.DataSource = lista;
+                    rptClientes.DataBind();
+
+                }
+                catch (Exception ex)
+                {
+                    Session.Add("Error", ex);
+                    Response.Redirect("Error.aspx");
+                }
+            }
 
         }
     }

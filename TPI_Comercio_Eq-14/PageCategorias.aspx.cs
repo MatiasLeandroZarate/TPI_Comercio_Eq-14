@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using Negocio;
+using Dominio;
 
 namespace TPC_Comercio_Eq_14
 {
@@ -11,7 +13,25 @@ namespace TPC_Comercio_Eq_14
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            CategoriasNegocio negocio = new CategoriasNegocio();
+            List<Categorias> lista = new List<Categorias>();
 
+            if (!IsPostBack)
+            {
+                try
+                {
+                    lista = negocio.ListarCAT();
+
+                    rptCategorias.DataSource = lista;
+                    rptCategorias.DataBind();
+
+                }
+                catch (Exception ex)
+                {
+                    Session.Add("Error", ex);
+                    Response.Redirect("Error.aspx");
+                }
+            }
         }
     }
 }

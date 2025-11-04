@@ -30,8 +30,10 @@ namespace Negocio
                     aux.PrecioCompra = (decimal)datos.Lector["PrecioCompra"];
                     aux.PrecioVenta = (decimal)datos.Lector["PrecioVenta"];
                     aux.Stock = (int)datos.Lector["Stock"];
-                    aux.Marca.Nombre = (string)datos.Lector["Marca"];
-                    aux.Categoria.Descripcion = (string)datos.Lector["Categoria"];
+                    aux.IDMarca = (int)datos.Lector["IDMarca"];
+                    aux.IDCategoria = (int)datos.Lector["IDCategoria"];
+                    //aux.Marca.Nombre = (string)datos.Lector["Marca"];
+                    //aux.Categoria.Descripcion = (string)datos.Lector["Categoria"];
 
                     aux.Activo = (bool)datos.Lector["Activo"];
 

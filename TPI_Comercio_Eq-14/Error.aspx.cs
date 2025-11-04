@@ -7,11 +7,14 @@ using System.Web.UI.WebControls;
 
 namespace TPC_Comercio_Eq_14
 {
-    public partial class Default1 : System.Web.UI.MasterPage
+    public partial class Error : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            if (Session["error"] != null)
+            {
+                lblError.Text = Server.HtmlEncode(Session["error"].ToString());
+            }
         }
     }
 }
