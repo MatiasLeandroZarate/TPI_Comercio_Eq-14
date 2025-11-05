@@ -63,29 +63,49 @@ Create Table Usuarios(
 )
 go
 
-Create Table ComprasDetalle(
-	IDCompraDetalle int primary key identity(1,1),
-	IDArticulo int not null,
-	IDProveedor int not null,
-	Cantidad int not null,
-	PrecioUnitario money not null check (PrecioUnitario > 0),
-	Subtotal money not null check (Subtotal > 0),
-	IVA decimal(4,2) not null check (IVA > 0),
-	Total money not null check (Total > 0),
-	FOREIGN KEY (IDArticulo) References Articulos(IDArticulo),
-	FOREIGN KEY (IDProveedor) References Proveedores(IDProveedor)
-)
+CREATE TABLE Compra(
+    IDCompra int primary key identity(1,1),
+    IDProveedor int not null,
+    NroComprobante int,
+    Fecha date not null DEFAULT GETDATE(),
+    Descuentos decimal(12,2),
+    Subtotal decimal(12,2),
+    Total decimal(12,2),
+    FOREIGN KEY (IDProveedor) REFERENCES Proveedores(IDProveedor),
+);
 go
 
-Create Table VentasDetalle(
-	IDVentaDetalle int primary key identity(1,1),
-	IDArticulo int not null,
-	IDCliente int not null,
-	Cantidad int not null,
-	PrecioUnitario money not null check (PrecioUnitario > 0),
-	Subtotal money not null check (Subtotal > 0),
-	IVA decimal(4,2) not null check (IVA > 0),
-	Total money not null check (Total > 0),
-	FOREIGN KEY (IDArticulo) References Articulos(IDArticulo),
-	FOREIGN KEY (IDCliente) References Clientes(IDCliente)
-)
+CREATE TABLE ComprasDetalle (
+    IDDetalleCompra int primary key identity(1,1),
+    IDCompra int not null,
+    IDArticulo int not null,
+    Cantidad int not null,
+    Fecha date not null DEFAULT GETDATE(),
+    PrecioUnitario decimal(12,2),
+    FOREIGN KEY (IDCompra) REFERENCES Compra(IDCompra),
+    FOREIGN KEY (IDArticulo) REFERENCES Articulos(IDArticulo)
+);
+go
+
+CREATE TABLE Venta (
+    IDVenta int primary key identity(1,1),
+    IDCliente int not null,
+    NroComprobante int,
+    Fecha date not null DEFAULT GETDATE(),
+    Descuentos decimal(12,2),
+    Subtotal decimal(12,2),
+    Total decimal(12,2),
+    FOREIGN KEY (IDCliente) REFERENCES Clientes(IDCliente),
+);
+go
+
+CREATE TABLE VentasDetalle (
+    IDDetalleVenta int primary key identity(1,1),
+    IDVenta int not null,
+    IDArticulo int not null,
+    Cantidad int not null,
+    Fecha date not null DEFAULT GETDATE(),
+    PrecioUnitario decimal(12,2),
+    FOREIGN KEY (IDVenta) REFERENCES Venta(IDVenta),
+    FOREIGN KEY (IDArticulo) REFERENCES Articulos(IDArticulo)
+);
