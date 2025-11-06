@@ -9,7 +9,7 @@ namespace Negocio
 {
     public class UsuarioNegocio
     {
-            public List<Usuarios> ListarUSU()
+        public List<Usuarios> ListarUSU()
             {
                 List<Usuarios> lista = new List<Usuarios>();
 
@@ -44,6 +44,6 @@ namespace Negocio
                     datos.cerrarConexion();
                 }
             }
-        }
-        }
+    }
+}
 

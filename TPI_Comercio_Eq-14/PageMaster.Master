@@ -30,7 +30,7 @@
                     <li class="nav-item"><a class="nav-link" runat="server" href="~/PageProveedores.aspx">Proveedores</a></li>
                     <li class="nav-item"><a class="nav-link" runat="server" href="~/PageMarcas.aspx">Marcas</a></li>
                     <li class="nav-item"><a class="nav-link" runat="server" href="~/PageCategorias.aspx">Categorías</a></li>
-                    <li class="nav-item"><a class="nav-link" runat="server" href="~/PageArticulos.aspx">Artículos</a></li>
+                    <li class="nav-item"><a class="nav-link" runat="server" href="~/Artículos/PageArticulos.aspx">Artículos</a></li>
                     <li class="nav-item"><a class="nav-link" runat="server" href="~/PageCompras.aspx">Compras</a></li>
                     <li class="nav-item"><a class="nav-link" runat="server" href="~/PageVentas.aspx">Ventas</a></li>
                 </ul>

@@ -9,7 +9,6 @@ namespace Negocio
 {
     public class CategoriasNegocio
     {
-
         public List<Categorias> ListarCAT()
         {
         List<Categorias> lista = new List<Categorias>();
@@ -45,5 +44,7 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
+    
+        
     }
 }

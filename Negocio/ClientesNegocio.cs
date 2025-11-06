@@ -9,7 +9,6 @@ namespace Negocio
 {
     public class ClientesNegocio
     {
-
         public List<Clientes> ListarCLI()
         {
 
@@ -50,6 +49,8 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
+    
+        
     }
 }
 

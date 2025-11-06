@@ -53,5 +53,81 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
+
+        public void Agregar(Articulos nuevo)
+        {
+            AccesoBD datos = new AccesoBD();
+
+            try
+            {
+                datos.setearQuery("INSERT INTO Articulos (Nombre, Descripcion, PrecioCompra, PrecioVenta, Stock, IDMarca, IDCategoria, Activo) VALUES (@Nombre, @Descripcion, @PrecioCompra, @PrecioVenta, @Stock, @IDMarca, @IDCategoria, @Activo)");
+                datos.setearParametro("@Nombre", nuevo.Nombre);
+                datos.setearParametro("@Descripcion", nuevo.Descripcion);
+                datos.setearParametro("@PrecioCompra", nuevo.PrecioCompra);
+                datos.setearParametro("@PrecioVenta", nuevo.PrecioVenta);
+                datos.setearParametro("@Stock", 0);
+                datos.setearParametro("@IDMarca", nuevo.IDMarca);
+                datos.setearParametro("@IDCategoria", nuevo.IDCategoria);
+                datos.setearParametro("@Activo", 1);
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+        public void Modificar(Articulos modificado)
+        {
+            AccesoBD datos = new AccesoBD();
+
+            try
+            {
+                datos.setearQuery("UPDATE Articulos SET Nombre = @Nombre, Descripcion = @Descripcion, PrecioCompra = @PrecioCompra, PrecioVenta = @PrecioVenta, Stock = @Stock, IDMarca = @IDMarca, IDCategoria = @IDCategoria, Activo = @Activo WHERE IDArticulo = @IDArticulo");
+                datos.setearParametro("@Nombre", modificado.Nombre);
+                datos.setearParametro("@Descripcion", modificado.Descripcion);
+                datos.setearParametro("@PrecioCompra", modificado.PrecioCompra);
+                datos.setearParametro("@PrecioVenta", modificado.PrecioVenta);
+                datos.setearParametro("@Stock", modificado.Stock);
+                datos.setearParametro("@IDMarca", modificado.IDMarca);
+                datos.setearParametro("@IDCategoria", modificado.IDCategoria);
+                datos.setearParametro("@Activo", modificado.Activo);
+                datos.setearParametro("@IDArticulo", modificado.IdArticulo);
+                datos.ejecutarAccion();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+        public void Eliminar(int Id, bool Estado)
+        {
+            AccesoBD datos = new AccesoBD();
+
+            try
+            {
+                datos.setearQuery("UPDATE Articulos SET Activo = @Activo WHERE IDArticulo = @IDArticulo");
+                datos.setearParametro("@Activo", Estado);
+                datos.setearParametro("@IDArticulo", Id);
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
     }
 }

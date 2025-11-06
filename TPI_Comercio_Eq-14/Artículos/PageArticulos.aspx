@@ -26,7 +26,7 @@
                 <asp:Repeater ID="rptAriculos" runat="server">
                     <ItemTemplate>
                         <tr>
-                            <th scope="row"><%# Eval("IDCategoria") %></th>
+                            <th scope="row"><%# Eval("IDArticulo") %></th>
                             <td><%# Eval("Nombre") %></td>
                             <td><%# Eval("Descripcion") %></td>
                             <td><%# Eval("PrecioCompra") %></td>
@@ -40,5 +40,10 @@
                 </asp:Repeater>
             </tbody>
         </table>
+        <div class="text-center">
+            <asp:Button Text="Agregar" ID="btnAgregar" OnClick="btnAgregar_Click" CssClass="btn btn-primary mx-2" runat="server" />
+            <asp:Button Text="Modificar" ID="btnModificar" OnClick="btnModificar_Click" CssClass="btn btn-primary mx-2" runat="server" />
+            <asp:Button Text="Eliminar" ID="btnEliminar" OnClick="btnEliminar_Click" CssClass="btn btn-primary mx-2" runat="server" />
+        </div>
     </div>
 </asp:Content>
