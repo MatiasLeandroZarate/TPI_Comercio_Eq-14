@@ -11,8 +11,17 @@ namespace TPC_Comercio_Eq_14
 {
 
 
-    public partial class PageAgregarART
+    public partial class PageEliminarART
     {
+
+        /// <summary>
+        /// Control txtIdArticulo.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtIdArticulo;
 
         /// <summary>
         /// Control txtNombre.
@@ -51,15 +60,6 @@ namespace TPC_Comercio_Eq_14
         protected global::System.Web.UI.WebControls.TextBox txtPrecioVenta;
 
         /// <summary>
-        /// Control txtStock.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtStock;
-
-        /// <summary>
         /// Control ddlMarca.
         /// </summary>
         /// <remarks>
@@ -87,12 +87,12 @@ namespace TPC_Comercio_Eq_14
         protected global::System.Web.UI.WebControls.Button btnVolver;
 
         /// <summary>
-        /// Control btnAceptar.
+        /// Control btnEliminar.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnAceptar;
+        protected global::System.Web.UI.WebControls.Button btnEliminar;
     }
 }

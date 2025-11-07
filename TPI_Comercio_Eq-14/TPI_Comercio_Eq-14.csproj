@@ -100,8 +100,8 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Error.aspx" />
-    <Content Include="Artículos\PageAgregarART.aspx" />
-    <Content Include="Artículos\PageArticulos.aspx" />
+    <Content Include="ABM_Artículos\PageAgregarART.aspx" />
+    <Content Include="ABM_Artículos\PageArticulos.aspx" />
     <Content Include="PageCategorias.aspx" />
     <Content Include="PageClientes.aspx" />
     <Content Include="PageCompras.aspx" />
@@ -125,10 +125,10 @@
     <Content Include="Default.aspx" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
-    <Content Include="Artículos\PageEliminarART.aspx" />
+    <Content Include="ABM_Artículos\PageEliminarART.aspx" />
     <Content Include="PageInicio.aspx" />
-    <Content Include="PageMarcas.aspx" />
-    <Content Include="Artículos\PageModificarART.aspx" />
+    <Content Include="ABM_Marcas\PageMarcas.aspx" />
+    <Content Include="ABM_Artículos\PageModificarART.aspx" />
     <Content Include="PageProveedores.aspx" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
@@ -209,18 +209,18 @@
     <Compile Include="Error.aspx.designer.cs">
       <DependentUpon>Error.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Artículos\PageAgregarART.aspx.cs">
+    <Compile Include="ABM_Artículos\PageAgregarART.aspx.cs">
       <DependentUpon>PageAgregarART.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Artículos\PageAgregarART.aspx.designer.cs">
+    <Compile Include="ABM_Artículos\PageAgregarART.aspx.designer.cs">
       <DependentUpon>PageAgregarART.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Artículos\PageArticulos.aspx.cs">
+    <Compile Include="ABM_Artículos\PageArticulos.aspx.cs">
       <DependentUpon>PageArticulos.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Artículos\PageArticulos.aspx.designer.cs">
+    <Compile Include="ABM_Artículos\PageArticulos.aspx.designer.cs">
       <DependentUpon>PageArticulos.aspx</DependentUpon>
     </Compile>
     <Compile Include="PageCategorias.aspx.cs">
@@ -254,11 +254,11 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Artículos\PageEliminarART.aspx.cs">
+    <Compile Include="ABM_Artículos\PageEliminarART.aspx.cs">
       <DependentUpon>PageEliminarART.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Artículos\PageEliminarART.aspx.designer.cs">
+    <Compile Include="ABM_Artículos\PageEliminarART.aspx.designer.cs">
       <DependentUpon>PageEliminarART.aspx</DependentUpon>
     </Compile>
     <Compile Include="PageInicio.aspx.cs">
@@ -268,18 +268,18 @@
     <Compile Include="PageInicio.aspx.designer.cs">
       <DependentUpon>PageInicio.aspx</DependentUpon>
     </Compile>
-    <Compile Include="PageMarcas.aspx.cs">
+    <Compile Include="ABM_Marcas\PageMarcas.aspx.cs">
       <DependentUpon>PageMarcas.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="PageMarcas.aspx.designer.cs">
+    <Compile Include="ABM_Marcas\PageMarcas.aspx.designer.cs">
       <DependentUpon>PageMarcas.aspx</DependentUpon>
     </Compile>
-    <Compile Include="Artículos\PageModificarART.aspx.cs">
+    <Compile Include="ABM_Artículos\PageModificarART.aspx.cs">
       <DependentUpon>PageModificarART.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="Artículos\PageModificarART.aspx.designer.cs">
+    <Compile Include="ABM_Artículos\PageModificarART.aspx.designer.cs">
       <DependentUpon>PageModificarART.aspx</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
