@@ -58,6 +58,7 @@ go
 
 Create Table Usuarios(
 	IDUsuario int primary key identity(1,1),
+	Rol nvarchar (25) not null,
 	Email nvarchar (50) not null,
 	Contraseña nvarchar (50) not null,
 )
@@ -72,7 +73,7 @@ CREATE TABLE Compra(
     Subtotal decimal(12,2),
     Total decimal(12,2),
     FOREIGN KEY (IDProveedor) REFERENCES Proveedores(IDProveedor),
-);
+)
 go
 
 CREATE TABLE ComprasDetalle (
@@ -84,7 +85,7 @@ CREATE TABLE ComprasDetalle (
     PrecioUnitario decimal(12,2),
     FOREIGN KEY (IDCompra) REFERENCES Compra(IDCompra),
     FOREIGN KEY (IDArticulo) REFERENCES Articulos(IDArticulo)
-);
+)
 go
 
 CREATE TABLE Venta (
@@ -96,7 +97,7 @@ CREATE TABLE Venta (
     Subtotal decimal(12,2),
     Total decimal(12,2),
     FOREIGN KEY (IDCliente) REFERENCES Clientes(IDCliente),
-);
+)
 go
 
 CREATE TABLE VentasDetalle (
@@ -108,4 +109,4 @@ CREATE TABLE VentasDetalle (
     PrecioUnitario decimal(12,2),
     FOREIGN KEY (IDVenta) REFERENCES Venta(IDVenta),
     FOREIGN KEY (IDArticulo) REFERENCES Articulos(IDArticulo)
-);
+)

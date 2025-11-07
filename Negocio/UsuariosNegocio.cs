@@ -17,13 +17,14 @@ namespace Negocio
 
                 try
                 {
-                    datos.setearQuery("SELECT IDUsuario, Email, Contraseña FROM Usuarios");
+                    datos.setearQuery("SELECT IDUsuario,Rol, Email, Contraseña FROM Usuarios");
                     datos.ejecutarLectura();
                     while (datos.Lector.Read())
                     {
                     Usuarios aux = new Usuarios();
 
                         aux.IdUsuario = (int)datos.Lector["IDUsuario"];
+                        aux.Rol = (string)datos.Lector["Rol"];
                         aux.Email = (string)datos.Lector["Email"];
                         aux.Contraseña = (string)datos.Lector["Contraseña"];
 

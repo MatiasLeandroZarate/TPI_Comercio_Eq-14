@@ -33,6 +33,7 @@
                     <li class="nav-item"><a class="nav-link" runat="server" href="~/Artículos/PageArticulos.aspx">Artículos</a></li>
                     <li class="nav-item"><a class="nav-link" runat="server" href="~/PageCompras.aspx">Compras</a></li>
                     <li class="nav-item"><a class="nav-link" runat="server" href="~/PageVentas.aspx">Ventas</a></li>
+                    <li class="nav-item"><a class="nav-link" runat="server" href="~/PageUsuarios.aspx">Usuarios</a></li>
                 </ul>
             </div>
         </div>
