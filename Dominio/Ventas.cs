@@ -11,7 +11,7 @@ namespace Dominio
         public int IdVenta { get; set; }
         public int IdCliente { get; set; }
         public Clientes Cliente { get; set; }
-        public string NroComprobante { get; set; }
+        public int NroComprobante { get; set; }
         public DateTime Fecha { get; set; }
         public decimal Descuentos { get; set; }
         public decimal SubTotal { get; set; }

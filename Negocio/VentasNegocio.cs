@@ -10,7 +10,7 @@ namespace Negocio
 {
     public class VentasNegocio
     {
-        public List<Ventas> ListarCOM()
+        public List<Ventas> ListarVEN()
         {
             List<Ventas> lista = new List<Ventas>();
             AccesoBD datos = new AccesoBD();
@@ -25,7 +25,7 @@ namespace Negocio
 
                     aux.IdVenta = (int)datos.Lector["IDVenta"];
                     aux.IdCliente = (int)datos.Lector["IDCliente"];
-                    aux.NroComprobante = (string)datos.Lector["NroComprobante"];
+                    aux.NroComprobante = (int)datos.Lector["NroComprobante"];
                     aux.Fecha = (DateTime)datos.Lector["Fecha"];
                     aux.Descuentos = (decimal)datos.Lector["Descuentos"];
                     aux.SubTotal = (decimal)datos.Lector["Subtotal"];
