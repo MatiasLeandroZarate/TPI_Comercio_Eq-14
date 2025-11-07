@@ -25,7 +25,7 @@ namespace Negocio
 
                     aux.IdCompra = (int)datos.Lector["IDCompra"];
                     aux.IdProveedor = (int)datos.Lector["IDProveedor"];
-                    aux.NroComprobante = (string)datos.Lector["NroComprobante"];
+                    aux.NroComprobante = (int)datos.Lector["NroComprobante"];
                     aux.Fecha = (DateTime)datos.Lector["Fecha"];
                     aux.Descuentos = (decimal)datos.Lector["Descuentos"];
                     aux.SubTotal = (decimal)datos.Lector["Subtotal"];
