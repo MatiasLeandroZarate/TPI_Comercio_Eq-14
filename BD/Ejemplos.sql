@@ -1,6 +1,7 @@
-use TPC_BD
-go
+USE TPC_DB;
+GO
 
+-- Proveedores
 INSERT INTO Proveedores (RazonSocial, CUIT, Telefono, Email, Direccion) VALUES
 ('TecnoSur S.A.', '30-12345678-9', '1145678901', 'contacto@tecnosur.com', 'Av. Corrientes 234'),
 ('ElectroMax', '30-87654321-5', '1123456789', 'ventas@electromax.com', 'Belgrano 789'),
@@ -12,7 +13,9 @@ INSERT INTO Proveedores (RazonSocial, CUIT, Telefono, Email, Direccion) VALUES
 ('GadgetStore', '30-33334444-7', '1188887777', 'gadget@store.com', 'Florida 999'),
 ('PCManía', '30-22223333-9', '1134567890', 'ventas@pcmania.com', 'Rivadavia 800'),
 ('HardwarePlus', '30-66665555-4', '1156789123', 'info@hardwareplus.com', 'Perón 650');
+GO
 
+-- Clientes
 INSERT INTO Clientes (DNI, CUIT, Apellido, Nombre, Telefono, Email, Direccion) VALUES
 ('40123456', NULL, 'González', 'María', '1167891234', 'maria.g@gmail.com', 'Av. Belgrano 500'),
 ('39222333', NULL, 'Pérez', 'Juan', '1156789876', 'juanp@hotmail.com', 'Sarmiento 1200'),
@@ -24,7 +27,9 @@ INSERT INTO Clientes (DNI, CUIT, Apellido, Nombre, Telefono, Email, Direccion) V
 ('38999888', NULL, 'Domínguez', 'Ana', '1145671234', 'ana.d@hotmail.com', 'Ayacucho 450'),
 ('39444555', NULL, 'Castro', 'Diego', '1133344455', 'dcastro@gmail.com', 'Córdoba 1600'),
 ('40000999', NULL, 'Ramos', 'Valentina', '1177775555', 'valen.ramos@yahoo.com', 'Suipacha 300');
+GO
 
+-- Categorías
 INSERT INTO Categorias (Nombre, Descripcion) VALUES
 ('Computadoras', 'Equipos de escritorio y portátiles'),
 ('Periféricos', 'Teclados, ratones, auriculares, etc.'),
@@ -36,19 +41,15 @@ INSERT INTO Categorias (Nombre, Descripcion) VALUES
 ('Almacenamiento', 'Discos duros, SSD, memorias USB'),
 ('Energía', 'Fuentes, UPS, estabilizadores'),
 ('Accesorios', 'Cables, fundas, adaptadores');
+GO
 
+-- Marcas
 INSERT INTO Marcas (Nombre) VALUES
-('HP'),
-('Dell'),
-('Lenovo'),
-('Asus'),
-('Samsung'),
-('Logitech'),
-('Epson'),
-('Kingston'),
-('TP-Link'),
-('Corsair');
+('HP'), ('Dell'), ('Lenovo'), ('Asus'), ('Samsung'),
+('Logitech'), ('Epson'), ('Kingston'), ('TP-Link'), ('Corsair');
+GO
 
+-- Artículos
 INSERT INTO Articulos (Nombre, Descripcion, PrecioCompra, PrecioVenta, Stock, IDMarca, IDCategoria) VALUES
 ('Notebook HP Pavilion', '15.6", 8GB RAM, 512GB SSD', 450000, 520000, 15, 1, 1),
 ('Mouse Logitech M170', 'Mouse inalámbrico óptico', 6000, 8000, 100, 6, 2),
@@ -60,33 +61,66 @@ INSERT INTO Articulos (Nombre, Descripcion, PrecioCompra, PrecioVenta, Stock, ID
 ('Fuente Corsair 650W', '80 Plus Bronze', 48000, 56000, 10, 10, 9),
 ('Teclado Logitech K120', 'Teclado USB resistente', 8000, 10000, 60, 6, 2),
 ('Monitor Dell 27"', 'QHD IPS', 180000, 210000, 8, 2, 3);
+GO
 
-INSERT INTO Usuarios (Email, Contraseña) VALUES
-('admin@tpc.com', 'admin'),
-('vendedor1@tpc.com', 'vend1'),
-('vendedor2@tpc.com', 'vend2');
+-- Usuarios
+INSERT INTO Usuarios (Rol,Email, Contraseña) VALUES
+('Admin','admin@tpc.com', 'admin'),
+('Colaborador','vendedor1@tpc.com', 'vend1'),
+('Colaborador','vendedor2@tpc.com', 'vend2');
+GO
 
+-- Compras
+INSERT INTO Compra (IDProveedor, NroComprobante, Descuentos, Subtotal, Total) VALUES
+(1, 1001, 0.00, 4500000.00, 4500000.00),
+(2, 1002, 5000.00, 300000.00, 295000.00),
+(3, 1003, 0.00, 1900000.00, 1900000.00),
+(4, 1004, 10000.00, 900000.00, 890000.00),
+(5, 1005, 0.00, 660000.00, 660000.00),
+(6, 1006, 0.00, 525000.00, 525000.00),
+(7, 1007, 0.00, 270000.00, 270000.00),
+(8, 1008, 0.00, 384000.00, 384000.00),
+(9, 1009, 0.00, 320000.00, 320000.00),
+(10, 1010, 0.00, 900000.00, 900000.00);
+GO
 
-INSERT INTO ComprasDetalle (IDArticulo, IDProveedor, Cantidad, PrecioUnitario, Subtotal, IVA, Total) VALUES
-(1,1,10,450000,4500000,0.21,5445000),
-(2,2,50,6000,300000,0.21,363000),
-(3,3,20,95000,1900000,0.21,2299000),
-(4,4,5,180000,900000,0.21,1089000),
-(5,5,30,22000,660000,0.21,798600),
-(6,6,15,35000,525000,0.21,635250),
-(7,7,10,27000,270000,0.21,326700),
-(8,8,8,48000,384000,0.21,464640),
-(9,9,40,8000,320000,0.21,387200),
-(10,10,5,180000,900000,0.21,1089000);
+-- Detalle de Compras
+INSERT INTO ComprasDetalle (IDCompra, IDArticulo, Cantidad, PrecioUnitario) VALUES
+(1, 1, 10, 450000),
+(2, 2, 50, 6000),
+(3, 3, 20, 95000),
+(4, 4, 5, 180000),
+(5, 5, 30, 22000),
+(6, 6, 15, 35000),
+(7, 7, 10, 27000),
+(8, 8, 8, 48000),
+(9, 9, 40, 8000),
+(10, 10, 5, 180000);
+GO
 
-INSERT INTO VentasDetalle (IDArticulo, IDCliente, Cantidad, PrecioUnitario, Subtotal, IVA, Total) VALUES
-(1,1,1,520000,520000,0.21,629200),
-(2,2,2,8000,16000,0.21,19360),
-(3,3,1,110000,110000,0.21,133100),
-(4,4,1,210000,210000,0.21,254100),
-(5,5,2,28000,56000,0.21,67760),
-(6,6,1,42000,42000,0.21,50820),
-(7,7,1,33000,33000,0.21,39930),
-(8,8,1,56000,56000,0.21,67760),
-(9,9,3,10000,30000,0.21,36300),
-(10,10,1,210000,210000,0.21,254100);
+-- Ventas
+INSERT INTO Venta (IDCliente, NroComprobante, Descuentos, Subtotal, Total) VALUES
+(1, 2001, 0.00, 520000.00, 520000.00),
+(2, 2002, 0.00, 16000.00, 16000.00),
+(3, 2003, 0.00, 110000.00, 110000.00),
+(4, 2004, 5000.00, 210000.00, 205000.00),
+(5, 2005, 0.00, 56000.00, 56000.00),
+(6, 2006, 0.00, 42000.00, 42000.00),
+(7, 2007, 0.00, 33000.00, 33000.00),
+(8, 2008, 0.00, 56000.00, 56000.00),
+(9, 2009, 0.00, 30000.00, 30000.00),
+(10, 2010, 10000.00, 210000.00, 200000.00);
+GO
+-- Detalle de Ventas
+INSERT INTO VentasDetalle (IDVenta, IDArticulo, Cantidad, PrecioUnitario) VALUES
+(1, 1, 1, 520000),
+(2, 2, 2, 8000),
+(3, 3, 1, 110000),
+(4, 4, 1, 210000),
+(5, 5, 2, 28000),
+(6, 6, 1, 42000),
+(7, 7, 1, 33000),
+(8, 8, 1, 56000),
+(9, 9, 3, 10000),
+(10, 10, 1, 210000);
+GO
