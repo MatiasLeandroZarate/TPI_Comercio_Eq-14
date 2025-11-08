@@ -49,8 +49,81 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
-    
-        
+
+        public void Agregar(Clientes nuevo)
+        {
+            AccesoBD datos = new AccesoBD();
+
+            try
+            {
+                datos.setearQuery("INSERT INTO Clientes (DNI, CUIT, Apellido, Nombre, Telefono, Email, Direccion, Activo) VALUES (@DNI, @CUIT, @Apellido, @Nombre, @Telefono, @Email, @Direccion, @Activo)");
+                datos.setearParametro("@DNI", nuevo.DNI);
+                datos.setearParametro("@CUIT", nuevo.CUIT);
+                datos.setearParametro("@Apellido", nuevo.Apellido);
+                datos.setearParametro("@Nombre", nuevo.Nombre);
+                datos.setearParametro("@Telefono", nuevo.Telefono);
+                datos.setearParametro("@Email", nuevo.Email);
+                datos.setearParametro("@Direccion", nuevo.Direccion);
+                datos.setearParametro("@Activo", 1);
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+        public void Modificar(Clientes modificado)
+        {
+            AccesoBD datos = new AccesoBD();
+
+            try
+            {
+                datos.setearQuery("UPDATE Clientes SET DNI = @DNI, CUIT = @CUIT, Apellido = @Apellido, Nombre = @Nombre, Telefono = @Telefono, Email = @Email, Direccion = @Direccion, Activo = @Activo WHERE DNI = @DNI");
+                datos.setearParametro("@DNI", modificado.DNI);
+                datos.setearParametro("@CUIT", modificado.CUIT);
+                datos.setearParametro("@Apellido", modificado.Apellido);
+                datos.setearParametro("@Nombre", modificado.Nombre);
+                datos.setearParametro("@Telefono", modificado.Telefono);
+                datos.setearParametro("@Email", modificado.Email);
+                datos.setearParametro("@Direccion", modificado.Direccion);
+                datos.setearParametro("@Activo", 1);
+                datos.ejecutarAccion();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+        public void Eliminar(int DNI, bool Estado)
+        {
+            AccesoBD datos = new AccesoBD();
+
+            try
+            {
+                datos.setearQuery("UPDATE Clientes SET Activo = @Activo WHERE DNI = @DNI");
+                datos.setearParametro("@Activo", Estado);
+                datos.setearParametro("@DNI", DNI);
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
     }
 }
 

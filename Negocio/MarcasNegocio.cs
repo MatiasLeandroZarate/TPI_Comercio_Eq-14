@@ -41,7 +41,47 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
-        
 
+        public void Agregar(Marcas nuevo)
+        {
+            AccesoBD datos = new AccesoBD();
+
+            try
+            {
+                datos.setearQuery("INSERT INTO Marcas (Nombre) VALUES (@Nombre)");
+                datos.setearParametro("@Nombre", nuevo.Nombre);
+
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+        public void Modificar(Marcas modificado)
+        {
+            AccesoBD datos = new AccesoBD();
+
+            try
+            {
+                datos.setearQuery("UPDATE Marcas SET Nombre = @Nombre WHERE IDMarca = @IDMarca");
+                datos.setearParametro("@Nombre", modificado.Nombre);
+                datos.setearParametro("@IDMarca", modificado.IdMarca);
+                datos.ejecutarAccion();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
     }
 }

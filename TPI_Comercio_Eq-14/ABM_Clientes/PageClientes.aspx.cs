@@ -33,5 +33,20 @@ namespace TPC_Comercio_Eq_14
             }
 
         }
+
+        protected void btnAgregar_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("PageAgregarCLI.aspx", false);
+        }
+
+        protected void btnModificar_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("PageModificarCLI.aspx", false);
+        }
+
+        protected void btnEliminar_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("PageEliminarCLI.aspx", false);
+        }
     }
 }

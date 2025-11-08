@@ -44,7 +44,49 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
-    
-        
+
+        public void Agregar(Categorias nuevo)
+        {
+            AccesoBD datos = new AccesoBD();
+
+            try
+            {
+                datos.setearQuery("INSERT INTO Categorias (Nombre, Descripcion) VALUES (@Nombre, @Descripcion)");
+                datos.setearParametro("@Nombre", nuevo.Nombre);
+                datos.setearParametro("@Descripcion", nuevo.Descripcion);
+
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+        public void Modificar(Categorias modificado)
+        {
+            AccesoBD datos = new AccesoBD();
+
+            try
+            {
+                datos.setearQuery("UPDATE Categorias SET Nombre = @Nombre, Descripcion = @Descripcion WHERE IDCategoria = @IDCategoria");
+                datos.setearParametro("@Nombre", modificado.Nombre);
+                datos.setearParametro("@Descripcion", modificado.Descripcion);
+                datos.setearParametro("@IDCategoria", modificado.IdCategoria);
+                datos.ejecutarAccion();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
     }
 }

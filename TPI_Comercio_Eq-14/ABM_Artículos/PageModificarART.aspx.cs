@@ -40,6 +40,7 @@ namespace TPC_Comercio_Eq_14
             txtDescripcion.Text = art.Descripcion ?? string.Empty;
             txtPrecioCompra.Text = art.PrecioCompra.ToString("0.###");
             txtPrecioVenta.Text = art.PrecioVenta.ToString("0.###");
+            txtStock.Text = art.Stock.ToString();
 
             if (ddlMarca.Items.FindByValue(art.IDMarca.ToString()) != null)
             {
@@ -69,6 +70,7 @@ namespace TPC_Comercio_Eq_14
                 modificado.Descripcion = txtDescripcion.Text;
                 modificado.PrecioCompra = string.IsNullOrWhiteSpace(txtPrecioCompra.Text) ? 0 : decimal.Parse(txtPrecioCompra.Text);
                 modificado.PrecioVenta = string.IsNullOrWhiteSpace(txtPrecioVenta.Text) ? 0 : decimal.Parse(txtPrecioVenta.Text);
+                modificado.Stock = int.Parse(txtStock.Text);
                 modificado.IDMarca = int.Parse(ddlMarca.SelectedValue);
                 modificado.IDCategoria = int.Parse(ddlCategoria.SelectedValue);
                 modificado.Activo = true;
@@ -107,7 +109,7 @@ namespace TPC_Comercio_Eq_14
             AccesoBD datos = new AccesoBD();
             try
             {
-                datos.setearQuery("SELECT IDArticulo, Nombre, Descripcion, PrecioCompra, PrecioVenta, IDMarca, IDCategoria FROM Articulos WHERE IDArticulo = @IDArticulo");
+                datos.setearQuery("SELECT IDArticulo, Nombre, Descripcion, PrecioCompra, PrecioVenta, Stock, IDMarca, IDCategoria FROM Articulos WHERE IDArticulo = @IDArticulo");
                 datos.setearParametro("@IDArticulo", IdArticulo);
                 datos.ejecutarLectura();
 
@@ -120,6 +122,7 @@ namespace TPC_Comercio_Eq_14
                     a.Descripcion = datos.Lector["Descripcion"] == DBNull.Value ? string.Empty : (string)datos.Lector["Descripcion"];
                     a.PrecioCompra = datos.Lector["PrecioCompra"] == DBNull.Value ? 0m : Convert.ToDecimal(datos.Lector["PrecioCompra"]);
                     a.PrecioVenta = datos.Lector["PrecioVenta"] == DBNull.Value ? 0m : Convert.ToDecimal(datos.Lector["PrecioVenta"]);
+                    a.Stock = datos.Lector["Stock"] == DBNull.Value ? 0 : Convert.ToInt32(datos.Lector["Stock"]);
                     a.IDMarca = datos.Lector["IDMarca"] == DBNull.Value ? 0 : Convert.ToInt32(datos.Lector["IDMarca"]);
                     a.IDCategoria = datos.Lector["IDCategoria"] == DBNull.Value ? 0 : Convert.ToInt32(datos.Lector["IDCategoria"]);
 

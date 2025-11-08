@@ -12,7 +12,7 @@
     <div class="container">
         <div>
             <div class="row mb-3">
-                <label for="txtIdArticulo" class="col-sm-2 col-form-label">IdArticulo:</label>
+                <label for="txtIdArticulo" class="col-sm-2 col-form-label">ID Artículo:</label>
                 <div class="col-sm-10">
                     <asp:TextBox ID="txtIdArticulo" runat="server" CssClass="form-control" TextMode="Number"  AutoPostBack="true" OnTextChanged="txtIdArticulo_TextChanged" />
                 </div>
@@ -43,6 +43,13 @@
                 <label for="txtPrecioVenta" class="col-sm-2 col-form-label">Precio Venta:</label>
                 <div class="col-sm-10">
                     <asp:TextBox ID="txtPrecioVenta" runat="server" CssClass="form-control" TextMode="Number" />
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label for="txtStock" class="col-sm-2 col-form-label">Stock:</label>
+                <div class="col-sm-10">
+                    <asp:TextBox ID="txtStock" runat="server" CssClass="form-control" TextMode="Number" />
                 </div>
             </div>
 

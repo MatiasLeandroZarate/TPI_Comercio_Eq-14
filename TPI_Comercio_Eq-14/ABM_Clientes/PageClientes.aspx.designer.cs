@@ -11,17 +11,17 @@ namespace TPC_Comercio_Eq_14
 {
 
 
-    public partial class PageMarcas
+    public partial class PageClientes
     {
 
         /// <summary>
-        /// Control rptMarcas.
+        /// Control rptClientes.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptMarcas;
+        protected global::System.Web.UI.WebControls.Repeater rptClientes;
 
         /// <summary>
         /// Control btnAgregar.
@@ -40,5 +40,14 @@ namespace TPC_Comercio_Eq_14
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
         protected global::System.Web.UI.WebControls.Button btnModificar;
+
+        /// <summary>
+        /// Control btnEliminar.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnEliminar;
     }
 }

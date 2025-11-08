@@ -35,5 +35,15 @@ namespace TPC_Comercio_Eq_14
 
 
         }
+
+        protected void btnAgregar_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("PageAgregarMAR.aspx", false);
+        }
+
+        protected void btnModificar_Click(object sender, EventArgs e)
+        {
+            Response.Redirect("PageModificarMAR.aspx", false);
+        }
     }
 }

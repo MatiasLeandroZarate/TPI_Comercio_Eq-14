@@ -7,30 +7,39 @@
 // </generado automáticamente>
 //------------------------------------------------------------------------------
 
-namespace TPC_Comercio_Eq_14
+namespace TPC_Comercio_Eq_14.ABM_Marcas
 {
 
 
-    public partial class PageMarcas
+    public partial class PageModificarMAR
     {
 
         /// <summary>
-        /// Control rptMarcas.
+        /// Control txtIDMarca.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptMarcas;
+        protected global::System.Web.UI.WebControls.TextBox txtIDMarca;
 
         /// <summary>
-        /// Control btnAgregar.
+        /// Control txtNombre.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnAgregar;
+        protected global::System.Web.UI.WebControls.TextBox txtNombre;
+
+        /// <summary>
+        /// Control btnVolver.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnVolver;
 
         /// <summary>
         /// Control btnModificar.

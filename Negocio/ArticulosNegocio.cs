@@ -17,7 +17,6 @@ namespace Negocio
 
             try
             {
-                //datos.setearStoreProcedure("storeListarART");
                 datos.setearQuery("SELECT IDArticulo, Nombre, Descripcion, PrecioCompra, PrecioVenta, Stock, IDMarca, IDCategoria, Activo  FROM Articulos");
                 datos.ejecutarLectura();
                 while (datos.Lector.Read())
@@ -32,9 +31,6 @@ namespace Negocio
                     aux.Stock = (int)datos.Lector["Stock"];
                     aux.IDMarca = (int)datos.Lector["IDMarca"];
                     aux.IDCategoria = (int)datos.Lector["IDCategoria"];
-                    //aux.Marca.Nombre = (string)datos.Lector["Marca"];
-                    //aux.Categoria.Descripcion = (string)datos.Lector["Categoria"];
-
                     aux.Activo = (bool)datos.Lector["Activo"];
 
                     lista.Add(aux);
@@ -65,7 +61,7 @@ namespace Negocio
                 datos.setearParametro("@Descripcion", nuevo.Descripcion);
                 datos.setearParametro("@PrecioCompra", nuevo.PrecioCompra);
                 datos.setearParametro("@PrecioVenta", nuevo.PrecioVenta);
-                datos.setearParametro("@Stock", 0);
+                datos.setearParametro("@Stock", nuevo.Stock);
                 datos.setearParametro("@IDMarca", nuevo.IDMarca);
                 datos.setearParametro("@IDCategoria", nuevo.IDCategoria);
                 datos.setearParametro("@Activo", 1);

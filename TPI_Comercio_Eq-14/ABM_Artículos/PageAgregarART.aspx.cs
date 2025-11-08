@@ -25,7 +25,7 @@ namespace TPC_Comercio_Eq_14
             Response.Redirect("PageArticulos.aspx", false);
         }
 
-        protected void btnAceptar_Click(object sender, EventArgs e)
+        protected void btnAgregar_Click(object sender, EventArgs e)
         {
             Articulos nuevo = new Articulos();
             ArticulosNegocio negocio = new ArticulosNegocio();
@@ -36,6 +36,7 @@ namespace TPC_Comercio_Eq_14
                 nuevo.Descripcion = txtDescripcion.Text;
                 nuevo.PrecioCompra = string.IsNullOrWhiteSpace(txtPrecioCompra.Text) ? 0 : decimal.Parse(txtPrecioCompra.Text);
                 nuevo.PrecioVenta = string.IsNullOrWhiteSpace(txtPrecioVenta.Text) ? 0 : decimal.Parse(txtPrecioVenta.Text);
+                nuevo.Stock = int.Parse(txtStock.Text);
                 nuevo.IDMarca = int.Parse(ddlMarca.SelectedValue);
                 nuevo.IDCategoria = int.Parse(ddlCategoria.SelectedValue);
                 nuevo.Activo = true;

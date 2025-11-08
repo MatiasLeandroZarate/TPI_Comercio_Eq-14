@@ -99,11 +99,18 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="ABM_Categorias\PageAgregarCAT.aspx" />
+    <Content Include="ABM_Categorias\PageModificarCAT.aspx" />
+    <Content Include="ABM_Clientes\PageAgregarCLI.aspx" />
+    <Content Include="ABM_Clientes\PageEliminarCLI.aspx" />
+    <Content Include="ABM_Clientes\PageModificarCLI.aspx" />
+    <Content Include="ABM_Marcas\PageAgregarMAR.aspx" />
+    <Content Include="ABM_Marcas\PageModificarMAR.aspx" />
     <Content Include="Error.aspx" />
     <Content Include="ABM_Artículos\PageAgregarART.aspx" />
     <Content Include="ABM_Artículos\PageArticulos.aspx" />
-    <Content Include="PageCategorias.aspx" />
-    <Content Include="PageClientes.aspx" />
+    <Content Include="ABM_Categorias\PageCategorias.aspx" />
+    <Content Include="ABM_Clientes\PageClientes.aspx" />
     <Content Include="PageCompras.aspx" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
@@ -193,6 +200,55 @@
     <Content Include="Bundle.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ABM_Categorias\PageAgregarCAT.aspx.cs">
+      <DependentUpon>PageAgregarCAT.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ABM_Categorias\PageAgregarCAT.aspx.designer.cs">
+      <DependentUpon>PageAgregarCAT.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ABM_Categorias\PageModificarCAT.aspx.cs">
+      <DependentUpon>PageModificarCAT.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ABM_Categorias\PageModificarCAT.aspx.designer.cs">
+      <DependentUpon>PageModificarCAT.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ABM_Clientes\PageAgregarCLI.aspx.cs">
+      <DependentUpon>PageAgregarCLI.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ABM_Clientes\PageAgregarCLI.aspx.designer.cs">
+      <DependentUpon>PageAgregarCLI.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ABM_Clientes\PageEliminarCLI.aspx.cs">
+      <DependentUpon>PageEliminarCLI.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ABM_Clientes\PageEliminarCLI.aspx.designer.cs">
+      <DependentUpon>PageEliminarCLI.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ABM_Clientes\PageModificarCLI.aspx.cs">
+      <DependentUpon>PageModificarCLI.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ABM_Clientes\PageModificarCLI.aspx.designer.cs">
+      <DependentUpon>PageModificarCLI.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ABM_Marcas\PageAgregarMAR.aspx.cs">
+      <DependentUpon>PageAgregarMAR.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ABM_Marcas\PageAgregarMAR.aspx.designer.cs">
+      <DependentUpon>PageAgregarMAR.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ABM_Marcas\PageModificarMAR.aspx.cs">
+      <DependentUpon>PageModificarMAR.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ABM_Marcas\PageModificarMAR.aspx.designer.cs">
+      <DependentUpon>PageModificarMAR.aspx</DependentUpon>
+    </Compile>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Default.Master.cs">
@@ -223,18 +279,18 @@
     <Compile Include="ABM_Artículos\PageArticulos.aspx.designer.cs">
       <DependentUpon>PageArticulos.aspx</DependentUpon>
     </Compile>
-    <Compile Include="PageCategorias.aspx.cs">
+    <Compile Include="ABM_Categorias\PageCategorias.aspx.cs">
       <DependentUpon>PageCategorias.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="PageCategorias.aspx.designer.cs">
+    <Compile Include="ABM_Categorias\PageCategorias.aspx.designer.cs">
       <DependentUpon>PageCategorias.aspx</DependentUpon>
     </Compile>
-    <Compile Include="PageClientes.aspx.cs">
+    <Compile Include="ABM_Clientes\PageClientes.aspx.cs">
       <DependentUpon>PageClientes.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="PageClientes.aspx.designer.cs">
+    <Compile Include="ABM_Clientes\PageClientes.aspx.designer.cs">
       <DependentUpon>PageClientes.aspx</DependentUpon>
     </Compile>
     <Compile Include="PageCompras.aspx.cs">
