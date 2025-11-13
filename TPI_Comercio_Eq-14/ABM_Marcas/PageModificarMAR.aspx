@@ -1,4 +1,4 @@
-﻿<%@ Page Title="" Language="C#" MasterPageFile="~/Default.Master" AutoEventWireup="true" CodeBehind="PageModificarMAR.aspx.cs" Inherits="TPC_Comercio_Eq_14.ABM_Marcas.PageModificarMAR" %>
+﻿<%@ Page Title="" Language="C#" MasterPageFile="~/PageMaster.Master" AutoEventWireup="true" CodeBehind="PageModificarMAR.aspx.cs" Inherits="TPC_Comercio_Eq_14.ABM_Marcas.PageModificarMAR" %>
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
