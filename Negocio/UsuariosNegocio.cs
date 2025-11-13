@@ -1,9 +1,10 @@
-﻿using System;
+﻿using Dominio;
+using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Dominio;
 
 namespace Negocio
 {
@@ -45,6 +46,37 @@ namespace Negocio
                     datos.cerrarConexion();
                 }
             }
+        public bool Login(Usuarios user)
+        {
+            AccesoBD datos = new AccesoBD();
+            try
+            {
+                datos.setearQuery("SELECT IDUsuario,Rol, Email, Contraseña FROM Usuarios Where Email = @Email and Contraseña = @Contraseña");
+                datos.setearParametro("@Email", user.Email);
+                datos.setearParametro("@Contraseña", user.Contraseña);
+
+                datos.ejecutarLectura();
+                if (datos.Lector.Read())
+                {
+                    user.IdUsuario = (int)datos.Lector["IDUsuario"];
+                    user.Rol = (string)datos.Lector["Rol"];
+                    return true;
+                }
+                                
+                    return false;
+
+            }
+            catch (Exception ex)
+            {
+
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
     }
 }
 

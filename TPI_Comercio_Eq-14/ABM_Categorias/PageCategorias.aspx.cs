@@ -29,7 +29,7 @@ namespace TPC_Comercio_Eq_14
                 catch (Exception ex)
                 {
                     Session.Add("Error", ex);
-                    Response.Redirect("Error.aspx");
+                    Response.Redirect("../Error.aspx");
                 }
             }
         }

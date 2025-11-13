@@ -13,6 +13,11 @@ namespace TPC_Comercio_Eq_14
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (!Seguridad.esAdmin(Session["user"]))
+            {
+                Session.Add("Error", "Acceso denegado. Se requiere privilegios de administrados.");
+                Response.Redirect("Error.aspx",false);
+            }    
             UsuarioNegocio negocio = new UsuarioNegocio();
             List<Usuarios> lista = new List<Usuarios>();
 

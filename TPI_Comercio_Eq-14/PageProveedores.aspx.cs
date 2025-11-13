@@ -13,6 +13,7 @@ namespace TPC_Comercio_Eq_14
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+         
             ProveedoresNegocio negocio = new ProveedoresNegocio();
             List<Proveedores> lista = new List<Proveedores>();
             if (!IsPostBack)

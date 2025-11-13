@@ -36,6 +36,12 @@
                     <li class="nav-item"><a class="nav-link" runat="server" href="~/PageUsuarios.aspx">Usuarios</a></li>
                 </ul>
             </div>
+            <div class="bg-dark">
+                <%if (Negocio.Seguridad.sesionActiva(Session["user"]))
+                    {  %>
+                <asp:Button Text="Cerrar Sesion" ID="btnCerrarSesion" CssClass="btn btn-outline-danger me-2" OnClick="btnCerrarSesion_Click" runat="server" />
+                  <%} %>  
+            </div>
         </div>
     </nav>
 

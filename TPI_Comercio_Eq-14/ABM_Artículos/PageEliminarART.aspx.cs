@@ -66,10 +66,10 @@ namespace TPC_Comercio_Eq_14
                 negocio.Eliminar(int.Parse(txtIdArticulo.Text), false);
                 Response.Redirect("PageArticulos.aspx", false);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-
-                throw;
+                Session.Add("Error", ex);
+                Response.Redirect("../Error.aspx");
             }
 
         }
@@ -125,7 +125,9 @@ namespace TPC_Comercio_Eq_14
             }
             catch (Exception ex)
             {
-                throw ex;
+                Session.Add("Error", ex);
+                Response.Redirect("../Error.aspx");
+                throw;
             }
             finally
             {

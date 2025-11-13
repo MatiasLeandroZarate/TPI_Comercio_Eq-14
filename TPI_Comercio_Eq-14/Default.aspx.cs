@@ -16,8 +16,7 @@ namespace TPC_Comercio_Eq_14
         public string passw { get; set; }
         protected void Page_Load(object sender, EventArgs e)
         {
-            if (!IsPostBack)
-                return;
+
             ViewState["Contraseña"] = txtContraseña.Text;
 
             txtContraseña.TextMode = chkVerContraseña.Checked ? TextBoxMode.SingleLine : TextBoxMode.Password;
@@ -29,70 +28,31 @@ namespace TPC_Comercio_Eq_14
 
         protected void btnSiguiente_Click(object sender, EventArgs e)
         {
-            usuarios.Email = txtEmail.Text.ToUpper();
-            usuarios.Contraseña = txtContraseña.Text;
-
-            if (CompararUsuario(usuarios.Email, usuarios.Contraseña))
-            {
-
-                Session.Add("Email", user);
-                Response.Redirect("PageInicio.aspx", false);
-
-            }
-            else
-            {
-                string mensaje = "Email y/o la contraseña invalido";
-                ScriptManager.RegisterStartupScript(this, this.GetType(), "alerta", $"alert('{mensaje}');", true);
-
-            }
-
-
-        }
-
-
-        public bool CompararUsuario(string user, string pass)
-        {
-            string auxuser = user.ToUpper();
-            string auxpass = pass;
-            AccesoBD acceso = new AccesoBD();
-            Usuarios aux = new Usuarios();
-
+            Usuarios user = new Usuarios();
+            UsuarioNegocio negocio = new UsuarioNegocio();
             try
             {
-                acceso.setearQuery("SELECT Email , Contraseña FROM Usuarios WHERE Email = @Email and Contraseña = @pass");
-                acceso.setearParametro("@Email", user);
-                acceso.setearParametro("@pass", pass);
-                acceso.ejecutarLectura();
-                    
-
-                if (acceso.Lector.Read())
+                user.Email = txtEmail.Text;
+                user.Contraseña = txtContraseña.Text;
+                if (negocio.Login(user))
                 {
-                    aux.Email = (string)acceso.Lector["Email"].ToString().ToUpper();
-                    aux.Contraseña = (string)acceso.Lector["Contraseña"].ToString();
-
-                    if (auxuser == aux.Email && auxpass == aux.Contraseña )
-                    {
-                        return true;
-                    }
-                    else
-                    {
-                        return false;
-                    }
+                    Session.Add("user", user);
+                    Response.Redirect("PageInicio.aspx", false);
                 }
                 else
                 {
-
-                    return false;
+                    Session.Add("Error", "Email y/o contraseña incorrectas");
+                    Response.Redirect("Error.aspx", false);
                 }
+
             }
             catch (Exception ex)
             {
-                throw ex;
-            }
-            finally
-            {
-                acceso.cerrarConexion();
+                Session.Add("error", ex.ToString());
+                Response.Redirect("Error.aspx", false);
+                
             }
         }
+
     }
 }
