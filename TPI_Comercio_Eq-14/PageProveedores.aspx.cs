@@ -13,18 +13,15 @@ namespace TPC_Comercio_Eq_14
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-         
-            ProveedoresNegocio negocio = new ProveedoresNegocio();
-            List<Proveedores> lista = new List<Proveedores>();
             if (!IsPostBack)
             {
                 try
                 {
-                    lista = negocio.ListarPRO();
+                    ProveedoresNegocio negocio = new ProveedoresNegocio();
+                    List<Proveedores> lista = negocio.ListarPRO();
 
-                    rptProveedores.DataSource = lista;
-                    rptProveedores.DataBind();
-
+                    gvProveedores.DataSource = lista;
+                    gvProveedores.DataBind();
                 }
                 catch (Exception ex)
                 {
@@ -32,7 +29,6 @@ namespace TPC_Comercio_Eq_14
                     Response.Redirect("Error.aspx");
                 }
             }
-
         }
     }
 }

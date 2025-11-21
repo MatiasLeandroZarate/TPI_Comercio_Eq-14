@@ -13,25 +13,32 @@ namespace TPC_Comercio_Eq_14.ABM_Marcas
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            if (!IsPostBack)
+            {
+                string idMarcaStr = Request.QueryString["id"];
+                if (!string.IsNullOrEmpty(idMarcaStr))
+                {
+                    int idMarca = int.Parse(idMarcaStr);
+                    CargarMarca(idMarca);
+                }
+            }
         }
 
-        protected void txtIDMarca_TextChanged(object sender, EventArgs e)
+        private void CargarMarca(int idMarca)
         {
-            if (string.IsNullOrWhiteSpace(txtIDMarca.Text))
+            MarcasNegocio negocio = new MarcasNegocio();
+            Marcas mar = negocio.ObtenerPorId(idMarca);
+
+            if (mar != null)
             {
-                return;
+                txtIDMarca.Text = mar.IdMarca.ToString();
+                txtNombre.Text = mar.Nombre;
             }
-
-            var mar = MarcaEncontrada(txtIDMarca.Text);
-
-            if (mar == null)
+            else
             {
-                LimpiarFormulario();
-                return;
+                txtIDMarca.Text = "";
+                txtNombre.Text = "";
             }
-
-            txtNombre.Text = mar.Nombre ?? string.Empty;
         }
 
         protected void btnVolver_Click(object sender, EventArgs e)
@@ -54,46 +61,9 @@ namespace TPC_Comercio_Eq_14.ABM_Marcas
             }
             catch (Exception ex)
             {
-                throw ex;
+                Session.Add("Error", ex);
+                Response.Redirect("../Error.aspx");
             }
-        }
-
-        public Marcas MarcaEncontrada(string IDMarca)
-        {
-            AccesoBD datos = new AccesoBD();
-            try
-            {
-                datos.setearQuery("SELECT IDMarca, Nombre FROM Marcas WHERE IDMarca = @IDMarca");
-                datos.setearParametro("@IDMarca", IDMarca);
-                datos.ejecutarLectura();
-
-                if (datos.Lector.Read())
-                {
-                    var m = new Marcas();
-
-                    m.IdMarca = Convert.ToInt32(datos.Lector["IDMarca"]);
-                    m.Nombre = datos.Lector["Nombre"] == DBNull.Value ? string.Empty : (string)datos.Lector["Nombre"];
-
-                    return m;
-                }
-                else
-                {
-                    return null;
-                }
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            finally
-            {
-                datos.cerrarConexion();
-            }
-        }
-
-        private void LimpiarFormulario()
-        {
-            txtNombre.Text = "";
         }
     }
 }

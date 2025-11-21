@@ -2,33 +2,26 @@
 
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
+
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
     <div class="container text-center">
-        <h1 class="text-primary ">Marcas </h1>
+        <h1 class="text-primary">Marcas</h1>
     </div>
+
     <div class="container">
-        <table class="table table-hover table-sm table-bordered border-primary-subtle">
-            <thead>
-                <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">Nombre</th>
-                </tr>
-            </thead>
-            <tbody>
-                <asp:Repeater ID="rptMarcas" runat="server">
-                    <ItemTemplate>
-                        <tr>
-                            <th scope="row"><%# Eval("IDMarca") %></th>
-                            <td><%# Eval("Nombre") %></td>
-                        </tr>
-                    </ItemTemplate>
-                </asp:Repeater>
-            </tbody>
-        </table>
-        <div class="text-center">
-            <asp:Button Text="Agregar" ID="btnAgregar" OnClick="btnAgregar_Click" CssClass="btn btn-primary mx-2" runat="server" />
-            <asp:Button Text="Modificar" ID="btnModificar" OnClick="btnModificar_Click" CssClass="btn btn-primary mx-2" runat="server" />
+        <asp:GridView ID="gvMarcas" runat="server" AutoGenerateColumns="False" CssClass="table table-hover table-sm table-bordered border-primary-subtle"
+            DataKeyNames="IDMarca">
+            <Columns>
+                <asp:BoundField DataField="IDMarca" HeaderText="ID" />
+                <asp:BoundField DataField="Nombre" HeaderText="Nombre" />
+            </Columns>
+        </asp:GridView>
+
+        <div class="text-center mt-3">
+            <asp:Button Text="Agregar" ID="btnAgregar" OnClick="btnAgregar_Click" CssClass="btn btn-success mx-2" runat="server" />
+            <asp:Button Text="Modificar" ID="btnModificar" OnClick="btnModificar_Click" CssClass="btn btn-warning mx-2" runat="server" />
         </div>
     </div>
+
 </asp:Content>

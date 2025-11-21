@@ -14,17 +14,15 @@ namespace TPC_Comercio_Eq_14
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            MarcasNegocio negocio = new MarcasNegocio();
-            List<Marcas> lista = new List<Marcas>();
             if (!IsPostBack)
             {
                 try
                 {
-                    lista = negocio.ListarMAR();
+                    MarcasNegocio negocio = new MarcasNegocio();
+                    List<Marcas> lista = negocio.ListarMAR();
 
-                    rptMarcas.DataSource = lista;
-                    rptMarcas.DataBind();
-
+                    gvMarcas.DataSource = lista;
+                    gvMarcas.DataBind();
                 }
                 catch (Exception ex)
                 {
@@ -32,8 +30,6 @@ namespace TPC_Comercio_Eq_14
                     Response.Redirect("Error.aspx");
                 }
             }
-
-
         }
 
         protected void btnAgregar_Click(object sender, EventArgs e)
@@ -43,7 +39,16 @@ namespace TPC_Comercio_Eq_14
 
         protected void btnModificar_Click(object sender, EventArgs e)
         {
-            Response.Redirect("PageModificarMAR.aspx", false);
+            
+            if (gvMarcas.SelectedDataKey != null)
+            {
+                int idMarca = Convert.ToInt32(gvMarcas.SelectedDataKey.Value);
+                Response.Redirect("PageModificarMAR.aspx?id=" + idMarca, false);
+            }
+            else
+            {
+                Response.Redirect("PageModificarMAR.aspx", false);
+            }
         }
     }
 }

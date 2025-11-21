@@ -15,21 +15,19 @@ namespace TPC_Comercio_Eq_14
         {
             if (!Seguridad.esAdmin(Session["user"]))
             {
-                Session.Add("Error", "Acceso denegado. Se requiere privilegios de administrados.");
-                Response.Redirect("Error.aspx",false);
-            }    
-            UsuarioNegocio negocio = new UsuarioNegocio();
-            List<Usuarios> lista = new List<Usuarios>();
+                Session.Add("Error", "Acceso denegado. Se requiere privilegios de administrador.");
+                Response.Redirect("Error.aspx", false);
+            }
 
             if (!IsPostBack)
             {
                 try
                 {
-                    lista = negocio.ListarUSU();
+                    UsuarioNegocio negocio = new UsuarioNegocio();
+                    List<Usuarios> lista = negocio.ListarUSU();
 
-                    rptUsuarios.DataSource = lista;
-                    rptUsuarios.DataBind();
-
+                    gvUsuarios.DataSource = lista;
+                    gvUsuarios.DataBind();
                 }
                 catch (Exception ex)
                 {

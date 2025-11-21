@@ -13,7 +13,7 @@ namespace TPC_Comercio_Eq_14.ABM_Marcas
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-
+            // No necesitamos cargar nada en el primer load
         }
 
         protected void btnVolver_Click(object sender, EventArgs e)
@@ -28,14 +28,21 @@ namespace TPC_Comercio_Eq_14.ABM_Marcas
 
             try
             {
-                nuevo.Nombre = txtNombre.Text;
+                if (string.IsNullOrWhiteSpace(txtNombre.Text))
+                {
+                    // Podés mostrar un mensaje de validación si querés
+                    return;
+                }
+
+                nuevo.Nombre = txtNombre.Text.Trim();
 
                 negocio.Agregar(nuevo);
                 Response.Redirect("PageMarcas.aspx", false);
             }
             catch (Exception ex)
             {
-                throw ex;
+                Session.Add("Error", ex);
+                Response.Redirect("../Error.aspx");
             }
         }
     }

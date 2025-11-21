@@ -15,12 +15,12 @@ namespace TPC_Comercio_Eq_14
     {
 
         /// <summary>
-        /// Control rptCompras.
+        /// Control gvCompras.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Repeater rptCompras;
+        protected global::System.Web.UI.WebControls.GridView gvCompras;
     }
 }

@@ -1,12 +1,7 @@
 ﻿using Dominio;
 using Negocio;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
 using System.Web.UI;
-using System.Web.UI.WebControls;
-using System.Web.UI.WebControls.WebParts;
 
 namespace TPC_Comercio_Eq_14
 {
@@ -18,38 +13,30 @@ namespace TPC_Comercio_Eq_14
             {
                 CargarMarcas();
                 CargarCategorias();
-            }
-        }
 
-        protected void txtIdArticulo_TextChanged(object sender, EventArgs e)
-        {
-            if (string.IsNullOrWhiteSpace(txtIdArticulo.Text))
-            {
-                return;
-            }
+                string idArticuloStr = Request.QueryString["id"];
+                if (!string.IsNullOrEmpty(idArticuloStr))
+                {
+                    int idArticulo = int.Parse(idArticuloStr);
+                    ArticulosNegocio negocio = new ArticulosNegocio();
+                    Articulos articulo = negocio.ObtenerPorId(idArticulo);
 
-            var art = ArticuloEncontrado(txtIdArticulo.Text);
+                    if (articulo != null)
+                    {
+                        txtIdArticulo.Text = articulo.IdArticulo.ToString();
+                        txtNombre.Text = articulo.Nombre;
+                        txtDescripcion.Text = articulo.Descripcion;
+                        txtPrecioCompra.Text = articulo.PrecioCompra.ToString("0.##");
+                        txtPrecioVenta.Text = articulo.PrecioVenta.ToString("0.##");
+                        txtStock.Text = articulo.Stock.ToString();
 
-            if (art == null)
-            {
-                LimpiarFormulario();
-                return;
-            }
+                        if (ddlMarca.Items.FindByValue(articulo.IDMarca.ToString()) != null)
+                            ddlMarca.SelectedValue = articulo.IDMarca.ToString();
 
-            txtNombre.Text = art.Nombre ?? string.Empty;
-            txtDescripcion.Text = art.Descripcion ?? string.Empty;
-            txtPrecioCompra.Text = art.PrecioCompra.ToString("0.###");
-            txtPrecioVenta.Text = art.PrecioVenta.ToString("0.###");
-            txtStock.Text = art.Stock.ToString();
-
-            if (ddlMarca.Items.FindByValue(art.IDMarca.ToString()) != null)
-            {
-                ddlMarca.SelectedValue = art.IDMarca.ToString();
-            }
-
-            if (ddlCategoria.Items.FindByValue(art.IDCategoria.ToString()) != null)
-            {
-                ddlCategoria.SelectedValue = art.IDCategoria.ToString();
+                        if (ddlCategoria.Items.FindByValue(articulo.IDCategoria.ToString()) != null)
+                            ddlCategoria.SelectedValue = articulo.IDCategoria.ToString();
+                    }
+                }
             }
         }
 
@@ -70,7 +57,7 @@ namespace TPC_Comercio_Eq_14
                 modificado.Descripcion = txtDescripcion.Text;
                 modificado.PrecioCompra = string.IsNullOrWhiteSpace(txtPrecioCompra.Text) ? 0 : decimal.Parse(txtPrecioCompra.Text);
                 modificado.PrecioVenta = string.IsNullOrWhiteSpace(txtPrecioVenta.Text) ? 0 : decimal.Parse(txtPrecioVenta.Text);
-                modificado.Stock = int.Parse(txtStock.Text);
+                modificado.Stock = string.IsNullOrWhiteSpace(txtStock.Text) ? 0 : int.Parse(txtStock.Text);
                 modificado.IDMarca = int.Parse(ddlMarca.SelectedValue);
                 modificado.IDCategoria = int.Parse(ddlCategoria.SelectedValue);
                 modificado.Activo = true;
@@ -80,7 +67,8 @@ namespace TPC_Comercio_Eq_14
             }
             catch (Exception ex)
             {
-                throw ex;
+                Session.Add("Error", ex);
+                Response.Redirect("../Error.aspx");
             }
         }
 
@@ -91,7 +79,7 @@ namespace TPC_Comercio_Eq_14
             ddlMarca.DataTextField = "Nombre";
             ddlMarca.DataValueField = "IdMarca";
             ddlMarca.DataBind();
-            ddlMarca.Items.Insert(0, new ListItem("Seleccione una marca", ""));
+            ddlMarca.Items.Insert(0, new System.Web.UI.WebControls.ListItem("Seleccione una marca", ""));
         }
 
         private void CargarCategorias()
@@ -101,56 +89,7 @@ namespace TPC_Comercio_Eq_14
             ddlCategoria.DataTextField = "Nombre";
             ddlCategoria.DataValueField = "IdCategoria";
             ddlCategoria.DataBind();
-            ddlCategoria.Items.Insert(0, new ListItem("Seleccione una categoría", ""));
-        }
-
-        public Articulos ArticuloEncontrado(string IdArticulo)
-        {
-            AccesoBD datos = new AccesoBD();
-            try
-            {
-                datos.setearQuery("SELECT IDArticulo, Nombre, Descripcion, PrecioCompra, PrecioVenta, Stock, IDMarca, IDCategoria FROM Articulos WHERE IDArticulo = @IDArticulo");
-                datos.setearParametro("@IDArticulo", IdArticulo);
-                datos.ejecutarLectura();
-
-                if (datos.Lector.Read())
-                {
-                    var a = new Articulos();
-
-                    a.IdArticulo = Convert.ToInt32(datos.Lector["IDArticulo"]);
-                    a.Nombre = datos.Lector["Nombre"] == DBNull.Value ? string.Empty : (string)datos.Lector["Nombre"];
-                    a.Descripcion = datos.Lector["Descripcion"] == DBNull.Value ? string.Empty : (string)datos.Lector["Descripcion"];
-                    a.PrecioCompra = datos.Lector["PrecioCompra"] == DBNull.Value ? 0m : Convert.ToDecimal(datos.Lector["PrecioCompra"]);
-                    a.PrecioVenta = datos.Lector["PrecioVenta"] == DBNull.Value ? 0m : Convert.ToDecimal(datos.Lector["PrecioVenta"]);
-                    a.Stock = datos.Lector["Stock"] == DBNull.Value ? 0 : Convert.ToInt32(datos.Lector["Stock"]);
-                    a.IDMarca = datos.Lector["IDMarca"] == DBNull.Value ? 0 : Convert.ToInt32(datos.Lector["IDMarca"]);
-                    a.IDCategoria = datos.Lector["IDCategoria"] == DBNull.Value ? 0 : Convert.ToInt32(datos.Lector["IDCategoria"]);
-
-                    return a;
-                }
-                else
-                {
-                    return null;
-                }
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            finally
-            {
-                datos.cerrarConexion();
-            }
-        }
-
-        private void LimpiarFormulario()
-        {
-            txtNombre.Text = "";
-            txtDescripcion.Text = "";
-            txtPrecioCompra.Text = "";
-            txtPrecioVenta.Text = "";
-            ddlMarca.ClearSelection();
-            ddlCategoria.ClearSelection();
+            ddlCategoria.Items.Insert(0, new System.Web.UI.WebControls.ListItem("Seleccione una categoría", ""));
         }
     }
 }

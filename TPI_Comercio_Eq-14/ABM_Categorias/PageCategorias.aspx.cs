@@ -13,18 +13,15 @@ namespace TPC_Comercio_Eq_14
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            CategoriasNegocio negocio = new CategoriasNegocio();
-            List<Categorias> lista = new List<Categorias>();
-
             if (!IsPostBack)
             {
                 try
                 {
-                    lista = negocio.ListarCAT();
+                    CategoriasNegocio negocio = new CategoriasNegocio();
+                    List<Categorias> lista = negocio.ListarCAT();
 
-                    rptCategorias.DataSource = lista;
-                    rptCategorias.DataBind();
-
+                    gvCategorias.DataSource = lista;
+                    gvCategorias.DataBind();
                 }
                 catch (Exception ex)
                 {
@@ -41,7 +38,15 @@ namespace TPC_Comercio_Eq_14
 
         protected void btnModificar_Click(object sender, EventArgs e)
         {
-            Response.Redirect("PageModificarCAT.aspx", false);
+            if (gvCategorias.SelectedDataKey != null)
+            {
+                int idCategoria = Convert.ToInt32(gvCategorias.SelectedDataKey.Value);
+                Response.Redirect("PageModificarCAT.aspx?id=" + idCategoria, false);
+            }
+            else
+            {
+                Response.Redirect("PageModificarCAT.aspx", false);
+            }
         }
     }
 }

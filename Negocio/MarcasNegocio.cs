@@ -41,6 +41,33 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
+        public Marcas ObtenerPorId(int idMarca)
+        {
+            AccesoBD datos = new AccesoBD();
+            try
+            {
+                datos.setearQuery("SELECT IDMarca, Nombre FROM Marcas WHERE IDMarca = @IDMarca");
+                datos.setearParametro("@IDMarca", idMarca);
+                datos.ejecutarLectura();
+
+                if (datos.Lector.Read())
+                {
+                    Marcas m = new Marcas();
+                    m.IdMarca = Convert.ToInt32(datos.Lector["IDMarca"]);
+                    m.Nombre = datos.Lector["Nombre"].ToString();
+                    return m;
+                }
+                return null;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
 
         public void Agregar(Marcas nuevo)
         {

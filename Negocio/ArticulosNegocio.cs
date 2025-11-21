@@ -31,7 +31,7 @@ namespace Negocio
                     aux.Stock = (int)datos.Lector["Stock"];
                     aux.IDMarca = (int)datos.Lector["IDMarca"];
                     aux.IDCategoria = (int)datos.Lector["IDCategoria"];
-                    aux.Activo = (bool)datos.Lector["Activo"];
+                    aux.Activo = bool.Parse(datos.Lector["Activo"].ToString());
 
                     lista.Add(aux);
                 }
@@ -49,7 +49,36 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
+        public Articulos ObtenerPorId(int id)
+        {
+            AccesoBD datos = new AccesoBD();
+            try
+            {
+                datos.setearQuery("SELECT * FROM Articulos WHERE IDArticulo = @id");
+                datos.setearParametro("@id", id);
+                datos.ejecutarLectura();
 
+                if (datos.Lector.Read())
+                {
+                    Articulos art = new Articulos();
+                    art.IdArticulo = (int)datos.Lector["IDArticulo"];
+                    art.Nombre = (string)datos.Lector["Nombre"];
+                    art.Descripcion = (string)datos.Lector["Descripcion"];
+                    art.PrecioCompra = (decimal)datos.Lector["PrecioCompra"];
+                    art.PrecioVenta = (decimal)datos.Lector["PrecioVenta"];
+                    art.Stock = (int)datos.Lector["Stock"];
+                    art.IDMarca = (int)datos.Lector["IDMarca"];
+                    art.IDCategoria = (int)datos.Lector["IDCategoria"];
+                    return art;
+                }
+
+                return null;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
         public void Agregar(Articulos nuevo)
         {
             AccesoBD datos = new AccesoBD();

@@ -13,17 +13,15 @@ namespace TPC_Comercio_Eq_14
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            ClientesNegocio negocio = new ClientesNegocio();
-            List<Clientes> lista = new List<Clientes>();
             if (!IsPostBack)
             {
                 try
                 {
-                    lista = negocio.ListarCLI();
+                    ClientesNegocio negocio = new ClientesNegocio();
+                    List<Clientes> lista = negocio.ListarCLI();
 
-                    rptClientes.DataSource = lista;
-                    rptClientes.DataBind();
-
+                    gvClientes.DataSource = lista;
+                    gvClientes.DataBind();
                 }
                 catch (Exception ex)
                 {
@@ -31,7 +29,6 @@ namespace TPC_Comercio_Eq_14
                     Response.Redirect("Error.aspx");
                 }
             }
-
         }
 
         protected void btnAgregar_Click(object sender, EventArgs e)
@@ -41,12 +38,29 @@ namespace TPC_Comercio_Eq_14
 
         protected void btnModificar_Click(object sender, EventArgs e)
         {
-            Response.Redirect("PageModificarCLI.aspx", false);
+            // Si querés que el botón Modificar funcione sobre la fila seleccionada:
+            if (gvClientes.SelectedDataKey != null)
+            {
+                int idCliente = Convert.ToInt32(gvClientes.SelectedDataKey.Value);
+                Response.Redirect("PageModificarCLI.aspx?id=" + idCliente, false);
+            }
+            else
+            {
+                Response.Redirect("PageModificarCLI.aspx", false);
+            }
         }
 
         protected void btnEliminar_Click(object sender, EventArgs e)
         {
-            Response.Redirect("PageEliminarCLI.aspx", false);
+            if (gvClientes.SelectedDataKey != null)
+            {
+                int idCliente = Convert.ToInt32(gvClientes.SelectedDataKey.Value);
+                Response.Redirect("PageEliminarCLI.aspx?id=" + idCliente, false);
+            }
+            else
+            {
+                Response.Redirect("PageEliminarCLI.aspx", false);
+            }
         }
     }
 }

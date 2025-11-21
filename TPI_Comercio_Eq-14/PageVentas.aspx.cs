@@ -13,17 +13,15 @@ namespace TPC_Comercio_Eq_14
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            VentasNegocio negocio = new VentasNegocio();
-            List<Ventas> lista = new List<Ventas>();
             if (!IsPostBack)
             {
                 try
                 {
-                    lista = negocio.ListarVEN();
+                    VentasNegocio negocio = new VentasNegocio();
+                    List<Ventas> lista = negocio.ListarVEN();
 
-                    rptVentas.DataSource = lista;
-                    rptVentas.DataBind();
-
+                    gvVentas.DataSource = lista;
+                    gvVentas.DataBind();
                 }
                 catch (Exception ex)
                 {

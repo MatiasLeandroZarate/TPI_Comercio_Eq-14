@@ -3,33 +3,21 @@
 <asp:Content ID="Content1" ContentPlaceHolderID="head" runat="server">
 </asp:Content>
 
-
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
     <div class="container text-center">
-        <h1 class="text-primary ">Usuarios </h1>
+        <h1 class="text-primary">Usuarios</h1>
     </div>
+
     <div class="container">
-        <table class="table table-hover table-sm table-bordered border-primary-subtle">
-            <thead>
-                <tr>
-                    <th scope="col">ID</th>
-                    <th scope="col">Rol</th>
-                    <th scope="col">Email</th>
-                </tr>
-            </thead>
-            <tbody>
-                <asp:Repeater ID="rptUsuarios" runat="server">
-                    <ItemTemplate>
-                        <tr>
-                            <th scope="row"><%# Eval("IDUsuario") %></th>
-                            <td><%# Eval("Email") %></td>
-                            <td><%# Eval("Rol") %></td>
-                        </tr>
-                    </ItemTemplate>
-                </asp:Repeater>
-            </tbody>
-        </table>
+        <asp:GridView ID="gvUsuarios" runat="server" AutoGenerateColumns="False" CssClass="table table-hover table-sm table-bordered border-primary-subtle"
+            DataKeyNames="IDUsuario">
+            <Columns>
+                <asp:BoundField DataField="IDUsuario" HeaderText="ID" />
+                <asp:BoundField DataField="Rol" HeaderText="Rol" />
+                <asp:BoundField DataField="Email" HeaderText="Email" />
+            </Columns>
+        </asp:GridView>
     </div>
 
 </asp:Content>
