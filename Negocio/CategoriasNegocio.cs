@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Dominio;
 
+
 namespace Negocio
 {
     public class CategoriasNegocio
@@ -66,7 +67,62 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
+        public List<Categorias> Filtrar(string filtro)
+        {
+            List<Categorias> lista = new List<Categorias>();
+            AccesoBD datos = new AccesoBD();
 
+            try
+            {
+                datos.setearQuery("SELECT IDCategoria, Nombre, Descripcion FROM Categorias WHERE Nombre LIKE @filtro OR Descripcion LIKE @filtro");
+                datos.setearParametro("@filtro", "%" + filtro + "%");
+                datos.ejecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    Categorias aux = new Categorias();
+
+                    aux.IdCategoria = (int)datos.Lector["IDCategoria"];
+                    aux.Nombre = (string)datos.Lector["Nombre"];
+                    aux.Descripcion = (string)datos.Lector["Descripcion"];
+
+                    lista.Add(aux);
+                }
+
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+        public Categorias ObtenerPorId(int id)
+        {
+            AccesoBD datos = new AccesoBD();
+            try
+            {
+                datos.setearQuery("SELECT * FROM Categorias Where IDCategoria = @IDCategoria");
+                datos.setearParametro("@IDCategoria", id);
+                datos.ejecutarLectura();
+                if(datos.Lector.Read())
+                {
+                    Categorias cat = new Categorias();
+                    cat.IdCategoria = (int)datos.Lector["IDCategoria"];
+                    cat.Nombre = (string)datos.Lector["Nombre"];
+                    cat.Descripcion = (string)datos.Lector["Descripcion"];
+                    return cat;
+                }
+
+                return null;
+
+            }
+           finally { datos.cerrarConexion(); }
+        }
         public void Modificar(Categorias modificado)
         {
             AccesoBD datos = new AccesoBD();
@@ -88,5 +144,6 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
+      
     }
 }

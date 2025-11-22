@@ -24,6 +24,7 @@ namespace TPC_Comercio_Eq_14
                     if (articulo != null)
                     {
                         txtIdArticulo.Text = articulo.IdArticulo.ToString();
+                      
                         txtNombre.Text = articulo.Nombre;
                         txtDescripcion.Text = articulo.Descripcion;
                         txtPrecioCompra.Text = articulo.PrecioCompra.ToString("0.##");

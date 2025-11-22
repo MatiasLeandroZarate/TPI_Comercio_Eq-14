@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Dominio;
 
 namespace Negocio
@@ -12,13 +9,13 @@ namespace Negocio
         public List<Articulos> ListarART()
         {
             List<Articulos> lista = new List<Articulos>();
-
             AccesoBD datos = new AccesoBD();
 
             try
             {
-                datos.setearQuery("SELECT IDArticulo, Nombre, Descripcion, PrecioCompra, PrecioVenta, Stock, IDMarca, IDCategoria, Activo  FROM Articulos");
+                datos.setearQuery("SELECT IDArticulo, Nombre, Descripcion, PrecioCompra, PrecioVenta, Stock, IDMarca, IDCategoria, Activo FROM Articulos");
                 datos.ejecutarLectura();
+
                 while (datos.Lector.Read())
                 {
                     Articulos aux = new Articulos();
@@ -35,13 +32,12 @@ namespace Negocio
 
                     lista.Add(aux);
                 }
-                datos.cerrarLector();
 
+                datos.cerrarLector();
                 return lista;
             }
             catch (Exception ex)
             {
-
                 throw ex;
             }
             finally
@@ -49,6 +45,7 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
+
         public Articulos ObtenerPorId(int id)
         {
             AccesoBD datos = new AccesoBD();
@@ -69,6 +66,8 @@ namespace Negocio
                     art.Stock = (int)datos.Lector["Stock"];
                     art.IDMarca = (int)datos.Lector["IDMarca"];
                     art.IDCategoria = (int)datos.Lector["IDCategoria"];
+                    art.Activo = bool.Parse(datos.Lector["Activo"].ToString());
+
                     return art;
                 }
 
@@ -79,6 +78,7 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
+
         public void Agregar(Articulos nuevo)
         {
             AccesoBD datos = new AccesoBD();
@@ -93,7 +93,7 @@ namespace Negocio
                 datos.setearParametro("@Stock", nuevo.Stock);
                 datos.setearParametro("@IDMarca", nuevo.IDMarca);
                 datos.setearParametro("@IDCategoria", nuevo.IDCategoria);
-                datos.setearParametro("@Activo", 1);
+                datos.setearParametro("@Activo", nuevo.Activo);
                 datos.ejecutarAccion();
             }
             catch (Exception ex)
@@ -113,6 +113,7 @@ namespace Negocio
             try
             {
                 datos.setearQuery("UPDATE Articulos SET Nombre = @Nombre, Descripcion = @Descripcion, PrecioCompra = @PrecioCompra, PrecioVenta = @PrecioVenta, Stock = @Stock, IDMarca = @IDMarca, IDCategoria = @IDCategoria, Activo = @Activo WHERE IDArticulo = @IDArticulo");
+
                 datos.setearParametro("@Nombre", modificado.Nombre);
                 datos.setearParametro("@Descripcion", modificado.Descripcion);
                 datos.setearParametro("@PrecioCompra", modificado.PrecioCompra);
@@ -122,11 +123,12 @@ namespace Negocio
                 datos.setearParametro("@IDCategoria", modificado.IDCategoria);
                 datos.setearParametro("@Activo", modificado.Activo);
                 datos.setearParametro("@IDArticulo", modificado.IdArticulo);
+
                 datos.ejecutarAccion();
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                throw;
+                throw ex;
             }
             finally
             {
@@ -144,6 +146,47 @@ namespace Negocio
                 datos.setearParametro("@Activo", Estado);
                 datos.setearParametro("@IDArticulo", Id);
                 datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+        public List<Articulos> Filtrar(string filtro)
+        {
+            List<Articulos> lista = new List<Articulos>();
+            AccesoBD datos = new AccesoBD();
+
+            try
+            {
+                datos.setearQuery("SELECT IDArticulo, Nombre, Descripcion, PrecioCompra, PrecioVenta, Stock, IDMarca, IDCategoria, Activo FROM Articulos WHERE Nombre LIKE @filtro OR Descripcion LIKE @filtro");
+                datos.setearParametro("@filtro", "%" + filtro + "%");
+                datos.ejecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    Articulos aux = new Articulos();
+
+                    aux.IdArticulo = (int)datos.Lector["IDArticulo"];
+                    aux.Nombre = (string)datos.Lector["Nombre"];
+                    aux.Descripcion = (string)datos.Lector["Descripcion"];
+                    aux.PrecioCompra = (decimal)datos.Lector["PrecioCompra"];
+                    aux.PrecioVenta = (decimal)datos.Lector["PrecioVenta"];
+                    aux.Stock = (int)datos.Lector["Stock"];
+                    aux.IDMarca = (int)datos.Lector["IDMarca"];
+                    aux.IDCategoria = (int)datos.Lector["IDCategoria"];
+                    aux.Activo = bool.Parse(datos.Lector["Activo"].ToString());
+
+                    lista.Add(aux);
+                }
+
+                datos.cerrarLector();
+                return lista;
             }
             catch (Exception ex)
             {

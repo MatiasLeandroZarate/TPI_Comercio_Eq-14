@@ -2,6 +2,7 @@
 using Negocio;
 using System;
 using System.Collections.Generic;
+using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
 
@@ -9,116 +10,143 @@ namespace TPC_Comercio_Eq_14
 {
     public partial class PageArticulos : System.Web.UI.Page
     {
+        private const string SESSION_KEY = "SeleccionadosArticulos";
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
-                ArticulosNegocio negocio = new ArticulosNegocio();
-                Session["listaArticulos"] = negocio.ListarART();
-                gvArticulos.DataSource = Session["listaArticulos"];
-                gvArticulos.DataBind();
-
-                ActualizarEstadoBotones(); // 👈 aquí
-
-
+                try
+                {
+                    CargarGrilla();
+                }
+                catch (Exception ex)
+                {
+                    Session.Add("Error", ex);
+                    Response.Redirect("~/Error.aspx");
+                }
             }
+        }
+
+        private void CargarGrilla(string filtro = "")
+        {
+            ArticulosNegocio negocio = new ArticulosNegocio();
+
+            if (string.IsNullOrWhiteSpace(filtro))
+                gvArticulos.DataSource = negocio.ListarART();
+            else
+                gvArticulos.DataSource = negocio.Filtrar(filtro);
+
+            gvArticulos.DataBind();
+
+
+            List<int> seleccionados = CheckFiltradosNegocio.ObtenerSeleccionados(SESSION_KEY);
+            RestaurarSeleccionados(seleccionados);
+        }
+
+        private void RestaurarSeleccionados(List<int> seleccionados)
+        {
+            foreach (GridViewRow row in gvArticulos.Rows)
+            {
+                CheckBox chk = row.FindControl("chkSeleccion") as CheckBox;
+
+                if (chk != null)
+                {
+                    int id = (int)gvArticulos.DataKeys[row.RowIndex].Value;
+                    chk.Checked = seleccionados.Contains(id);
+                }
+            }
+        }
+
+
+        protected void chkSeleccion_CheckedChanged(object sender, EventArgs e)
+        {
+            CheckFiltradosNegocio.GuardarSeleccionados(gvArticulos, SESSION_KEY);
         }
 
         protected void txtFiltro_TextChanged(object sender, EventArgs e)
         {
-            List<Articulos> lista = (List<Articulos>)Session["listaArticulos"];
-            List<Articulos> listaFiltrada;
 
-            if (string.IsNullOrWhiteSpace(txtFiltro.Text))
-                listaFiltrada = lista;
-            else
-                listaFiltrada = lista.FindAll(x => x.Nombre.ToUpper().Contains(txtFiltro.Text.ToUpper()));
+            CheckFiltradosNegocio.GuardarSeleccionados(gvArticulos, SESSION_KEY);
 
-            gvArticulos.DataSource = listaFiltrada;
-            gvArticulos.DataBind();
 
-            ActualizarEstadoBotones(); // 👈 aquí
-
+            CargarGrilla(txtFiltro.Text);
         }
+
+        protected void btnQuitarFiltro_Click(object sender, EventArgs e)
+        {
+            CheckFiltradosNegocio.GuardarSeleccionados(gvArticulos, SESSION_KEY);
+
+            txtFiltro.Text = "";
+            CargarGrilla();
+        }
+
 
         protected void btnAgregar_Click(object sender, EventArgs e)
         {
-            Response.Redirect("PageAgregarART.aspx", false);
+            Response.Redirect("PageAgregarART.aspx");
         }
+
 
         protected void btnModificar_Click(object sender, EventArgs e)
         {
-            var seleccionados = ObtenerSeleccionados();
+            CheckFiltradosNegocio.GuardarSeleccionados(gvArticulos, SESSION_KEY);
+
+            List<int> seleccionados = CheckFiltradosNegocio.ObtenerSeleccionados(SESSION_KEY);
+
             if (seleccionados.Count == 1)
+                Response.Redirect("PageModificarART.aspx?id=" + seleccionados[0]);
+        }
+
+
+        protected void btnEliminar_Click(object sender, EventArgs e)
+        {
+            CheckFiltradosNegocio.GuardarSeleccionados(gvArticulos, SESSION_KEY);
+
+            List<int> seleccionados = CheckFiltradosNegocio.ObtenerSeleccionados(SESSION_KEY);
+
+            if (seleccionados != null)
             {
-                Response.Redirect("PageModificarART.aspx?id=" + seleccionados[0], false);
+                ArticulosNegocio negocio = new ArticulosNegocio();
+                foreach (int id in seleccionados)
+                    negocio.Eliminar(id, false);
             }
+
+            CargarGrilla();
+        }
+
+
+        protected void gvArticulos_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            List<int> seleccionados = CheckFiltradosNegocio.ObtenerSeleccionados(SESSION_KEY);
+            CheckFiltradosNegocio.MarcarSeleccionados(e.Row, gvArticulos, seleccionados);
+        }
+        protected void btnQuitarSeleccion_Click(object sender, EventArgs e)
+        {
+            string sessionKey = "SeleccionadosArticulos";
+
+
+            HttpContext.Current.Session[sessionKey] = new List<int>();
+
+
+            foreach (GridViewRow row in gvArticulos.Rows)
+            {
+                CheckBox chk = row.FindControl("chkSeleccion") as CheckBox;
+                if (chk != null)
+                    chk.Checked = false;
+            }
+            CargarGrilla();
         }
 
         protected void btnComprar_Click(object sender, EventArgs e)
         {
-            var seleccionados = ObtenerSeleccionados();
-            if (seleccionados.Count > 0)
-            {
-                Session["ArticulosSeleccionados"] = seleccionados;
-                Response.Redirect("PageCompraVenta.aspx", false);
-            }
+
         }
 
         protected void btnVender_Click(object sender, EventArgs e)
         {
-            var seleccionados = ObtenerSeleccionados();
-            if (seleccionados.Count > 0)
-            {
-                Session["ArticulosSeleccionados"] = seleccionados;
-                Response.Redirect("PageVenta.aspx", false);
-            }
-        }
-
-        protected void btnEliminar_Click(object sender, EventArgs e)
-        {
-            var seleccionados = ObtenerSeleccionados();
-            ArticulosNegocio negocio = new ArticulosNegocio();
-
-            foreach (int id in seleccionados)
-                negocio.Eliminar(id, false);
-
-            Session["listaArticulos"] = negocio.ListarART();
-            gvArticulos.DataSource = Session["listaArticulos"];
-            gvArticulos.DataBind();
-
-            ActualizarEstadoBotones();
-
-        }
-
-        private List<int> ObtenerSeleccionados()
-        {
-            List<int> seleccionados = new List<int>();
-
-            foreach (GridViewRow row in gvArticulos.Rows)
-            {
-                CheckBox chk = (CheckBox)row.FindControl("chkSeleccionado");
-                if (chk != null && chk.Checked)
-                {
-                    int id = Convert.ToInt32(gvArticulos.DataKeys[row.RowIndex].Value);
-                    seleccionados.Add(id);
-                }
-            }
-
-            return seleccionados;
-        }
-
-
-        private void ActualizarEstadoBotones()
-        {
-            var seleccionados = ObtenerSeleccionados();
-
-            // Habilitar solo si hay exactamente 1 seleccionado
-            btnModificar.Enabled = (seleccionados.Count < 2);
-
 
         }
 
     }
 }
-

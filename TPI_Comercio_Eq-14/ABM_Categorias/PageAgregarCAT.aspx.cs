@@ -18,7 +18,7 @@ namespace TPC_Comercio_Eq_14.ABM_Categorias
 
         protected void btnVolver_Click(object sender, EventArgs e)
         {
-            Response.Redirect("PagePageCategorias.aspx", false);
+            Response.Redirect("PageCategorias.aspx", false);
         }
 
         protected void btnAgregar_Click(object sender, EventArgs e)

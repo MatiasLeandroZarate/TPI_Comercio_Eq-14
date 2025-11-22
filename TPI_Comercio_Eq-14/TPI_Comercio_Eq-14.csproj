@@ -132,7 +132,6 @@
     <Content Include="Default.aspx" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
-    <Content Include="ABM_Artículos\PageEliminarART.aspx" />
     <Content Include="PageInicio.aspx" />
     <Content Include="ABM_Marcas\PageMarcas.aspx" />
     <Content Include="ABM_Artículos\PageModificarART.aspx" />
@@ -251,6 +250,7 @@
     </Compile>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="CheckFiltradosNegocio.cs" />
     <Compile Include="Default.Master.cs">
       <DependentUpon>Default.Master</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
@@ -309,13 +309,6 @@
     </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
-    </Compile>
-    <Compile Include="ABM_Artículos\PageEliminarART.aspx.cs">
-      <DependentUpon>PageEliminarART.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="ABM_Artículos\PageEliminarART.aspx.designer.cs">
-      <DependentUpon>PageEliminarART.aspx</DependentUpon>
     </Compile>
     <Compile Include="PageInicio.aspx.cs">
       <DependentUpon>PageInicio.aspx</DependentUpon>

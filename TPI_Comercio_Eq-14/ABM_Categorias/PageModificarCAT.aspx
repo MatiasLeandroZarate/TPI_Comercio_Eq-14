@@ -4,7 +4,7 @@
 <asp:Content ID="Content2" ContentPlaceHolderID="ContentPlaceHolder1" runat="server">
 
     <div class="container text-center">
-        <h1 class="text-primary ">Agregar Marca </h1>
+        <h1 class="text-primary ">Modificar Categoría </h1>
     </div>
 
     <hr />
@@ -14,7 +14,7 @@
             <div class="row mb-3">
                 <label for="txtIDCategoria" class="col-sm-2 col-form-label">ID Categoría:</label>
                 <div class="col-sm-10">
-                    <asp:TextBox ID="txtIDCategoria" runat="server" CssClass="form-control" TextMode="Number"  AutoPostBack="true" OnTextChanged="txtIDCategoria_TextChanged" />
+                    <asp:TextBox ID="txtIDCategoria" runat="server" CssClass="form-control" TextMode="Number"  AutoPostBack="true" OnTextChanged="txtIDCategoria_TextChanged" Enabled="False" />
                 </div>
             </div>
             <div class="row mb-3">
@@ -31,8 +31,8 @@
             </div>
         </div>
         <div class="text-center">
-            <asp:Button Text="Volver" ID="btnVolver" OnClick="btnVolver_Click" CssClass="btn btn-primary mx-2" runat="server" />
-            <asp:Button Text="Modificar" ID="btnModificar" OnClick="btnModificar_Click" CssClass="btn btn-primary mx-2" runat="server" />
+            <asp:Button Text="Volver" ID="btnVolver" OnClick="btnVolver_Click" CssClass="btn btn-secondary mx-2" runat="server" />
+            <asp:Button Text="Modificar" ID="btnModificar" OnClick="btnModificar_Click" CssClass="btn btn-success mx-2" runat="server" />
         </div>
     </div>
 

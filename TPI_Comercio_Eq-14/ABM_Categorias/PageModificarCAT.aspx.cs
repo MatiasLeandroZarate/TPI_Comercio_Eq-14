@@ -13,8 +13,26 @@ namespace TPC_Comercio_Eq_14.ABM_Categorias
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (!IsPostBack)
+            {
+                string idCategoriaStr = Request.QueryString["id"];
+                if (!string.IsNullOrEmpty(idCategoriaStr))
+                {
+                    int idCategoria = int.Parse(idCategoriaStr);
+                    CategoriasNegocio negocio = new CategoriasNegocio();
+                    Categorias categoria = negocio.ObtenerPorId(idCategoria);
 
+                    if (categoria != null)
+                    {
+                        txtIDCategoria.Text = categoria.IdCategoria.ToString();
+
+                        txtNombre.Text = categoria.Nombre.ToString();
+                        txtDescripcion.Text = categoria.Descripcion.ToString();
+                    }
+                }
+            }
         }
+
 
         protected void txtIDCategoria_TextChanged(object sender, EventArgs e)
         {
@@ -56,7 +74,8 @@ namespace TPC_Comercio_Eq_14.ABM_Categorias
             }
             catch (Exception ex)
             {
-                throw ex;
+                Session.Add("Error", ex);
+                Response.Redirect("../Error.aspx");
             }
         }
 
