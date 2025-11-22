@@ -13,7 +13,6 @@ namespace TPC_Comercio_Eq_14.ABM_Marcas
     {
         protected void Page_Load(object sender, EventArgs e)
         {
-            // No necesitamos cargar nada en el primer load
         }
 
         protected void btnVolver_Click(object sender, EventArgs e)
@@ -30,7 +29,6 @@ namespace TPC_Comercio_Eq_14.ABM_Marcas
             {
                 if (string.IsNullOrWhiteSpace(txtNombre.Text))
                 {
-                    // Podés mostrar un mensaje de validación si querés
                     return;
                 }
 
@@ -42,7 +40,7 @@ namespace TPC_Comercio_Eq_14.ABM_Marcas
             catch (Exception ex)
             {
                 Session.Add("Error", ex);
-                Response.Redirect("../Error.aspx");
+                Response.Redirect("~/Error.aspx");
             }
         }
     }

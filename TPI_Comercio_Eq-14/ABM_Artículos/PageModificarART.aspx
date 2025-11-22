@@ -14,7 +14,7 @@
         <div class="row mb-3">
             <label for="txtIdArticulo" class="col-sm-2 col-form-label">ID Artículo:</label>
             <div class="col-sm-10">
-                <asp:TextBox ID="txtIdArticulo" runat="server" CssClass="form-control" ReadOnly="true" />
+                <asp:TextBox ID="txtIdArticulo" runat="server" CssClass="form-control" ReadOnly="true" Enabled="False" />
             </div>
         </div>
 

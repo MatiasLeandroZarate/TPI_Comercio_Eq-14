@@ -15,7 +15,7 @@
         <div class="row mb-3">
             <label for="txtIDMarca" class="col-sm-2 col-form-label">ID Marca:</label>
             <div class="col-sm-10">
-                <asp:TextBox ID="txtIDMarca" runat="server" CssClass="form-control" ReadOnly="true" />
+                <asp:TextBox ID="txtIDMarca" runat="server" CssClass="form-control" AutoPostBack="true" OnTextChanged="txtIDMarca_TextChanged" Enabled="False" />
             </div>
         </div>
 
@@ -28,7 +28,7 @@
 
         <div class="text-center">
             <asp:Button Text="Volver" ID="btnVolver" OnClick="btnVolver_Click" CssClass="btn btn-secondary mx-2" runat="server" />
-            <asp:Button Text="Modificar" ID="btnModificar" OnClick="btnModificar_Click" CssClass="btn btn-primary mx-2" runat="server" />
+            <asp:Button Text="Modificar" ID="btnModificar" OnClick="btnModificar_Click" CssClass="btn btn-warning mx-2" runat="server" />
         </div>
     </div>
 

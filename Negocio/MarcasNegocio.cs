@@ -41,6 +41,58 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
+        public void Agregar(Marcas nuevo)
+        {
+            AccesoBD datos = new AccesoBD();
+
+            try
+            {
+                datos.setearQuery("INSERT INTO Marcas (Nombre) VALUES (@Nombre)");
+                datos.setearParametro("@Nombre", nuevo.Nombre);
+
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+        public List<Marcas> Filtrar(string filtro)
+        {
+            List<Marcas> lista = new List<Marcas>();
+            AccesoBD datos = new AccesoBD();
+
+            try
+            {
+                datos.setearQuery("SELECT IDMarca, Nombre FROM Marcas WHERE Nombre LIKE @filtro");
+                datos.setearParametro("@filtro", "%" + filtro + "%");
+                datos.ejecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    Marcas aux = new Marcas();
+
+                    aux.IdMarca = (int)datos.Lector["IDMarca"];
+                    aux.Nombre = (string)datos.Lector["Nombre"];
+
+                    lista.Add(aux);
+                }
+
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
         public Marcas ObtenerPorId(int idMarca)
         {
             AccesoBD datos = new AccesoBD();
@@ -58,27 +110,6 @@ namespace Negocio
                     return m;
                 }
                 return null;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-            finally
-            {
-                datos.cerrarConexion();
-            }
-        }
-
-        public void Agregar(Marcas nuevo)
-        {
-            AccesoBD datos = new AccesoBD();
-
-            try
-            {
-                datos.setearQuery("INSERT INTO Marcas (Nombre) VALUES (@Nombre)");
-                datos.setearParametro("@Nombre", nuevo.Nombre);
-
-                datos.ejecutarAccion();
             }
             catch (Exception ex)
             {
