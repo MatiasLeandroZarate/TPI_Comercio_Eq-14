@@ -106,6 +106,8 @@
     <Content Include="ABM_Clientes\PageModificarCLI.aspx" />
     <Content Include="ABM_Marcas\PageAgregarMAR.aspx" />
     <Content Include="ABM_Marcas\PageModificarMAR.aspx" />
+    <Content Include="ABM_Proveedores\PageAgregarPRO.aspx" />
+    <Content Include="ABM_Proveedores\PageModificarPRO.aspx" />
     <Content Include="Error.aspx" />
     <Content Include="ABM_Artículos\PageAgregarART.aspx" />
     <Content Include="ABM_Artículos\PageArticulos.aspx" />
@@ -136,7 +138,7 @@
     <Content Include="PageInicio.aspx" />
     <Content Include="ABM_Marcas\PageMarcas.aspx" />
     <Content Include="ABM_Artículos\PageModificarART.aspx" />
-    <Content Include="PageProveedores.aspx" />
+    <Content Include="ABM_Proveedores\PageProveedores.aspx" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.esm.js" />
@@ -249,6 +251,20 @@
     <Compile Include="ABM_Marcas\PageModificarMAR.aspx.designer.cs">
       <DependentUpon>PageModificarMAR.aspx</DependentUpon>
     </Compile>
+    <Compile Include="ABM_Proveedores\PageAgregarPRO.aspx.cs">
+      <DependentUpon>PageAgregarPRO.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ABM_Proveedores\PageAgregarPRO.aspx.designer.cs">
+      <DependentUpon>PageAgregarPRO.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ABM_Proveedores\PageModificarPRO.aspx.cs">
+      <DependentUpon>PageModificarPRO.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ABM_Proveedores\PageModificarPRO.aspx.designer.cs">
+      <DependentUpon>PageModificarPRO.aspx</DependentUpon>
+    </Compile>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="CheckFiltradosNegocio.cs" />
@@ -340,11 +356,11 @@
     <Compile Include="PageMaster.Master.designer.cs">
       <DependentUpon>PageMaster.Master</DependentUpon>
     </Compile>
-    <Compile Include="PageProveedores.aspx.cs">
+    <Compile Include="ABM_Proveedores\PageProveedores.aspx.cs">
       <DependentUpon>PageProveedores.aspx</DependentUpon>
       <SubType>ASPXCodeBehind</SubType>
     </Compile>
-    <Compile Include="PageProveedores.aspx.designer.cs">
+    <Compile Include="ABM_Proveedores\PageProveedores.aspx.designer.cs">
       <DependentUpon>PageProveedores.aspx</DependentUpon>
     </Compile>
     <Compile Include="PageUsuarios.aspx.cs">
