@@ -190,5 +190,54 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
+        public List<Proveedores> ListarConFiltro(string filtro)
+        {
+            List<Proveedores> lista = new List<Proveedores>();
+            AccesoBD datos = new AccesoBD();
+
+            try
+            {
+                string query = @"SELECT IdProveedor, RazonSocial, CUIT, Telefono, Email, Direccion, Activo FROM Proveedores WHERE Activo = 1";
+
+                if (!string.IsNullOrEmpty(filtro))
+                {
+                    query += " AND (RazonSocial LIKE @filtro OR CUIT LIKE @filtro)";
+                }
+
+                datos.setearQuery(query);
+
+                if (!string.IsNullOrEmpty(filtro))
+                    datos.setearParametro("@filtro", "%" + filtro + "%");
+
+                datos.ejecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    Proveedores pro = new Proveedores();
+
+                    pro.IdProveedor = (int)datos.Lector["IdProveedor"];
+                    pro.RazonSocial = (string)datos.Lector["RazonSocial"];
+                    pro.CUIT = (string)datos.Lector["CUIT"];
+                    pro.Telefono = (string)datos.Lector["Telefono"];
+                    pro.Email = (string)datos.Lector["Email"];
+                    pro.Direccion = (string)datos.Lector["Direccion"];
+                    pro.Activo = bool.Parse(datos.Lector["Activo"].ToString());
+
+                    lista.Add(pro);
+                }
+
+                datos.cerrarLector();
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
     }
 }

@@ -12,7 +12,6 @@ namespace Negocio
 {
     public static class CheckFiltradosNegocio
     {
-        // Guarda la selección actual de checkboxes en la sesión
         public static void GuardarSeleccionados(GridView grid, string sessionKey)
         {
             List<int> seleccionados = ObtenerSeleccionados(sessionKey);
@@ -44,9 +43,6 @@ namespace Negocio
         }
 
  
-
-
-        // Marca los checkboxes correspondientes al hacer DataBind
         public static void MarcarSeleccionados(GridViewRow row, GridView grilla, List<int> seleccionados)
         {
             if (row.RowType == DataControlRowType.DataRow)
@@ -61,7 +57,7 @@ namespace Negocio
             }
         }
 
-        // Limpia la selección guardada en sesión
+
         public static void LimpiarSeleccion(string sessionKey)
         {
             System.Web.HttpContext.Current.Session.Remove(sessionKey);

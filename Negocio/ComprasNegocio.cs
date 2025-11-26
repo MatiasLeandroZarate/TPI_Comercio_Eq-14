@@ -1,28 +1,24 @@
 ﻿using Dominio;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Negocio
 {
     public class ComprasNegocio
     {
-            List<Compras> lista = new List<Compras>();
         public List<Compras> ListarCOM()
         {
-
+            List<Compras> lista = new List<Compras>();
             AccesoBD datos = new AccesoBD();
 
             try
             {
                 datos.setearQuery("SELECT IDCompra, IDProveedor, NroComprobante, Fecha, Descuentos, Subtotal, Total FROM Compra");
                 datos.ejecutarLectura();
+
                 while (datos.Lector.Read())
                 {
                     Compras aux = new Compras();
-
                     aux.IdCompra = (int)datos.Lector["IDCompra"];
                     aux.IdProveedor = (int)datos.Lector["IDProveedor"];
                     aux.NroComprobante = (int)datos.Lector["NroComprobante"];
@@ -33,20 +29,14 @@ namespace Negocio
 
                     lista.Add(aux);
                 }
+
                 datos.cerrarLector();
-
                 return lista;
-            }
-            catch (Exception ex)
-            {
-
-                throw ex;
             }
             finally
             {
                 datos.cerrarConexion();
             }
         }
-
     }
 }

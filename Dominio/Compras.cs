@@ -17,8 +17,11 @@ namespace Dominio
         public decimal SubTotal { get; set; }
         public decimal Total { get; set; }
 
+        public List<CompraDetalle> Detalles { get; set; }
+
          public Compras()
         {
+            Detalles = new List<CompraDetalle>();
             Proveedor = new Proveedores();
         }
     }

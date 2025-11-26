@@ -23,7 +23,6 @@
         <div class="container-fluid">
             <a class="navbar-brand" href="/PageInicio.aspx">Proyecto Web Integrador - 2025 - Equipo 14A</a>
 
-            <!-- Menú -->
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item"><a class="nav-link" runat="server" href="~/PageInicio.aspx">Inicio</a></li>

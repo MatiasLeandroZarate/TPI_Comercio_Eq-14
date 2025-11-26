@@ -1,10 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Data.SqlClient;
-
 
 namespace Negocio
 {
@@ -13,72 +8,85 @@ namespace Negocio
         private SqlConnection conexion;
         private SqlCommand comando;
         private SqlDataReader lector;
+        private SqlTransaction transaccion;
 
-        public SqlDataReader Lector { get { return lector; } }
+        public SqlDataReader Lector
+        {
+            get { return lector; }
+        }
 
         public AccesoBD()
         {
             conexion = new SqlConnection("server=(local)\\SQLEXPRESS; database=TPC_DB; integrated security=true");
             comando = new SqlCommand();
         }
+
+        public void setearQuery(string query)
+        {
+            comando.CommandType = System.Data.CommandType.Text;
+            comando.CommandText = query;
+        }
+
         public void setearParametro(string nombre, object valor)
         {
             comando.Parameters.AddWithValue(nombre, valor);
         }
-        public void setearQuery(string consulta)
+
+        public void iniciarLectura()
         {
-            comando.Parameters.Clear();
-            comando.CommandType = System.Data.CommandType.Text;
-            comando.CommandText = consulta;
+            comando.Connection = conexion;
+            conexion.Open();
+            lector = comando.ExecuteReader();
         }
 
         public void ejecutarLectura()
         {
-            comando.Connection = conexion;
-            try
-            {
-                conexion.Open();
-                lector = comando.ExecuteReader();
-
-            }
-            catch (Exception ex)
-            {
-
-                throw ex;
-            }
+            iniciarLectura();
         }
 
         public void ejecutarAccion()
         {
             comando.Connection = conexion;
-            try
-            {
-                conexion.Open();
-                comando.ExecuteNonQuery();
-            }
-            catch (Exception ex)
-            {
-
-                throw ex;
-            }
-
-            finally { conexion.Close(); }
+            conexion.Open();
+            comando.ExecuteNonQuery();
         }
 
-        public void cerrarConexion()
+        public object ejecutarScalar()
         {
-            if (lector != null) lector.Close();
-            conexion.Close();
+            return comando.ExecuteScalar();
         }
 
         public void cerrarLector()
         {
             if (lector != null)
-            {
                 lector.Close();
-                lector = null;
-            }
+        }
+
+        public void cerrarConexion()
+        {
+            if (conexion.State == System.Data.ConnectionState.Open)
+                conexion.Close();
+
+            comando.Parameters.Clear();
+        }
+
+
+        public void iniciarTransaccion()
+        {
+            conexion.Open();
+            transaccion = conexion.BeginTransaction();
+            comando.Connection = conexion;
+            comando.Transaction = transaccion;
+        }
+
+        public void commitTransaccion()
+        {
+            transaccion.Commit();
+        }
+
+        public void rollbackTransaccion()
+        {
+            transaccion.Rollback();
         }
     }
 }
-

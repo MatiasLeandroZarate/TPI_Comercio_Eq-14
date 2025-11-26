@@ -2,27 +2,36 @@
 using Negocio;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+//using static Negocio.ComprasNegocio;
 
 namespace TPC_Comercio_Eq_14
 {
     public partial class GestionCompra : System.Web.UI.Page
     {
+        private ProveedoresNegocio provNegocio = new ProveedoresNegocio();
+        public int SelectedProveedorID
+        {
+            get
+            {
+                if (Session["ProveedorSeleccionado"] == null)
+                    return 0;
+
+                return (int)Session["ProveedorSeleccionado"];
+            }
+        }
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
+                CargarProveedores();
+
                 List<int> seleccionados = Session["IDsSeleccionados"] as List<int>;
-
                 if (seleccionados == null || seleccionados.Count == 0)
-                {
-                    Response.Write("<script>console.log('No llegaron IDs a GestionCompra');</script>");
                     return;
-                }
-
-                Response.Write("<script>console.log('IDs recibidos: " +
-                               string.Join(",", seleccionados) + "');</script>");
 
                 CargarArticulos(seleccionados);
             }
@@ -37,29 +46,74 @@ namespace TPC_Comercio_Eq_14
             gvGestionCompra.DataBind();
         }
 
+      
+        private void CargarProveedores(string filtro = "")
+        {
+            gvProveedores.DataSource = provNegocio.ListarConFiltro(filtro);
+            gvProveedores.DataBind();
+            RestaurarSeleccionProveedor();
+        }
+
+        protected void txtFiltroProv_TextChanged(object sender, EventArgs e)
+        {
+            CargarProveedores(txtFiltroProv.Text.Trim());
+        }
+
+        protected void rbElegir_CheckedChanged(object sender, EventArgs e)
+        {
+            RadioButton rb = (RadioButton)sender;
+            GridViewRow fila = (GridViewRow)rb.NamingContainer;
+
+            int idProveedor = Convert.ToInt32(gvProveedores.DataKeys[fila.RowIndex].Value);
+
+            Session["ProveedorSeleccionado"] = idProveedor;
+
+            string razon = fila.Cells[1].Text;
+            Session["NombreProveedorSeleccionado"] = razon;
+
+            lblProveedorSeleccionado.Text = "Proveedor elegido: " + razon;
+
+            foreach (GridViewRow row in gvProveedores.Rows)
+            {
+                RadioButton otro = row.FindControl("rbElegir") as RadioButton;
+                if (otro != null && otro != rb) otro.Checked = false;
+            }
+        }
+
+        private void RestaurarSeleccionProveedor()
+        {
+            if (Session["ProveedorSeleccionado"] == null) return;
+
+            int seleccionado = (int)Session["ProveedorSeleccionado"];
+
+            foreach (GridViewRow row in gvProveedores.Rows)
+            {
+                int id = Convert.ToInt32(gvProveedores.DataKeys[row.RowIndex].Value);
+                RadioButton rb = row.FindControl("rbElegir") as RadioButton;
+                if (rb != null) rb.Checked = (id == seleccionado);
+            }
+
+            if (Session["NombreProveedorSeleccionado"] != null)
+                lblProveedorSeleccionado.Text = "Proveedor elegido: " + Session["NombreProveedorSeleccionado"].ToString();
+        }
+
         protected void txtStockSolicitado_TextChanged(object sender, EventArgs e)
         {
             TextBox txt = (TextBox)sender;
             GridViewRow row = (GridViewRow)txt.NamingContainer;
 
-            int stockSolicitado = 0;
-            int.TryParse(txt.Text, out stockSolicitado);
+            int cantidad = 0;
+            int.TryParse(txt.Text, out cantidad);
 
             decimal precioCompra = Convert.ToDecimal(gvGestionCompra.DataKeys[row.RowIndex]["PrecioCompra"]);
 
-           
-            decimal descuento = 0;
+            decimal subtotal = cantidad * precioCompra;
+            decimal total = subtotal;
 
-            
-            decimal subtotal = stockSolicitado * precioCompra;
-            decimal total = subtotal - descuento;
-
-            Label lblSubtotal = (Label)row.FindControl("lblSubtotal");
-            Label lblTotal = (Label)row.FindControl("lblTotal");
-
-            lblSubtotal.Text = subtotal.ToString("N2");
-            lblTotal.Text = total.ToString("N2");
+            ((Label)row.FindControl("lblSubtotal")).Text = subtotal.ToString("N2");
+            ((Label)row.FindControl("lblTotal")).Text = total.ToString("N2");
         }
+
 
         protected void btnVolver_Click(object sender, EventArgs e)
         {
@@ -68,10 +122,71 @@ namespace TPC_Comercio_Eq_14
 
         protected void btnComprar_Click(object sender, EventArgs e)
         {
-          
+            try
+            {
+                int idProveedor = 0;
+
+                if (Session["ProveedorSeleccionado"] != null)
+                    int.TryParse(Session["ProveedorSeleccionado"].ToString(), out idProveedor);
+
+                if (idProveedor == 0)
+                {
+                    lblMensaje.Text = "Debe seleccionar un proveedor.";
+                    return;
+                }
+
+             
+                Compras compra = new Compras();
+                compra.IdProveedor = idProveedor;
+                compra.Fecha = DateTime.Now;
+                compra.Descuentos = 0;
+
+                decimal subtotal = 0;
+
+                List<CompraDetalle> detalles = new List<CompraDetalle>();
+
+                foreach (GridViewRow row in gvGestionCompra.Rows)
+                {
+                    TextBox txtCant = (TextBox)row.FindControl("txtStockSolicitado");
+                    Label lblSub = (Label)row.FindControl("lblSubtotal");
+
+                    if (!string.IsNullOrEmpty(txtCant.Text))
+                    {
+                        int cant = int.Parse(txtCant.Text);
+                        if (cant > 0)
+                        {
+                            int idArticulo = int.Parse(gvGestionCompra.DataKeys[row.RowIndex].Values["IDArticulo"].ToString());
+                            decimal precio = decimal.Parse(gvGestionCompra.DataKeys[row.RowIndex].Values["PrecioCompra"].ToString());
+
+                            subtotal += precio * cant;
+
+                            detalles.Add(new CompraDetalle {IDArticulo = idArticulo,Cantidad = cant,PrecioUnitario = precio});
+                        }
+                    }
+                }
+
+                compra.SubTotal = subtotal;
+                compra.Total = subtotal;
+
+        
+                EfectuarCompraNegocio negocio = new EfectuarCompraNegocio();
+                negocio.EfectuarCompra(compra, detalles);
+
+                lblMensaje.Text = "Compra realizada correctamente.";
+
+                lblMensaje.Text = "Compra efectuada correctamente. Nº " + compra.NroComprobante;
+
+                if (Session["ProveedorSeleccionado"] != null)
+                    System.Diagnostics.Debug.WriteLine("Proveedor en Session: " + Session["ProveedorSeleccionado"]);
+                else
+                    System.Diagnostics.Debug.WriteLine("Session vacía para proveedor");
+            }
+            catch (Exception ex)
+            {
+                Session.Add("Error", ex);
+                Response.Redirect("~/Error.aspx");
+            }
         }
 
-        protected void txtFiltro_TextChanged(object sender, EventArgs e) { }
-        protected void btnQuitarFiltro_Click(object sender, EventArgs e) { }
     }
 }

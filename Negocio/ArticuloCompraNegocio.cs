@@ -49,5 +49,43 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
+        public List<Proveedores> ListarConFiltro(string filtro)
+        {
+            List<Proveedores> lista = new List<Proveedores>();
+            AccesoBD datos = new AccesoBD();
+
+            try
+            {
+                string query = "SELECT IdProveedor, RazonSocial, CUIT FROM Proveedores WHERE Activo = 1";
+
+                if (!string.IsNullOrEmpty(filtro))
+                {
+                    query += " AND (RazonSocial LIKE @filtro OR CUIT LIKE @filtro)";
+                }
+
+                datos.setearQuery(query);
+
+                if (!string.IsNullOrEmpty(filtro))
+                    datos.setearParametro("@filtro", "%" + filtro + "%");
+
+                datos.ejecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    Proveedores aux = new Proveedores();
+                    aux.IdProveedor = (int)datos.Lector["IdProveedor"];
+                    aux.RazonSocial = datos.Lector["RazonSocial"].ToString();
+                    aux.CUIT = datos.Lector["CUIT"].ToString();
+
+                    lista.Add(aux);
+                }
+
+                return lista;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
     }
 }
