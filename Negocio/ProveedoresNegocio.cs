@@ -159,7 +159,7 @@ namespace Negocio
 
             try
             {
-                datos.setearQuery("SELECT IDProveedor, RazonSocial, CUIT, Telefono, Email,Direccion, Activo FROM Proveedores WHERE RazonSocial LIKE @filtro");
+                datos.setearQuery("SELECT IDProveedor, RazonSocial, CUIT, Telefono, Email,Direccion, Activo FROM Proveedores WHERE RazonSocial LIKE @filtro  OR CUIT LIKE @filtro");
                 datos.setearParametro("@filtro", "%" + filtro + "%");
                 datos.ejecutarLectura();
 

@@ -3,12 +3,13 @@ using System.Data.SqlClient;
 
 namespace Negocio
 {
+
     public class AccesoBD
     {
-        private SqlConnection conexion;
-        private SqlCommand comando;
-        private SqlDataReader lector;
-        private SqlTransaction transaccion;
+        public SqlConnection conexion;
+        public SqlCommand comando;
+        public SqlDataReader lector;
+        public SqlTransaction transaccion;
 
         public SqlDataReader Lector
         {
@@ -88,5 +89,11 @@ namespace Negocio
         {
             transaccion.Rollback();
         }
+        public void limpiarParametros()
+        {
+            if (comando != null)
+                comando.Parameters.Clear();
+        }
+
     }
 }
