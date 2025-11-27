@@ -87,6 +87,15 @@ namespace TPC_Comercio_Eq_14.ABM_Clientes
         protected global::System.Web.UI.WebControls.TextBox txtDireccion;
 
         /// <summary>
+        /// Control txtActivo.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.TextBox txtActivo;
+
+        /// <summary>
         /// Control btnVolver.
         /// </summary>
         /// <remarks>

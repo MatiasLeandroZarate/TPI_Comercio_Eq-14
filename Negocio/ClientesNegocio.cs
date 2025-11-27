@@ -49,6 +49,38 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
+        public Clientes ObtenerPorId(int id)
+        {
+            AccesoBD datos = new AccesoBD();
+            try
+            {
+                datos.setearQuery("SELECT * FROM Clientes WHERE IdCliente = @id");
+                datos.setearParametro("@id", id);
+                datos.ejecutarLectura();
+
+                if (datos.Lector.Read())
+                {
+                    Clientes cli = new Clientes();
+                    cli.IdCliente = (int)datos.Lector["IdCliente"];
+                    cli.DNI = (string)datos.Lector["DNI"];
+                    cli.CUIT = datos.Lector.IsDBNull(datos.Lector.GetOrdinal("CUIT")) ? null : (string)datos.Lector["CUIT"];
+                    cli.Apellido = (string)datos.Lector["Apellido"];
+                    cli.Nombre = (string)datos.Lector["Nombre"];
+                    cli.Telefono = (string)datos.Lector["Telefono"];
+                    cli.Email = (string)datos.Lector["Email"];
+                    cli.Direccion = (string)datos.Lector["Direccion"];
+                    cli.Activo = (bool)datos.Lector["Activo"];
+
+                    return cli;
+                }
+
+                return null;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
 
         public void Agregar(Clientes nuevo)
         {
@@ -104,15 +136,15 @@ namespace Negocio
             }
         }
 
-        public void Eliminar(int DNI, bool Estado)
+        public void Eliminar(int IdCliente, bool Estado)
         {
             AccesoBD datos = new AccesoBD();
 
             try
             {
-                datos.setearQuery("UPDATE Clientes SET Activo = @Activo WHERE DNI = @DNI");
+                datos.setearQuery("UPDATE Clientes SET Activo = @Activo WHERE IdCliente = @IdCliente");
                 datos.setearParametro("@Activo", Estado);
-                datos.setearParametro("@DNI", DNI);
+                datos.setearParametro("IdCLiente",IdCliente);
                 datos.ejecutarAccion();
             }
             catch (Exception ex)
