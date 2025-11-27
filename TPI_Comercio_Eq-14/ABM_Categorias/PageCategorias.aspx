@@ -12,16 +12,17 @@
     <asp:UpdatePanel ID="updCategorias" runat="server">
         <ContentTemplate>
 
-            <div class="row">
-                <div class="col-5">
-                    <div class="mb-3">
-                        <asp:Label Text="Filtrar:" runat="server" />
-                        <asp:TextBox runat="server" ID="txtFiltro" CssClass="form-control" AutoPostBack="true" OnTextChanged="txtFiltro_TextChanged" />
+            <div class="container">
+                <div class="row justify-content-start">
+                    <asp:Label Text="Filtrar:" runat="server" />
+                    <div class="col-6">
+                        <asp:TextBox runat="server" ID="txtFiltro" CssClass="form-control" AutoPostBack="true" OnTextChanged="txtFiltro_TextChanged" Width="550px" />
                     </div>
-                </div>
-
-                <div class="col">
-                    <asp:Button Text="Quitar Filtro" ID="btnQuitarFiltro" CssClass="btn btn-secondary mt-4" OnClick="btnQuitarFiltro_Click" runat="server" />
+                    <div class="col-6 d-flex align-items-center">
+                        <div>
+                            <asp:Button ID="btnQuitarFiltro" runat="server" CssClass="btn btn-secondary me-2" OnClick="btnQuitarFiltro_Click" Text="Quitar Filtro" />
+                        </div>
+                    </div>
                 </div>
             </div>
 

@@ -113,6 +113,7 @@
     <Content Include="ABM_Categorias\PageCategorias.aspx" />
     <Content Include="ABM_Clientes\PageClientes.aspx" />
     <Content Include="GestionCompra.aspx" />
+    <Content Include="GestionVenta.aspx" />
     <Content Include="Images\Logo.png" />
     <Content Include="PageCompras.aspx" />
     <Content Include="Content\bootstrap-grid.css" />
@@ -309,6 +310,13 @@
     </Compile>
     <Compile Include="GestionCompra.aspx.designer.cs">
       <DependentUpon>GestionCompra.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="GestionVenta.aspx.cs">
+      <DependentUpon>GestionVenta.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="GestionVenta.aspx.designer.cs">
+      <DependentUpon>GestionVenta.aspx</DependentUpon>
     </Compile>
     <Compile Include="PageCompras.aspx.cs">
       <DependentUpon>PageCompras.aspx</DependentUpon>

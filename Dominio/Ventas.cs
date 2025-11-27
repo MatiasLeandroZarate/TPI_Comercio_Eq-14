@@ -16,8 +16,12 @@ namespace Dominio
         public decimal Descuentos { get; set; }
         public decimal SubTotal { get; set; }
         public decimal Total { get; set; }
+
+        public List<VentaDetalle> Detalles { get; set; }
+
         public Ventas()
         {
+            Detalles = new List<VentaDetalle>();
             Cliente = new Clientes();
         }
     }

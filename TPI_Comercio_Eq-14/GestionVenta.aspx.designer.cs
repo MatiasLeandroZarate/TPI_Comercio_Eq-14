@@ -11,44 +11,44 @@ namespace TPC_Comercio_Eq_14
 {
 
 
-    public partial class GestionCompra
+    public partial class GestionVenta
     {
 
         /// <summary>
-        /// Control lblFiltroProveedor.
+        /// Control lblFiltroCliente.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblFiltroProveedor;
+        protected global::System.Web.UI.WebControls.Label lblFiltroCliente;
 
         /// <summary>
-        /// Control txtFiltroProv.
+        /// Control txtFiltroCliente.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.TextBox txtFiltroProv;
+        protected global::System.Web.UI.WebControls.TextBox txtFiltroCliente;
 
         /// <summary>
-        /// Control gvCProveedors.
+        /// Control gvClientes.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView gvProveedores;
+        protected global::System.Web.UI.WebControls.GridView gvClientes;
 
         /// <summary>
-        /// Control lblProveedorSeleccionado.
+        /// Control lblClienteSeleccionado.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblProveedorSeleccionado;
+        protected global::System.Web.UI.WebControls.Label lblClienteSeleccionado;
 
         /// <summary>
         /// Control updArticulos.
@@ -60,13 +60,13 @@ namespace TPC_Comercio_Eq_14
         protected global::System.Web.UI.UpdatePanel updArticulos;
 
         /// <summary>
-        /// Control gvGestionCompra.
+        /// Control gvGestionVenta.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.GridView gvGestionCompra;
+        protected global::System.Web.UI.WebControls.GridView gvGestionVenta;
 
         /// <summary>
         /// Control btnVolver.
@@ -78,13 +78,13 @@ namespace TPC_Comercio_Eq_14
         protected global::System.Web.UI.WebControls.Button btnVolver;
 
         /// <summary>
-        /// Control btnCompra.
+        /// Control btnVenta.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnCompra;
+        protected global::System.Web.UI.WebControls.Button btnVenta;
 
         /// <summary>
         /// Control lblMensaje.

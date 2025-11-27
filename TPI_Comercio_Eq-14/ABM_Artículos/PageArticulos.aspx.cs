@@ -152,7 +152,16 @@ namespace TPC_Comercio_Eq_14
 
         protected void btnVender_Click(object sender, EventArgs e)
         {
+            CheckFiltradosNegocio.GuardarSeleccionados(gvArticulos, SESSION_KEY);
 
+
+            List<int> seleccionados = CheckFiltradosNegocio.ObtenerSeleccionados(SESSION_KEY);
+
+
+            Session["IDsSeleccionados"] = seleccionados;
+
+
+            Response.Redirect("~/GestionVenta.aspx", false);
         }
 
         protected void chkMostrarActivos_ServerChange(object sender, EventArgs e)

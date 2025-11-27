@@ -23,16 +23,14 @@ namespace Negocio
                 {
                     Clientes aux = new Clientes();
 
-                    aux.IdCliente = (int)datos.Lector["IDCliente"];
+                    aux.IdCliente = (int)datos.Lector["IdCliente"];
                     aux.DNI = (string)datos.Lector["DNI"];
-                    if (datos.Lector["CUIT"] != DBNull.Value)
-                    { aux.CUIT = (string)datos.Lector["CUIT"]; }
-                    else { aux.CUIT=  "-"; }
-                    aux.Apellido = (string)datos.Lector["Apellido"];
-                    aux.Nombre = (string)datos.Lector["Nombre"];
-                    aux.Telefono = (string)datos.Lector["Telefono"];
-                    aux.Email = (string)datos.Lector["Email"];
-                    aux.Direccion = (string)datos.Lector["Direccion"];
+                    aux.CUIT = datos.Lector["CUIT"] == DBNull.Value ? null : (string)datos.Lector["CUIT"];
+                    aux.Apellido = datos.Lector["Apellido"] == DBNull.Value ? null : (string)datos.Lector["Apellido"];
+                    aux.Nombre = datos.Lector["Nombre"] == DBNull.Value ? null : (string)datos.Lector["Nombre"];
+                    aux.Telefono = datos.Lector["Telefono"] == DBNull.Value ? null : (string)datos.Lector["Telefono"];
+                    aux.Email = datos.Lector["Email"] == DBNull.Value ? null : (string)datos.Lector["Email"];
+                    aux.Direccion = datos.Lector["Direccion"] == DBNull.Value ? null : (string)datos.Lector["Direccion"];
                     aux.Activo = (bool)datos.Lector["Activo"];
 
                     lista.Add(aux);
@@ -134,7 +132,7 @@ namespace Negocio
 
             try
             {
-                datos.setearQuery("SELECT IDCliente, DNI, CUIT, Apellido, Nombre, Telefono, Email,Direccion, Activo FROM Clientes WHERE Apellido OR Nombre LIKE @filtro");
+                datos.setearQuery("SELECT IDCliente, DNI, CUIT, Apellido, Nombre, Telefono, Email,Direccion, Activo FROM Clientes WHERE Apellido LIKE @filtro OR Nombre LIKE @filtro");
                 datos.setearParametro("@filtro", "%" + filtro + "%");
                 datos.ejecutarLectura();
 
@@ -144,12 +142,63 @@ namespace Negocio
 
                     cli.IdCliente = (int)datos.Lector["IdCliente"];
                     cli.DNI = (string)datos.Lector["DNI"];
-                    cli.CUIT = (string)datos.Lector["CUIT"];
-                    cli.Apellido = (string)datos.Lector["Apellido"];
-                    cli.Nombre = (string)datos.Lector["Nombre"];
-                    cli.Telefono = (string)datos.Lector["Telefono"];
-                    cli.Email = (string)datos.Lector["Email"];
-                    cli.Direccion = (string)datos.Lector["Direccion"];
+                    cli.CUIT = datos.Lector["CUIT"] == DBNull.Value ? null : (string)datos.Lector["CUIT"];
+                    cli.Apellido = datos.Lector["Apellido"] == DBNull.Value ? null : (string)datos.Lector["Apellido"];
+                    cli.Nombre = datos.Lector["Nombre"] == DBNull.Value ? null : (string)datos.Lector["Nombre"];
+                    cli.Telefono = datos.Lector["Telefono"] == DBNull.Value ? null : (string)datos.Lector["Telefono"];
+                    cli.Email = datos.Lector["Email"] == DBNull.Value ? null : (string)datos.Lector["Email"];
+                    cli.Direccion = datos.Lector["Direccion"] == DBNull.Value ? null : (string)datos.Lector["Direccion"];
+                    cli.Activo = bool.Parse(datos.Lector["Activo"].ToString());
+
+                    lista.Add(cli);
+                }
+
+                datos.cerrarLector();
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+
+        public List<Clientes> ListarConFiltro(string filtro)
+        {
+            List<Clientes> lista = new List<Clientes>();
+            AccesoBD datos = new AccesoBD();
+
+            try
+            {
+                string query = @"SELECT IDCliente, DNI, CUIT, Apellido, Nombre, Telefono, Email, Direccion, Activo FROM Clientes WHERE Activo = 1";
+
+                if (!string.IsNullOrEmpty(filtro))
+                {
+                    query += " AND (Apellido LIKE @filtro OR Nombre LIKE @filtro OR DNI LIKE @filtro)";
+                }
+
+                datos.setearQuery(query);
+
+                if (!string.IsNullOrEmpty(filtro))
+                    datos.setearParametro("@filtro", "%" + filtro + "%");
+
+                datos.ejecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    Clientes cli = new Clientes();
+
+                    cli.IdCliente = (int)datos.Lector["IdCliente"];
+                    cli.DNI = (string)datos.Lector["DNI"];
+                    cli.CUIT = datos.Lector["CUIT"] == DBNull.Value ? null : (string)datos.Lector["CUIT"];
+                    cli.Apellido = datos.Lector["Apellido"] == DBNull.Value ? null : (string)datos.Lector["Apellido"];
+                    cli.Nombre = datos.Lector["Nombre"] == DBNull.Value ? null : (string)datos.Lector["Nombre"];
+                    cli.Telefono = datos.Lector["Telefono"] == DBNull.Value ? null : (string)datos.Lector["Telefono"];
+                    cli.Email = datos.Lector["Email"] == DBNull.Value ? null : (string)datos.Lector["Email"];
+                    cli.Direccion = datos.Lector["Direccion"] == DBNull.Value ? null : (string)datos.Lector["Direccion"];
                     cli.Activo = bool.Parse(datos.Lector["Activo"].ToString());
 
                     lista.Add(cli);

@@ -9,17 +9,17 @@ using System.Web.UI.WebControls;
 
 namespace TPC_Comercio_Eq_14
 {
-    public partial class GestionCompra : System.Web.UI.Page
+    public partial class GestionVenta : System.Web.UI.Page
     {
-        private ProveedoresNegocio provNegocio = new ProveedoresNegocio();
-        public int SelectedProveedorID
+        private ClientesNegocio clieNegocio = new ClientesNegocio();
+        public int SelectedClienteID
         {
             get
             {
-                if (Session["ProveedorSeleccionado"] == null)
+                if (Session["ClienteSeleccionado"] == null)
                     return 0;
 
-                return (int)Session["ProveedorSeleccionado"];
+                return (int)Session["ClienteSeleccionado"];
             }
         }
 
@@ -27,7 +27,7 @@ namespace TPC_Comercio_Eq_14
         {
             if (!IsPostBack)
             {
-                CargarProveedores();
+                CargarClientes();
 
                 List<int> seleccionados = Session["IDsSeleccionados"] as List<int>;
                 if (seleccionados == null || seleccionados.Count == 0)
@@ -42,20 +42,20 @@ namespace TPC_Comercio_Eq_14
             ArticuloCompraNegocio negocio = new ArticuloCompraNegocio();
             List<ArticuloCompra> lista = negocio.ObtenerArticulosPorIds(ids);
 
-            gvGestionCompra.DataSource = lista;
-            gvGestionCompra.DataBind();
-        }
- 
-        private void CargarProveedores(string filtro = "")
-        {
-            gvProveedores.DataSource = provNegocio.ListarConFiltro(filtro);
-            gvProveedores.DataBind();
-            RestaurarSeleccionProveedor();
+            gvGestionVenta.DataSource = lista;
+            gvGestionVenta.DataBind();
         }
 
-        protected void txtFiltroProv_TextChanged(object sender, EventArgs e)
+        private void CargarClientes(string filtro = "")
         {
-            CargarProveedores(txtFiltroProv.Text.Trim());
+            gvClientes.DataSource = clieNegocio.ListarConFiltro(filtro);
+            gvClientes.DataBind();
+            RestaurarSeleccionCliente();
+        }
+
+        protected void txtFiltroCliente_TextChanged(object sender, EventArgs e)
+        {
+            CargarClientes(txtFiltroCliente.Text.Trim());
         }
 
         protected void rbElegir_CheckedChanged(object sender, EventArgs e)
@@ -63,37 +63,37 @@ namespace TPC_Comercio_Eq_14
             RadioButton rb = (RadioButton)sender;
             GridViewRow fila = (GridViewRow)rb.NamingContainer;
 
-            int idProveedor = Convert.ToInt32(gvProveedores.DataKeys[fila.RowIndex].Value);
+            int idCliente = Convert.ToInt32(gvClientes.DataKeys[fila.RowIndex].Value);
 
-            Session["ProveedorSeleccionado"] = idProveedor;
+            Session["ClienteSeleccionado"] = idCliente;
 
-            string razon = fila.Cells[1].Text;
-            Session["NombreProveedorSeleccionado"] = razon;
+            string nombre = fila.Cells[1].Text + ", " + fila.Cells[2].Text;
+            Session["NombreClienteSeleccionado"] = nombre;
 
-            lblProveedorSeleccionado.Text = "Proveedor elegido: " + razon;
+            lblClienteSeleccionado.Text = "Cliente elegido: " + nombre;
 
-            foreach (GridViewRow row in gvProveedores.Rows)
+            foreach (GridViewRow row in gvClientes.Rows)
             {
                 RadioButton otro = row.FindControl("rbElegir") as RadioButton;
                 if (otro != null && otro != rb) otro.Checked = false;
             }
         }
 
-        private void RestaurarSeleccionProveedor()
+        private void RestaurarSeleccionCliente()
         {
-            if (Session["ProveedorSeleccionado"] == null) return;
+            if (Session["ClienteSeleccionado"] == null) return;
 
-            int seleccionado = (int)Session["ProveedorSeleccionado"];
+            int seleccionado = (int)Session["ClienteSeleccionado"];
 
-            foreach (GridViewRow row in gvProveedores.Rows)
+            foreach (GridViewRow row in gvClientes.Rows)
             {
-                int id = Convert.ToInt32(gvProveedores.DataKeys[row.RowIndex].Value);
+                int id = Convert.ToInt32(gvClientes.DataKeys[row.RowIndex].Value);
                 RadioButton rb = row.FindControl("rbElegir") as RadioButton;
                 if (rb != null) rb.Checked = (id == seleccionado);
             }
 
-            if (Session["NombreProveedorSeleccionado"] != null)
-                lblProveedorSeleccionado.Text = "Proveedor elegido: " + Session["NombreProveedorSeleccionado"].ToString();
+            if (Session["NombreClienteSeleccionado"] != null)
+                lblClienteSeleccionado.Text = "Cliente elegido: " + Session["NombreClienteSeleccionado"].ToString();
         }
 
         protected void txtStockSolicitado_TextChanged(object sender, EventArgs e)
@@ -104,44 +104,43 @@ namespace TPC_Comercio_Eq_14
             int cantidad = 0;
             int.TryParse(txt.Text, out cantidad);
 
-            decimal precioCompra = Convert.ToDecimal(gvGestionCompra.DataKeys[row.RowIndex]["PrecioCompra"]);
+            decimal precioVenta = Convert.ToDecimal(gvGestionVenta.DataKeys[row.RowIndex]["PrecioVenta"]);
 
-            decimal subtotal = cantidad * precioCompra;
+            decimal subtotal = cantidad * precioVenta;
             decimal total = subtotal;
 
             ((Label)row.FindControl("lblSubtotal")).Text = subtotal.ToString("N2");
             ((Label)row.FindControl("lblTotal")).Text = total.ToString("N2");
         }
 
-
         protected void btnVolver_Click(object sender, EventArgs e)
         {
             Response.Redirect("/ABM_Artículos/PageArticulos.aspx", false);
         }
 
-        protected void btnComprar_Click(object sender, EventArgs e)
+        protected void btnVenta_Click(object sender, EventArgs e)
         {
             try
             {
-                int idProveedor = 0;
-                if (Session["ProveedorSeleccionado"] != null)
-                    int.TryParse(Session["ProveedorSeleccionado"].ToString(), out idProveedor);
+                int idCliente = 0;
+                if (Session["ClienteSeleccionado"] != null)
+                    int.TryParse(Session["ClienteSeleccionado"].ToString(), out idCliente);
 
-                if (idProveedor == 0)
+                if (idCliente == 0)
                 {
-                    lblMensaje.Text = "Debe seleccionar un proveedor.";
+                    lblMensaje.Text = "Debe seleccionar un Cliente.";
                     return;
                 }
 
-                // Preparar compra y detalles
-                Compras compra = new Compras();
-                compra.IdProveedor = idProveedor;
-                compra.Fecha = DateTime.Now;
+                // Preparar venta y detalles
+                Ventas venta = new Ventas();
+                venta.IdCliente = idCliente;
+                venta.Fecha = DateTime.Now;
 
                 decimal subtotal = 0;
-                List<CompraDetalle> detalles = new List<CompraDetalle>();
+                List<VentaDetalle> detalles = new List<VentaDetalle>();
 
-                foreach (GridViewRow row in gvGestionCompra.Rows)
+                foreach (GridViewRow row in gvGestionVenta.Rows)
                 {
                     TextBox txtCant = (TextBox)row.FindControl("txtStockSolicitado");
                     if (!string.IsNullOrEmpty(txtCant.Text))
@@ -150,11 +149,12 @@ namespace TPC_Comercio_Eq_14
                         if (!int.TryParse(txtCant.Text, out cant)) continue;
                         if (cant <= 0) continue;
 
-                        int idArticulo = int.Parse(gvGestionCompra.DataKeys[row.RowIndex].Values["IDArticulo"].ToString());
-                        decimal precio = decimal.Parse(gvGestionCompra.DataKeys[row.RowIndex].Values["PrecioCompra"].ToString());
+                        int idArticulo = int.Parse(gvGestionVenta.DataKeys[row.RowIndex].Values["IDArticulo"].ToString());
+                        decimal precio = decimal.Parse(gvGestionVenta.DataKeys[row.RowIndex].Values["PrecioCompra"].ToString());
 
                         subtotal += precio * cant;
-                        detalles.Add(new CompraDetalle { IDArticulo = idArticulo, Cantidad = cant, PrecioUnitario = precio });
+                        cant = cant * -1;
+                        detalles.Add(new VentaDetalle { IDArticulo = idArticulo, Cantidad = cant, PrecioUnitario = precio });
                     }
                 }
 
@@ -166,20 +166,20 @@ namespace TPC_Comercio_Eq_14
                 else if (totalUnidades >= 100)
                     descuento = subtotal * 0.05m;
 
-                compra.Descuentos = descuento;
-                compra.SubTotal = subtotal;
-                compra.Total = subtotal - descuento;
+                venta.Descuentos = descuento;
+                venta.SubTotal = subtotal;
+                venta.Total = subtotal - descuento;
 
                 // OBTENER NRO DE COMPROBANTE: USAR LA CAPA DE NEGOCIO (mejor) o AccesoBD directo
-                EfectuarCompraNegocio negocio = new EfectuarCompraNegocio();
+                EfectuarVentaNegocio negocio = new EfectuarVentaNegocio();
                 // Obtener último (max) y sumar 1:
                 int ultimo = negocio.ObtenerUltimoNroComprobante(); // en tu clase devuelve MAX(NroComprobante)
-                compra.NroComprobante = ultimo + 1;
+                venta.NroComprobante = ultimo + 1;
 
-                // Ejecutar compra
-                negocio.EfectuarCompra(compra, detalles);
+                // Ejecutar venta
+                negocio.EfectuarVenta(venta, detalles);
 
-                lblMensaje.Text = "Compra efectuada correctamente. Nº " + compra.NroComprobante;
+                lblMensaje.Text = "Venta efectuada correctamente. Nº " + venta.NroComprobante;
             }
             catch (Exception ex)
             {
@@ -187,6 +187,5 @@ namespace TPC_Comercio_Eq_14
                 Response.Redirect("~/Error.aspx");
             }
         }
-
     }
 }
