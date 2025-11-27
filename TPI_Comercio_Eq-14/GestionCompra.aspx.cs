@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web.UI;
 using System.Web.UI.WebControls;
-//using static Negocio.ComprasNegocio;
 
 namespace TPC_Comercio_Eq_14
 {
@@ -125,7 +124,6 @@ namespace TPC_Comercio_Eq_14
             try
             {
                 int idProveedor = 0;
-
                 if (Session["ProveedorSeleccionado"] != null)
                     int.TryParse(Session["ProveedorSeleccionado"].ToString(), out idProveedor);
 
@@ -135,51 +133,53 @@ namespace TPC_Comercio_Eq_14
                     return;
                 }
 
-             
+                // Preparar compra y detalles
                 Compras compra = new Compras();
                 compra.IdProveedor = idProveedor;
                 compra.Fecha = DateTime.Now;
-                compra.Descuentos = 0;
 
                 decimal subtotal = 0;
-
                 List<CompraDetalle> detalles = new List<CompraDetalle>();
 
                 foreach (GridViewRow row in gvGestionCompra.Rows)
                 {
                     TextBox txtCant = (TextBox)row.FindControl("txtStockSolicitado");
-                    Label lblSub = (Label)row.FindControl("lblSubtotal");
-
                     if (!string.IsNullOrEmpty(txtCant.Text))
                     {
-                        int cant = int.Parse(txtCant.Text);
-                        if (cant > 0)
-                        {
-                            int idArticulo = int.Parse(gvGestionCompra.DataKeys[row.RowIndex].Values["IDArticulo"].ToString());
-                            decimal precio = decimal.Parse(gvGestionCompra.DataKeys[row.RowIndex].Values["PrecioCompra"].ToString());
+                        int cant = 0;
+                        if (!int.TryParse(txtCant.Text, out cant)) continue;
+                        if (cant <= 0) continue;
 
-                            subtotal += precio * cant;
+                        int idArticulo = int.Parse(gvGestionCompra.DataKeys[row.RowIndex].Values["IDArticulo"].ToString());
+                        decimal precio = decimal.Parse(gvGestionCompra.DataKeys[row.RowIndex].Values["PrecioCompra"].ToString());
 
-                            detalles.Add(new CompraDetalle {IDArticulo = idArticulo,Cantidad = cant,PrecioUnitario = precio});
-                        }
+                        subtotal += precio * cant;
+                        detalles.Add(new CompraDetalle { IDArticulo = idArticulo, Cantidad = cant, PrecioUnitario = precio });
                     }
                 }
 
-                compra.SubTotal = subtotal;
-                compra.Total = subtotal;
+                // Calculo de descuentos según cantidad total de unidades
+                int totalUnidades = detalles.Sum(d => d.Cantidad);
+                decimal descuento = 0m;
+                if (totalUnidades >= 1000)
+                    descuento = subtotal * 0.10m;
+                else if (totalUnidades >= 100)
+                    descuento = subtotal * 0.05m;
 
-        
+                compra.Descuentos = descuento;
+                compra.SubTotal = subtotal;
+                compra.Total = subtotal - descuento;
+
+                // OBTENER NRO DE COMPROBANTE: USAR LA CAPA DE NEGOCIO (mejor) o AccesoBD directo
                 EfectuarCompraNegocio negocio = new EfectuarCompraNegocio();
+                // Obtener último (max) y sumar 1:
+                int ultimo = negocio.ObtenerUltimoNroComprobante(); // en tu clase devuelve MAX(NroComprobante)
+                compra.NroComprobante = ultimo + 1;
+
+                // Ejecutar compra
                 negocio.EfectuarCompra(compra, detalles);
 
-                lblMensaje.Text = "Compra realizada correctamente.";
-
                 lblMensaje.Text = "Compra efectuada correctamente. Nº " + compra.NroComprobante;
-
-                if (Session["ProveedorSeleccionado"] != null)
-                    System.Diagnostics.Debug.WriteLine("Proveedor en Session: " + Session["ProveedorSeleccionado"]);
-                else
-                    System.Diagnostics.Debug.WriteLine("Session vacía para proveedor");
             }
             catch (Exception ex)
             {

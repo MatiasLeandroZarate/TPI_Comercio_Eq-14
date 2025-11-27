@@ -10,6 +10,7 @@ namespace Negocio
 {
     public class EfectuarCompraNegocio
     {
+
         public void EfectuarCompra(Compras compra, List<CompraDetalle> detalles)
         {
             AccesoBD datos = new AccesoBD();
@@ -17,55 +18,86 @@ namespace Negocio
             try
             {
                 datos.iniciarTransaccion();
+                datos.setearQuery("SELECT ISNULL(MAX(NroComprobante), 0) + 1 FROM Compra WITH (UPDLOCK, HOLDLOCK)");
+                datos.comando.Connection = datos.conexion;
+                datos.comando.Transaction = datos.transaccion;
+                int siguienteNro = Convert.ToInt32(datos.comando.ExecuteScalar());
+                compra.NroComprobante = siguienteNro;
+                datos.limpiarParametros();
 
-                datos.setearQuery(
-                    "INSERT INTO Compra (IDProveedor, NroComprobante, Fecha, Descuentos, Subtotal, Total) " +
-                    "OUTPUT INSERTED.IDCompra " +
-                    "VALUES (@IDProveedor, @NroComprobante, @Fecha, @Descuentos, @Subtotal, @Total)"
-                );
+                // 1) INSERT COMPRA
+                datos.setearQuery(@"INSERT INTO Compra 
+                            (IDProveedor, NroComprobante, Fecha, Descuentos, Subtotal, Total)
+                            VALUES (@prov, @nro, @fecha, @desc, @sub, @total);
+                            SELECT SCOPE_IDENTITY();");
 
-                datos.setearParametro("@IDProveedor", compra.IdProveedor);
-                datos.setearParametro("@NroComprobante", compra.NroComprobante);
-                datos.setearParametro("@Fecha", compra.Fecha);
-                datos.setearParametro("@Descuentos", compra.Descuentos);
-                datos.setearParametro("@Subtotal", compra.SubTotal);
-                datos.setearParametro("@Total", compra.Total);
+                datos.setearParametro("@prov", compra.IdProveedor);
+                datos.setearParametro("@nro", compra.NroComprobante);
+                datos.setearParametro("@fecha", compra.Fecha);
+                datos.setearParametro("@desc", compra.Descuentos);
+                datos.setearParametro("@sub", compra.SubTotal);
+                datos.setearParametro("@total", compra.Total);
 
-                int idCompraGenerado = Convert.ToInt32(datos.ejecutarScalar());
-                compra.IdCompra = idCompraGenerado;
+                datos.comando.Connection = datos.conexion;
+                datos.comando.Transaction = datos.transaccion;
 
-                foreach (var det in detalles)
+                object result = datos.comando.ExecuteScalar();
+                int idCompra = Convert.ToInt32(result);
+                compra.IdCompra = idCompra;
+
+                datos.limpiarParametros();
+
+                // 2) INSERT DETALLES
+                foreach (CompraDetalle det in detalles)
                 {
-                    datos.setearQuery(
-                        "INSERT INTO ComprasDetalle (IDCompra, IDArticulo, Cantidad, Fecha, PrecioUnitario) " +
-                        "VALUES (@IDCompra, @IDArticulo, @Cantidad, GETDATE(), @PrecioUnitario)"
-                    );
+                    datos.limpiarParametros();
 
-                    datos.setearParametro("@IDCompra", idCompraGenerado);
-                    datos.setearParametro("@IDArticulo", det.IDArticulo);
-                    datos.setearParametro("@Cantidad", det.Cantidad);
-                    datos.setearParametro("@PrecioUnitario", det.PrecioUnitario);
+                    datos.setearQuery(@"INSERT INTO ComprasDetalle
+                                (IDCompra, IDArticulo, Cantidad, PrecioUnitario)
+                                VALUES (@idc, @idart, @cant, @precio)");
 
-                    datos.ejecutarAccion(); 
+                    datos.setearParametro("@idc", idCompra);
+                    datos.setearParametro("@idart", det.IDArticulo);
+                    datos.setearParametro("@cant", det.Cantidad);
+                    datos.setearParametro("@precio", det.PrecioUnitario);
 
-                    datos.setearQuery(
-                        "UPDATE Articulos SET Stock = Stock + @Cantidad WHERE IDArticulo = @IDArticulo"
-                    );
+                    datos.comando.Connection = datos.conexion;
+                    datos.comando.Transaction = datos.transaccion;
 
-                    datos.setearParametro("@Cantidad", det.Cantidad);
-                    datos.setearParametro("@IDArticulo", det.IDArticulo);
+                    datos.comando.ExecuteNonQuery();
+                }
 
-                    datos.ejecutarAccion(); 
+                // 3) UPDATE STOCK
+                foreach (CompraDetalle det in detalles)
+                {
+                    datos.limpiarParametros();
+
+                    datos.setearQuery(@"UPDATE Articulos 
+                                SET Stock = Stock + @cant 
+                                WHERE IDArticulo = @idart");
+
+                    datos.setearParametro("@cant", det.Cantidad);
+                    datos.setearParametro("@idart", det.IDArticulo);
+
+                    datos.comando.Connection = datos.conexion;
+                    datos.comando.Transaction = datos.transaccion;
+
+                    datos.comando.ExecuteNonQuery();
                 }
 
                 datos.commitTransaccion();
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 datos.rollbackTransaccion();
-                throw ex;
+                throw;
+            }
+            finally
+            {
+                datos.cerrarConexion();
             }
         }
+
 
         public int ObtenerUltimoNroComprobante()
         {
@@ -96,10 +128,7 @@ namespace Negocio
                 datos.iniciarTransaccion();
 
                 datos.setearQuery(
-                    "INSERT INTO Compra (IDProveedor, NroComprobante, Fecha, Descuentos, Subtotal, Total) " +
-                    "OUTPUT INSERTED.IDCompra " +
-                    "VALUES (@prov, @nro, @fecha, @desc, @sub, @tot)"
-                );
+                    "INSERT INTO Compra (IDProveedor, NroComprobante, Fecha, Descuentos, Subtotal, Total) OUTPUT INSERTED.IDCompra VALUES (@prov, @nro, @fecha, @desc, @sub, @tot)");
 
                 datos.setearParametro("@prov", compra.IdProveedor);
                 datos.setearParametro("@nro", compra.NroComprobante);
