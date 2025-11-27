@@ -39,8 +39,8 @@ namespace TPC_Comercio_Eq_14
 
         private void CargarArticulos(List<int> ids)
         {
-            ArticuloCompraNegocio negocio = new ArticuloCompraNegocio();
-            List<ArticuloCompra> lista = negocio.ObtenerArticulosPorIds(ids);
+            ArticuloVentaNegocio negocio = new ArticuloVentaNegocio();
+            List<ArticuloVenta> lista = negocio.ObtenerArticulosPorIds(ids);
 
             gvGestionVenta.DataSource = lista;
             gvGestionVenta.DataBind();

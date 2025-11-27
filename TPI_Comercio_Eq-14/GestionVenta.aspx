@@ -47,14 +47,14 @@
             <div class="container">
                 <asp:GridView ID="gvGestionVenta" runat="server" AutoGenerateColumns="False"
                     CssClass="table table-hover table-sm table-bordered border-primary-subtle"
-                    DataKeyNames="IDArticulo,PrecioCompra">
+                    DataKeyNames="IDArticulo,PrecioVenta">
 
                     <Columns>
 
                         <asp:BoundField DataField="IDArticulo" HeaderText="IDArt" />
                         <asp:BoundField DataField="Nombre" HeaderText="Artículo" />
 
-                        <asp:BoundField DataField="PrecioCompra" HeaderText="Precio Compra"
+                        <asp:BoundField DataField="PrecioVenta" HeaderText="Precio Venta"
                             DataFormatString="{0:N2}" />
                         <asp:BoundField DataField="StockActual" HeaderText="Stock" />
 

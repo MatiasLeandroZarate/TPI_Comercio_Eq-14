@@ -46,6 +46,7 @@
     <Compile Include="AcessoBD.cs" />
     <Compile Include="ArticuloCompraNegocio.cs" />
     <Compile Include="ArticulosNegocio.cs" />
+    <Compile Include="ArticuloVentaNegocio.cs" />
     <Compile Include="CategoriasNegocio.cs" />
     <Compile Include="ClientesNegocio.cs" />
     <Compile Include="EfectuarCompraNegocio.cs" />
