@@ -27,7 +27,21 @@ namespace TPC_Comercio_Eq_14
                     Response.Redirect("~/Error.aspx");
                 }
             }
+
+            AplicarPermisos();
+
         }
+
+        private void AplicarPermisos()
+        {
+            if (!Seguridad.esAdmin(Session["user"]))
+            {
+                btnAgregar.Visible = false;
+                btnModificar.Visible = false;
+                gvMarcas.Columns[0].Visible = false;
+            }
+        }
+        
         protected void btnAgregar_Click(object sender, EventArgs e)
         {
             Response.Redirect("PageAgregarMAR.aspx", false);
@@ -71,6 +85,7 @@ namespace TPC_Comercio_Eq_14
             }
 
         }
+        
         private void RestaurarSeleccion(int seleccionado)
         {
             foreach (GridViewRow row in gvMarcas.Rows)
@@ -82,6 +97,7 @@ namespace TPC_Comercio_Eq_14
                     rb.Checked = (id == seleccionado);
             }
         }
+        
         protected void rbSeleccion_CheckedChanged(object sender, EventArgs e)
         {
             RadioButton rb = (RadioButton)sender;
@@ -93,10 +109,12 @@ namespace TPC_Comercio_Eq_14
 
             DeseleccionarOtros(idSeleccionado);
         }
+        
         protected void gvMarcas_RowDataBound(object sender, GridViewRowEventArgs e)
         {
 
         }
+       
         private void DeseleccionarOtros(int idSeleccionado)
         {
             foreach (GridViewRow row in gvMarcas.Rows)

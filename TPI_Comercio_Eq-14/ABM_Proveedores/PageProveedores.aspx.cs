@@ -27,7 +27,20 @@ namespace TPC_Comercio_Eq_14
                     Response.Redirect("~/Error.aspx");
                 }
             }
-            
+
+            AplicarPermisos();
+
+        }
+
+        private void AplicarPermisos()
+        {
+            if (!Seguridad.esAdmin(Session["user"]))
+            {
+                btnAgregar.Visible = false;
+                btnModificar.Visible = false;
+                btnEliminar.Visible = false;
+                gvProveedores.Columns[0].Visible = false;
+            }
         }
 
         private void CargarGrilla(string filtro = "")

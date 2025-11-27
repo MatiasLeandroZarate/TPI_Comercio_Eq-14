@@ -26,7 +26,21 @@ namespace TPC_Comercio_Eq_14
                     Response.Redirect("~/Error.aspx");
                 }
             }
+
+            AplicarPermisos();
+
         }
+
+        private void AplicarPermisos()
+        {
+            if (!Seguridad.esAdmin(Session["user"]))
+            {
+                btnAgregar.Visible = false;
+                btnModificar.Visible = false;
+                gvCategorias.Columns[0].Visible = false;
+            }
+        }
+        
         protected void btnAgregar_Click(object sender, EventArgs e)
         {
             Response.Redirect("PageAgregarCAT.aspx", false);
@@ -40,6 +54,7 @@ namespace TPC_Comercio_Eq_14
             int id = (int)HttpContext.Current.Session[SESSION_KEY];
             Response.Redirect("PageModificarCAT.aspx?id=" + id, false);
         }
+        
         protected void txtFiltro_TextChanged(object sender, EventArgs e)
         {
             CargarGrilla(txtFiltro.Text);
@@ -92,10 +107,12 @@ namespace TPC_Comercio_Eq_14
 
             DeseleccionarOtros(idSeleccionado);
         }
+        
         protected void gvCategorias_RowDataBound(object sender, GridViewRowEventArgs e)
         {
 
         }
+        
         private void DeseleccionarOtros(int idSeleccionado)
         {
             foreach (GridViewRow row in gvCategorias.Rows)

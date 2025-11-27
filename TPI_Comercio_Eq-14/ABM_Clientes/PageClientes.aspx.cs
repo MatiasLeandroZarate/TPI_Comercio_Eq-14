@@ -29,6 +29,19 @@ namespace TPC_Comercio_Eq_14
                 }
             }
 
+            AplicarPermisos();
+
+        }
+
+        private void AplicarPermisos()
+        {
+            if (!Seguridad.esAdmin(Session["user"]))
+            {
+                btnAgregar.Visible = false;
+                btnModificar.Visible = false;
+                btnEliminar.Visible = false;
+                gvClientes.Columns[0].Visible = false;
+            }
         }
 
         private void CargarGrilla(string filtro = "")
