@@ -10,7 +10,7 @@ namespace Dominio
     {
         public int IdVenta { get; set; }
         public int IdCliente { get; set; }
-        public Clientes Cliente { get; set; }
+        public string Cliente { get; set; }
         public int NroComprobante { get; set; }
         public DateTime Fecha { get; set; }
         public decimal Descuentos { get; set; }
@@ -22,7 +22,6 @@ namespace Dominio
         public Ventas()
         {
             Detalles = new List<VentaDetalle>();
-            Cliente = new Clientes();
         }
     }
 }

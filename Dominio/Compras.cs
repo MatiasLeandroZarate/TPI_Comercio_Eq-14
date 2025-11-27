@@ -10,6 +10,7 @@ namespace Dominio
     {
         public int IdCompra { get; set; }
         public int IdProveedor { get; set; }
+        public string RazonSocial { get; set; }
         public Proveedores Proveedor { get; set; }
         public int NroComprobante { get; set; }
         public DateTime Fecha { get; set; }

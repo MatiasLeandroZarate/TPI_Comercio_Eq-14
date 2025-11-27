@@ -14,7 +14,7 @@
             DataKeyNames="IDCompra">
             <Columns>
                 <asp:BoundField DataField="IDCompra" HeaderText="ID" />
-                <asp:BoundField DataField="IDProveedor" HeaderText="IDProveedor" />
+                <asp:BoundField DataField="RazonSocial" HeaderText="Proveedor" />
                 <asp:BoundField DataField="NroComprobante" HeaderText="NroComprobante" />
                 <asp:BoundField DataField="Fecha" HeaderText="Fecha" DataFormatString="{0:dd/MM/yyyy}" />
                 <asp:BoundField DataField="Descuentos" HeaderText="Descuentos" DataFormatString="{0:N2}" />
