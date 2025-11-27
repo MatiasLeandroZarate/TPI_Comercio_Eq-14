@@ -25,6 +25,8 @@
                 </div>
             </div>
 
+            <hr />
+
             <div class="container">
                 <asp:GridView ID="gvCategorias" runat="server" AutoGenerateColumns="False" CssClass="table table-hover table-sm table-bordered border-primary-subtle" DataKeyNames="IDCategoria" OnRowDataBound="gvCategorias_RowDataBound">
 

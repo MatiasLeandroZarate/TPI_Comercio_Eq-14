@@ -102,7 +102,6 @@
     <Content Include="ABM_Categorias\PageAgregarCAT.aspx" />
     <Content Include="ABM_Categorias\PageModificarCAT.aspx" />
     <Content Include="ABM_Clientes\PageAgregarCLI.aspx" />
-    <Content Include="ABM_Clientes\PageEliminarCLI.aspx" />
     <Content Include="ABM_Clientes\PageModificarCLI.aspx" />
     <Content Include="ABM_Marcas\PageAgregarMAR.aspx" />
     <Content Include="ABM_Marcas\PageModificarMAR.aspx" />
@@ -223,13 +222,6 @@
     </Compile>
     <Compile Include="ABM_Clientes\PageAgregarCLI.aspx.designer.cs">
       <DependentUpon>PageAgregarCLI.aspx</DependentUpon>
-    </Compile>
-    <Compile Include="ABM_Clientes\PageEliminarCLI.aspx.cs">
-      <DependentUpon>PageEliminarCLI.aspx</DependentUpon>
-      <SubType>ASPXCodeBehind</SubType>
-    </Compile>
-    <Compile Include="ABM_Clientes\PageEliminarCLI.aspx.designer.cs">
-      <DependentUpon>PageEliminarCLI.aspx</DependentUpon>
     </Compile>
     <Compile Include="ABM_Clientes\PageModificarCLI.aspx.cs">
       <DependentUpon>PageModificarCLI.aspx</DependentUpon>

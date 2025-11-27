@@ -126,6 +126,47 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
+
+        public List<Clientes> Filtrar(string filtro)
+        {
+            List<Clientes> lista = new List<Clientes>();
+            AccesoBD datos = new AccesoBD();
+
+            try
+            {
+                datos.setearQuery("SELECT IDCliente, DNI, CUIT, Apellido, Nombre, Telefono, Email,Direccion, Activo FROM Clientes WHERE Apellido OR Nombre LIKE @filtro");
+                datos.setearParametro("@filtro", "%" + filtro + "%");
+                datos.ejecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    Clientes cli = new Clientes();
+
+                    cli.IdCliente = (int)datos.Lector["IdCliente"];
+                    cli.DNI = (string)datos.Lector["DNI"];
+                    cli.CUIT = (string)datos.Lector["CUIT"];
+                    cli.Apellido = (string)datos.Lector["Apellido"];
+                    cli.Nombre = (string)datos.Lector["Nombre"];
+                    cli.Telefono = (string)datos.Lector["Telefono"];
+                    cli.Email = (string)datos.Lector["Email"];
+                    cli.Direccion = (string)datos.Lector["Direccion"];
+                    cli.Activo = bool.Parse(datos.Lector["Activo"].ToString());
+
+                    lista.Add(cli);
+                }
+
+                datos.cerrarLector();
+                return lista;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
     }
 }
 

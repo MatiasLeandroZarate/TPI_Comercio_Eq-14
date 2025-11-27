@@ -29,21 +29,24 @@ namespace TPC_Comercio_Eq_14
             }
             
         }
+
         private void CargarGrilla(string filtro = "")
         {
             ProveedoresNegocio negocio = new ProveedoresNegocio();
 
-            if (string.IsNullOrWhiteSpace(filtro))
-                gvProveedores.DataSource = negocio.ListarPRO();
-            else
-                gvProveedores.DataSource = negocio.Filtrar(filtro);
+            var lista = string.IsNullOrWhiteSpace(filtro) ? negocio.ListarPRO() : negocio.Filtrar(filtro);
 
+            if (chkMostrarActivos.Checked)
+                lista = lista.Where(p => p.Activo).ToList();
+
+            gvProveedores.DataSource = lista;
             gvProveedores.DataBind();
 
 
             List<int> seleccionados = CheckFiltradosNegocio.ObtenerSeleccionados(SESSION_KEY);
             RestaurarSeleccionados(seleccionados);
         }
+
         private void RestaurarSeleccionados(List<int> seleccionados)
         {
             foreach (GridViewRow row in gvProveedores.Rows)
@@ -57,21 +60,25 @@ namespace TPC_Comercio_Eq_14
                 }
             }
         }
+
         protected void chkSeleccion_CheckedChanged(object sender, EventArgs e)
         {
             CheckFiltradosNegocio.GuardarSeleccionados(gvProveedores, SESSION_KEY);
         }
+
         protected void txtFiltro_TextChanged(object sender, EventArgs e)
         {
             CheckFiltradosNegocio.GuardarSeleccionados(gvProveedores, SESSION_KEY);
             CargarGrilla(txtFiltro.Text);
         }
+
         protected void btnQuitarFiltro_Click(object sender, EventArgs e)
         {
             CheckFiltradosNegocio.GuardarSeleccionados(gvProveedores, SESSION_KEY);
             txtFiltro.Text = "";
             CargarGrilla();
         }
+
         protected void btnAgregar_Click(object sender, EventArgs e)
         {
             Response.Redirect("PageAgregarPRO.aspx");
@@ -102,6 +109,7 @@ namespace TPC_Comercio_Eq_14
 
             CargarGrilla();
         }
+
         protected void gvProveedores_RowDataBound(object sender, GridViewRowEventArgs e)
         {
             List<int> seleccionados = CheckFiltradosNegocio.ObtenerSeleccionados(SESSION_KEY);
@@ -123,6 +131,11 @@ namespace TPC_Comercio_Eq_14
                     chk.Checked = false;
             }
             CargarGrilla();
+        }
+
+        protected void chkMostrarActivos_ServerChange(object sender, EventArgs e)
+        {
+            CargarGrilla(txtFiltro.Text.Trim());
         }
     }
 }

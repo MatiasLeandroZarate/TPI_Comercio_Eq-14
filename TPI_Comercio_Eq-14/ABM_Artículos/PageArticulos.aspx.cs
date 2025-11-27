@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Web;
 using System.Web.UI;
 using System.Web.UI.WebControls;
+using System.Linq;
 
 namespace TPC_Comercio_Eq_14
 {
@@ -32,11 +33,12 @@ namespace TPC_Comercio_Eq_14
         {
             ArticulosNegocio negocio = new ArticulosNegocio();
 
-            if (string.IsNullOrWhiteSpace(filtro))
-                gvArticulos.DataSource = negocio.ListarART();
-            else
-                gvArticulos.DataSource = negocio.Filtrar(filtro);
+            var lista = string.IsNullOrWhiteSpace(filtro) ? negocio.ListarART() : negocio.Filtrar(filtro);
 
+            if (chkMostrarActivos.Checked)
+                lista = lista.Where(p => p.Activo).ToList();
+
+            gvArticulos.DataSource = lista;
             gvArticulos.DataBind();
 
 
@@ -57,7 +59,6 @@ namespace TPC_Comercio_Eq_14
                 }
             }
         }
-
 
         protected void chkSeleccion_CheckedChanged(object sender, EventArgs e)
         {
@@ -81,12 +82,10 @@ namespace TPC_Comercio_Eq_14
             CargarGrilla();
         }
 
-
         protected void btnAgregar_Click(object sender, EventArgs e)
         {
             Response.Redirect("PageAgregarART.aspx");
         }
-
 
         protected void btnModificar_Click(object sender, EventArgs e)
         {
@@ -97,7 +96,6 @@ namespace TPC_Comercio_Eq_14
             if (seleccionados.Count == 1)
                 Response.Redirect("PageModificarART.aspx?id=" + seleccionados[0]);
         }
-
 
         protected void btnEliminar_Click(object sender, EventArgs e)
         {
@@ -115,12 +113,12 @@ namespace TPC_Comercio_Eq_14
             CargarGrilla();
         }
 
-
         protected void gvArticulos_RowDataBound(object sender, GridViewRowEventArgs e)
         {
             List<int> seleccionados = CheckFiltradosNegocio.ObtenerSeleccionados(SESSION_KEY);
             CheckFiltradosNegocio.MarcarSeleccionados(e.Row, gvArticulos, seleccionados);
         }
+        
         protected void btnQuitarSeleccion_Click(object sender, EventArgs e)
         {
             string sessionKey = SESSION_KEY;
@@ -157,5 +155,9 @@ namespace TPC_Comercio_Eq_14
 
         }
 
+        protected void chkMostrarActivos_ServerChange(object sender, EventArgs e)
+        {
+            CargarGrilla(txtFiltro.Text.Trim());
+        }
     }
 }

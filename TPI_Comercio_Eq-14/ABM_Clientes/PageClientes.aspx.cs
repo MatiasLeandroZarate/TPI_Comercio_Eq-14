@@ -1,4 +1,5 @@
 ﻿using Dominio;
+using Microsoft.Ajax.Utilities;
 using Negocio;
 using System;
 using System.Collections.Generic;
@@ -11,56 +12,131 @@ namespace TPC_Comercio_Eq_14
 {
     public partial class PageClientes : System.Web.UI.Page
     {
+        private const string SESSION_KEY = "SeleccionadosClientes";
+
         protected void Page_Load(object sender, EventArgs e)
         {
             if (!IsPostBack)
             {
                 try
                 {
-                    ClientesNegocio negocio = new ClientesNegocio();
-                    List<Clientes> lista = negocio.ListarCLI();
-
-                    gvClientes.DataSource = lista;
-                    gvClientes.DataBind();
+                    CargarGrilla();
                 }
                 catch (Exception ex)
                 {
                     Session.Add("Error", ex);
-                    Response.Redirect("Error.aspx");
+                    Response.Redirect("~/Error.aspx");
+                }
+            }
+
+        }
+
+        private void CargarGrilla(string filtro = "")
+        {
+            ClientesNegocio negocio = new ClientesNegocio();
+
+            var lista = string.IsNullOrWhiteSpace(filtro) ? negocio.ListarCLI() : negocio.Filtrar(filtro);
+
+            if (chkMostrarActivos.Checked)
+                lista = lista.Where(p => p.Activo).ToList();
+
+            gvClientes.DataSource = lista;
+            gvClientes.DataBind();
+
+
+            List<int> seleccionados = CheckFiltradosNegocio.ObtenerSeleccionados(SESSION_KEY);
+            RestaurarSeleccionados(seleccionados);
+        }
+
+        private void RestaurarSeleccionados(List<int> seleccionados)
+        {
+            foreach (GridViewRow row in gvClientes.Rows)
+            {
+                CheckBox chk = row.FindControl("chkSeleccion") as CheckBox;
+
+                if (chk != null)
+                {
+                    int id = (int)gvClientes.DataKeys[row.RowIndex].Value;
+                    chk.Checked = seleccionados.Contains(id);
                 }
             }
         }
 
+        protected void chkSeleccion_CheckedChanged(object sender, EventArgs e)
+        {
+            CheckFiltradosNegocio.GuardarSeleccionados(gvClientes, SESSION_KEY);
+        }
+
+        protected void txtFiltro_TextChanged(object sender, EventArgs e)
+        {
+            CheckFiltradosNegocio.GuardarSeleccionados(gvClientes, SESSION_KEY);
+            CargarGrilla(txtFiltro.Text);
+        }
+
+        protected void btnQuitarFiltro_Click(object sender, EventArgs e)
+        {
+            CheckFiltradosNegocio.GuardarSeleccionados(gvClientes, SESSION_KEY);
+            txtFiltro.Text = "";
+            CargarGrilla();
+        }
+
         protected void btnAgregar_Click(object sender, EventArgs e)
         {
-            Response.Redirect("PageAgregarCLI.aspx", false);
+            Response.Redirect("PageAgregarCLI.aspx");
         }
 
         protected void btnModificar_Click(object sender, EventArgs e)
         {
-            // Si querés que el botón Modificar funcione sobre la fila seleccionada:
-            if (gvClientes.SelectedDataKey != null)
-            {
-                int idCliente = Convert.ToInt32(gvClientes.SelectedDataKey.Value);
-                Response.Redirect("PageModificarCLI.aspx?id=" + idCliente, false);
-            }
-            else
-            {
-                Response.Redirect("PageModificarCLI.aspx", false);
-            }
+            CheckFiltradosNegocio.GuardarSeleccionados(gvClientes, SESSION_KEY);
+
+            List<int> seleccionados = CheckFiltradosNegocio.ObtenerSeleccionados(SESSION_KEY);
+
+            if (seleccionados.Count == 1)
+                Response.Redirect("PageModificarCLI.aspx?id=" + seleccionados[0]);
         }
 
         protected void btnEliminar_Click(object sender, EventArgs e)
         {
-            if (gvClientes.SelectedDataKey != null)
+            CheckFiltradosNegocio.GuardarSeleccionados(gvClientes, SESSION_KEY);
+
+            List<int> seleccionados = CheckFiltradosNegocio.ObtenerSeleccionados(SESSION_KEY);
+
+            if (seleccionados != null)
             {
-                int idCliente = Convert.ToInt32(gvClientes.SelectedDataKey.Value);
-                Response.Redirect("PageEliminarCLI.aspx?id=" + idCliente, false);
+                ClientesNegocio negocio = new ClientesNegocio();
+                foreach (int id in seleccionados)
+                    negocio.Eliminar(id, false);
             }
-            else
+
+            CargarGrilla();
+        }
+
+        protected void gvClientes_RowDataBound(object sender, GridViewRowEventArgs e)
+        {
+            List<int> seleccionados = CheckFiltradosNegocio.ObtenerSeleccionados(SESSION_KEY);
+            CheckFiltradosNegocio.MarcarSeleccionados(e.Row, gvClientes, seleccionados);
+        }
+
+        protected void btnQuitarSeleccion_Click(object sender, EventArgs e)
+        {
+            string sessionKey = SESSION_KEY;
+
+
+            HttpContext.Current.Session[sessionKey] = new List<int>();
+
+
+            foreach (GridViewRow row in gvClientes.Rows)
             {
-                Response.Redirect("PageEliminarCLI.aspx", false);
+                CheckBox chk = row.FindControl("chkSeleccion") as CheckBox;
+                if (chk != null)
+                    chk.Checked = false;
             }
+            CargarGrilla();
+        }
+
+        protected void chkMostrarActivos_ServerChange(object sender, EventArgs e)
+        {
+            CargarGrilla(txtFiltro.Text.Trim());
         }
     }
 }

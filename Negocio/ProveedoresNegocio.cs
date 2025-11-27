@@ -152,6 +152,7 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
+
         public List<Proveedores> Filtrar(string filtro)
         {
             List<Proveedores> lista = new List<Proveedores>();
@@ -190,6 +191,7 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
+
         public List<Proveedores> ListarConFiltro(string filtro)
         {
             List<Proveedores> lista = new List<Proveedores>();
