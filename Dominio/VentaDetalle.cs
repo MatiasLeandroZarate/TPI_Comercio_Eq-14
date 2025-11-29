@@ -11,8 +11,10 @@ namespace Dominio
         public int IDDetalleVenta { get; set; }
         public int IDVenta { get; set; }
         public int IDArticulo { get; set; }
+        public string NombreArticulo { get; set; }
         public int Cantidad { get; set; }
         public decimal PrecioUnitario { get; set; }
+        public decimal Subtotal { get; set; }
         public DateTime Fecha { get; set; }
     }
 }

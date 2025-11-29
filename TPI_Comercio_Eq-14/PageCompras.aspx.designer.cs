@@ -24,15 +24,6 @@ namespace TPC_Comercio_Eq_14
         protected global::System.Web.UI.WebControls.TextBox txtFiltroTexto;
 
         /// <summary>
-        /// Control btnBuscarTexto.
-        /// </summary>
-        /// <remarks>
-        /// Campo generado automáticamente.
-        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
-        /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnBuscarTexto;
-
-        /// <summary>
         /// Control txtFechaDesde.
         /// </summary>
         /// <remarks>
@@ -51,13 +42,22 @@ namespace TPC_Comercio_Eq_14
         protected global::System.Web.UI.WebControls.TextBox txtFechaHasta;
 
         /// <summary>
-        /// Control btnBuscarFecha.
+        /// Control btnBuscar.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnBuscarFecha;
+        protected global::System.Web.UI.WebControls.Button btnBuscar;
+
+        /// <summary>
+        /// Control btnQuitarFiltros.
+        /// </summary>
+        /// <remarks>
+        /// Campo generado automáticamente.
+        /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
+        /// </remarks>
+        protected global::System.Web.UI.WebControls.Button btnQuitarFiltros;
 
         /// <summary>
         /// Control gvCompras.

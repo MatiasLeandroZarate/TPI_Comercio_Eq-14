@@ -12,27 +12,27 @@
     <div class="container mt-3">
         <div class="row g-3 align-items-end mt-3">
 
-            <div class="col-md-4">
+            <div class="col-md-3">
                 <label class="form-label">Proveedor o Nº Comprobante</label>
                 <asp:TextBox ID="txtFiltroTexto" runat="server" CssClass="form-control" Placeholder="Buscar..."></asp:TextBox>
             </div>
 
-            <div class="col-md-3">
+            <div class="col-2">
                 <label class="form-label">Fecha Desde</label>
                 <asp:TextBox ID="txtFechaDesde" runat="server" TextMode="Date" CssClass="form-control"></asp:TextBox>
             </div>
 
-            <div class="col-md-3">
+            <div class="col-2">
                 <label class="form-label">Fecha Hasta</label>
                 <asp:TextBox ID="txtFechaHasta" runat="server" TextMode="Date" CssClass="form-control"></asp:TextBox>
             </div>
 
-            <div class="col-md-2 d-flex flex-column gap-2">
+        </div>
+            <div class="col-md-2 d-flex gap-2 mt-3">
                 <asp:Button ID="btnBuscar" runat="server" Text="Filtrar" CssClass="btn btn-primary w-100" OnClick="btnBuscar_Click" />
                 <asp:Button ID="btnQuitarFiltros" runat="server" Text="Limpiar" CssClass="btn btn-secondary w-100" OnClick="btnQuitarFiltros_Click" />
             </div>
 
-        </div>
     </div>
 
     <hr />
@@ -49,11 +49,7 @@
                             OnCheckedChanged="rbElegirCompra_CheckedChanged" />
                     </ItemTemplate>
                 </asp:TemplateField>
-                <%--<asp:TemplateField>
-                    <ItemTemplate>
-                        <asp:RadioButton ID="rbSeleccionar" runat="server" GroupName="ComprasGroup" AutoPostBack="true" OnCheckedChanged="rbSeleccionar_CheckedChanged" />
-                    </ItemTemplate>
-                </asp:TemplateField>--%>
+               
                 <asp:BoundField DataField="IDCompra" HeaderText="ID" />
                 <asp:BoundField DataField="RazonSocial" HeaderText="Proveedor" />
                 <asp:BoundField DataField="NroComprobante" HeaderText="NroComprobante" />
