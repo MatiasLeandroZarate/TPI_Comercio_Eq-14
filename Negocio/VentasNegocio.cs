@@ -17,15 +17,13 @@ namespace Negocio
 
             try
             {
-                datos.setearQuery("SELECT v.IDVenta, v.IDCliente, c.Apellido, c.Nombre, v.NroComprobante, v.Fecha, v.Descuentos, v.Subtotal, v.Total " +
-                                  "FROM Venta v " +
-                                  "INNER JOIN Clientes c ON v.IDCliente = c.IDCliente");
+                datos.setearQuery("SELECT v.IDVenta, v.IDCliente,CONCAT( c.Apellido,', ',c.Nombre) AS Cliente, c.DNI , v.NroComprobante, v.Fecha, v.Descuentos, v.Subtotal, v.Total FROM Venta v INNER JOIN Clientes c ON v.IDCliente = c.IDCliente");
                 datos.ejecutarLectura();
 
                 int iIDVenta = datos.Lector.GetOrdinal("IDVenta");
                 int iIDCliente = datos.Lector.GetOrdinal("IDCliente");
-                int iApellido = datos.Lector.GetOrdinal("Apellido");
-                int iNombre = datos.Lector.GetOrdinal("Nombre");
+                int iCliente = datos.Lector.GetOrdinal("Cliente");
+                int iDNI = datos.Lector.GetOrdinal("DNI");
                 int iNroComprobante = datos.Lector.GetOrdinal("NroComprobante");
                 int iFecha = datos.Lector.GetOrdinal("Fecha");
                 int iDescuentos = datos.Lector.GetOrdinal("Descuentos");
@@ -39,10 +37,11 @@ namespace Negocio
                     aux.IdVenta = datos.Lector.IsDBNull(iIDVenta) ? 0 : Convert.ToInt32(datos.Lector[iIDVenta]);
                     aux.IdCliente = datos.Lector.IsDBNull(iIDCliente) ? 0 : Convert.ToInt32(datos.Lector[iIDCliente]);
 
-                    string apellido = datos.Lector.IsDBNull(iApellido) ? "" : datos.Lector[iApellido].ToString();
-                    string nombre = datos.Lector.IsDBNull(iNombre) ? "" : datos.Lector[iNombre].ToString();
+                    string ncliente = datos.Lector.IsDBNull(iCliente) ? "" : datos.Lector[iCliente].ToString();
+                    //string nombre = datos.Lector.IsDBNull(iNombre) ? "" : datos.Lector[iNombre].ToString();
                     
-                    aux.Cliente = $"{apellido}, {nombre}".Trim(' ', ',');
+                    aux.Cliente = datos.Lector.IsDBNull(iCliente) ? "" : datos.Lector[iCliente].ToString();
+                    aux.DNI = datos.Lector.IsDBNull(iDNI) ? "" : datos.Lector[iDNI].ToString();
 
                     aux.NroComprobante = datos.Lector.IsDBNull(iNroComprobante) ? 0 : Convert.ToInt32(datos.Lector[iNroComprobante]);
                     aux.Fecha = datos.Lector.IsDBNull(iFecha) ? DateTime.MinValue : Convert.ToDateTime(datos.Lector[iFecha]);
@@ -73,15 +72,14 @@ namespace Negocio
 
             try
             {
-                string query = @"SELECT v.IDVenta, v.IDcliente, CONCAT( c.Nombre,', ',c.Apellido) AS Cliente,
-                         v.NroComprobante, v.Fecha, v.Descuentos, v.Subtotal, v.Total
+                string query = @"SELECT v.IDVenta, v.IDcliente, CONCAT( c.Apellido,', ',c.Nombre) AS Cliente, c.DNI,v.NroComprobante, v.Fecha, v.Descuentos, v.Subtotal, v.Total
                          FROM Venta v
                          INNER JOIN Clientes c ON v.IDCliente = c.IDcliente
                          WHERE 1=1";
 
                 if (!string.IsNullOrEmpty(texto))
                 {
-                    query += " AND (c.nombre LIKE @texto OR c.Apellido LIKE @texto OR v.NroComprobante LIKE @texto)";
+                    query += " AND (c.nombre LIKE @texto OR c.Apellido LIKE @texto OR c.DNI LIKE @texto OR v.NroComprobante LIKE @texto)";
                 }
 
                 if (desde.HasValue)
@@ -109,6 +107,7 @@ namespace Negocio
                     aux.IdVenta = (int)datos.Lector["IDVenta"];
                     aux.IdCliente = (int)datos.Lector["IDCliente"];
                     aux.Cliente = datos.Lector["Cliente"].ToString();
+                    aux.DNI = datos.Lector["DNI"].ToString();
                     aux.NroComprobante = (int)datos.Lector["NroComprobante"];
                     aux.Fecha = (DateTime)datos.Lector["Fecha"];
                     aux.Descuentos = (decimal)datos.Lector["Descuentos"];
