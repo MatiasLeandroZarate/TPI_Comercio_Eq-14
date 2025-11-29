@@ -51,5 +51,141 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
-    }
+        public List<Compras> BuscarTexto(string filtro)
+        {
+            List<Compras> lista = new List<Compras>();
+            AccesoBD datos = new AccesoBD();
+
+            try
+            {
+                datos.setearQuery(@"SELECT c.IDCompra, c.IDProveedor, p.RazonSocial, c.NroComprobante, 
+                            c.Fecha, c.Descuentos, c.SubTotal, c.Total
+                            FROM Compra c
+                            INNER JOIN Proveedores p ON c.IDProveedor = p.IDProveedor
+                            WHERE p.RazonSocial LIKE '%' + @filtro + '%' 
+                               OR c.NroComprobante LIKE '%' + @filtro + '%'");
+
+                datos.setearParametro("@filtro", filtro);
+                datos.ejecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    Compras aux = new Compras();
+                    aux.IdCompra = (int)datos.Lector["IDCompra"];
+                    aux.RazonSocial = datos.Lector["RazonSocial"].ToString();
+                    aux.NroComprobante = (int)datos.Lector["NroComprobante"];
+                    aux.Fecha = (DateTime)datos.Lector["Fecha"];
+                    aux.Descuentos = (decimal)datos.Lector["Descuentos"];
+                    aux.SubTotal = (decimal)datos.Lector["Subtotal"];
+                    aux.Total = (decimal)datos.Lector["Total"];
+
+                    lista.Add(aux);
+                }
+
+                return lista;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+        public List<Compras> BuscarFecha(DateTime desde, DateTime hasta)
+        {
+            List<Compras> lista = new List<Compras>();
+            AccesoBD datos = new AccesoBD();
+
+            try
+            {
+                datos.setearQuery(@"SELECT c.IDCompra, c.IDProveedor, p.RazonSocial, c.NroComprobante, 
+                            c.Fecha, c.Descuentos, c.SubTotal, c.Total
+                            FROM Compra c
+                            INNER JOIN Proveedores p ON c.IDProveedor = p.IDProveedor
+                            WHERE c.Fecha BETWEEN @desde AND @hasta");
+
+                datos.setearParametro("@desde", desde);
+                datos.setearParametro("@hasta", hasta);
+                datos.ejecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    Compras aux = new Compras();
+                    aux.IdCompra = (int)datos.Lector["IDCompra"];
+                    aux.RazonSocial = datos.Lector["RazonSocial"].ToString();
+                    aux.NroComprobante = (int)datos.Lector["NroComprobante"];
+                    aux.Fecha = (DateTime)datos.Lector["Fecha"];
+                    aux.Descuentos = (decimal)datos.Lector["Descuentos"];
+                    aux.SubTotal = (decimal)datos.Lector["Subtotal"];
+                    aux.Total = (decimal)datos.Lector["Total"];
+
+                    lista.Add(aux);
+                }
+
+                return lista;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
+        public List<Compras> ListarConFiltro(string texto, DateTime? desde, DateTime? hasta)
+        {
+            List<Compras> lista = new List<Compras>();
+            AccesoBD datos = new AccesoBD();
+
+            try
+            {
+                string query = @"SELECT c.IDCompra, c.IDProveedor, p.RazonSocial,
+                         c.NroComprobante, c.Fecha, c.Descuentos, c.Subtotal, c.Total
+                         FROM Compra c
+                         INNER JOIN Proveedores p ON c.IDProveedor = p.IDProveedor
+                         WHERE 1=1";
+
+                if (!string.IsNullOrEmpty(texto))
+                {
+                    query += " AND (p.RazonSocial LIKE @texto OR c.NroComprobante LIKE @texto)";
+                }
+
+                if (desde.HasValue)
+                    query += " AND c.Fecha >= @desde";
+
+                if (hasta.HasValue)
+                    query += " AND c.Fecha <= @hasta";
+
+                datos.setearQuery(query);
+
+                if (!string.IsNullOrEmpty(texto))
+                    datos.setearParametro("@texto", "%" + texto + "%");
+
+                if (desde.HasValue)
+                    datos.setearParametro("@desde", desde.Value);
+
+                if (hasta.HasValue)
+                    datos.setearParametro("@hasta", hasta.Value);
+
+                datos.ejecutarLectura();
+
+                while (datos.Lector.Read())
+                {
+                    Compras aux = new Compras();
+                    aux.IdCompra = (int)datos.Lector["IDCompra"];
+                    aux.IdProveedor = (int)datos.Lector["IDProveedor"];
+                    aux.RazonSocial = datos.Lector["RazonSocial"].ToString();
+                    aux.NroComprobante = (int)datos.Lector["NroComprobante"];
+                    aux.Fecha = (DateTime)datos.Lector["Fecha"];
+                    aux.Descuentos = (decimal)datos.Lector["Descuentos"];
+                    aux.SubTotal = (decimal)datos.Lector["Subtotal"];
+                    aux.Total = (decimal)datos.Lector["Total"];
+
+                    lista.Add(aux);
+                }
+
+                return lista;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+
+        }
+}
 }

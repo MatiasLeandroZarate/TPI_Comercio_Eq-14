@@ -11,15 +11,16 @@ namespace TPC_Comercio_Eq_14
 {
     public partial class GestionVenta : System.Web.UI.Page
     {
+        private const string SESSION_KEY = "ClienteSeleccionado";
         private ClientesNegocio clieNegocio = new ClientesNegocio();
         public int SelectedClienteID
         {
             get
             {
-                if (Session["ClienteSeleccionado"] == null)
+                if (Session[SESSION_KEY] == null)
                     return 0;
 
-                return (int)Session["ClienteSeleccionado"];
+                return (int)Session[SESSION_KEY];
             }
         }
 
@@ -65,7 +66,7 @@ namespace TPC_Comercio_Eq_14
 
             int idCliente = Convert.ToInt32(gvClientes.DataKeys[fila.RowIndex].Value);
 
-            Session["ClienteSeleccionado"] = idCliente;
+            Session[SESSION_KEY] = idCliente;
 
             string nombre = fila.Cells[1].Text + ", " + fila.Cells[2].Text;
             Session["NombreClienteSeleccionado"] = nombre;
@@ -81,9 +82,9 @@ namespace TPC_Comercio_Eq_14
 
         private void RestaurarSeleccionCliente()
         {
-            if (Session["ClienteSeleccionado"] == null) return;
+            if (Session[SESSION_KEY] == null) return;
 
-            int seleccionado = (int)Session["ClienteSeleccionado"];
+            int seleccionado = (int)Session[SESSION_KEY];
 
             foreach (GridViewRow row in gvClientes.Rows)
             {
@@ -123,8 +124,8 @@ namespace TPC_Comercio_Eq_14
             try
             {
                 int idCliente = 0;
-                if (Session["ClienteSeleccionado"] != null)
-                    int.TryParse(Session["ClienteSeleccionado"].ToString(), out idCliente);
+                if (Session[SESSION_KEY] != null)
+                    int.TryParse(Session[SESSION_KEY].ToString(), out idCliente);
 
                 if (idCliente == 0)
                 {
@@ -150,7 +151,7 @@ namespace TPC_Comercio_Eq_14
                         if (cant <= 0) continue;
 
                         int idArticulo = int.Parse(gvGestionVenta.DataKeys[row.RowIndex].Values["IDArticulo"].ToString());
-                        decimal precio = decimal.Parse(gvGestionVenta.DataKeys[row.RowIndex].Values["PrecioCompra"].ToString());
+                        decimal precio = decimal.Parse(gvGestionVenta.DataKeys[row.RowIndex].Values["PrecioVenta"].ToString());
 
                         subtotal += precio * cant;
                         cant = cant * -1;

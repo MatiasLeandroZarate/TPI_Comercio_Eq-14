@@ -11,15 +11,16 @@ namespace TPC_Comercio_Eq_14
 {
     public partial class GestionCompra : System.Web.UI.Page
     {
+        private const string SESSION_KEY = "ProveedorSeleccionado";
         private ProveedoresNegocio provNegocio = new ProveedoresNegocio();
         public int SelectedProveedorID
         {
             get
             {
-                if (Session["ProveedorSeleccionado"] == null)
+                if (Session[SESSION_KEY] == null)
                     return 0;
 
-                return (int)Session["ProveedorSeleccionado"];
+                return (int)Session[SESSION_KEY];
             }
         }
 
@@ -65,7 +66,7 @@ namespace TPC_Comercio_Eq_14
 
             int idProveedor = Convert.ToInt32(gvProveedores.DataKeys[fila.RowIndex].Value);
 
-            Session["ProveedorSeleccionado"] = idProveedor;
+            Session[SESSION_KEY] = idProveedor;
 
             string razon = fila.Cells[1].Text;
             Session["NombreProveedorSeleccionado"] = razon;
@@ -81,9 +82,9 @@ namespace TPC_Comercio_Eq_14
 
         private void RestaurarSeleccionProveedor()
         {
-            if (Session["ProveedorSeleccionado"] == null) return;
+            if (Session[SESSION_KEY] == null) return;
 
-            int seleccionado = (int)Session["ProveedorSeleccionado"];
+            int seleccionado = (int)Session[SESSION_KEY];
 
             foreach (GridViewRow row in gvProveedores.Rows)
             {
@@ -124,8 +125,8 @@ namespace TPC_Comercio_Eq_14
             try
             {
                 int idProveedor = 0;
-                if (Session["ProveedorSeleccionado"] != null)
-                    int.TryParse(Session["ProveedorSeleccionado"].ToString(), out idProveedor);
+                if (Session[SESSION_KEY] != null)
+                    int.TryParse(Session[SESSION_KEY].ToString(), out idProveedor);
 
                 if (idProveedor == 0)
                 {
