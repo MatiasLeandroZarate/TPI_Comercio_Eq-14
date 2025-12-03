@@ -25,9 +25,21 @@ namespace TPC_Comercio_Eq_14.ABM_Clientes
         {
             Clientes nuevo = new Clientes();
             ClientesNegocio negocio = new ClientesNegocio();
-
             try
             {
+             
+                if (string.IsNullOrWhiteSpace(txtDNI.Text) ||
+                    string.IsNullOrWhiteSpace(txtApellido.Text) ||
+                    string.IsNullOrWhiteSpace(txtNombre.Text) ||
+                    string.IsNullOrWhiteSpace(txtTelefono.Text) ||
+                    string.IsNullOrWhiteSpace(txtEmail.Text) ||
+                    string.IsNullOrWhiteSpace(txtDireccion.Text))
+                {
+                    lblError.Text = "Complete los datos obligatorios.";
+                    lblError.Visible = true;
+                    return;
+                }
+
                 nuevo.DNI = txtDNI.Text;
                 nuevo.CUIT = txtCUIT.Text;
                 nuevo.Apellido = txtApellido.Text;
@@ -37,7 +49,10 @@ namespace TPC_Comercio_Eq_14.ABM_Clientes
                 nuevo.Direccion = txtDireccion.Text;
                 nuevo.Activo = true;
 
+              
                 negocio.Agregar(nuevo);
+
+              
                 Response.Redirect("PageClientes.aspx", false);
             }
             catch (Exception ex)

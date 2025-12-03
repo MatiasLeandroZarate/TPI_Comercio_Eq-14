@@ -32,11 +32,22 @@ namespace TPC_Comercio_Eq_14
 
             try
             {
+                if (string.IsNullOrWhiteSpace(txtNombre.Text) ||
+                    string.IsNullOrWhiteSpace(txtDescripcion.Text) ||
+                    string.IsNullOrWhiteSpace(txtPrecioCompra.Text) ||
+                    string.IsNullOrWhiteSpace(txtPrecioVenta.Text) ||
+                    string.IsNullOrWhiteSpace(ddlMarca.Text) ||
+                    string.IsNullOrWhiteSpace(ddlCategoria.Text))
+                {
+                    lblError.Text = "Complete los datos obligatorios.";
+                    lblError.Visible = true;
+                    return;
+                }
                 nuevo.Nombre = txtNombre.Text;
                 nuevo.Descripcion = txtDescripcion.Text;
-                nuevo.PrecioCompra = string.IsNullOrWhiteSpace(txtPrecioCompra.Text) ? 0 : decimal.Parse(txtPrecioCompra.Text);
-                nuevo.PrecioVenta = string.IsNullOrWhiteSpace(txtPrecioVenta.Text) ? 0 : decimal.Parse(txtPrecioVenta.Text);
-                nuevo.Stock = int.Parse(txtStock.Text);
+                nuevo.PrecioCompra = decimal.Parse(txtPrecioCompra.Text);
+                nuevo.PrecioVenta = decimal.Parse(txtPrecioVenta.Text);
+                nuevo.Stock = string.IsNullOrWhiteSpace(txtStock.Text) ? 0 : int.Parse(txtStock.Text);
                 nuevo.IDMarca = int.Parse(ddlMarca.SelectedValue);
                 nuevo.IDCategoria = int.Parse(ddlCategoria.SelectedValue);
                 nuevo.Activo = true;

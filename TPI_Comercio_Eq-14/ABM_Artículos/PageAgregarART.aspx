@@ -12,42 +12,42 @@
     <div class="container">
         <div>
             <div class="row mb-3">
-                <label for="txtNombre" class="col-sm-2 col-form-label">Nombre:</label>
+                <label for="txtNombre" class="col-sm-2 col-form-label">Nombre: *</label>
                 <div class="col-sm-10">
                     <asp:TextBox ID="txtNombre" runat="server" CssClass="form-control" />
                 </div>
             </div>
 
             <div class="row mb-3">
-                <label for="txtDescripcion" class="col-sm-2 col-form-label">Descripción:</label>
+                <label for="txtDescripcion" class="col-sm-2 col-form-label">Descripción: *</label>
                 <div class="col-sm-10">
                     <asp:TextBox ID="txtDescripcion" runat="server" CssClass="form-control" TextMode="MultiLine" Rows="1" />
                 </div>
             </div>
 
             <div class="row mb-3">
-                <label for="txtPrecioCompra" class="col-sm-2 col-form-label">Precio Compra:</label>
+                <label for="txtPrecioCompra" class="col-sm-2 col-form-label">Precio Compra: *</label>
                 <div class="col-sm-10">
                     <asp:TextBox ID="txtPrecioCompra" runat="server" CssClass="form-control" TextMode="Number" />
                 </div>
             </div>
 
             <div class="row mb-3">
-                <label for="txtPrecioVenta" class="col-sm-2 col-form-label">Precio Venta:</label>
+                <label for="txtPrecioVenta" class="col-sm-2 col-form-label">Precio Venta: *</label>
                 <div class="col-sm-10">
                     <asp:TextBox ID="txtPrecioVenta" runat="server" CssClass="form-control" TextMode="Number" />
                 </div>
             </div>
 
             <div class="row mb-3">
-                <label for="txtStock" class="col-sm-2 col-form-label">Stock:</label>
+                <label for="txtStock" class="col-sm-2 col-form-label">Stock: </label>
                 <div class="col-sm-10">
                     <asp:TextBox ID="txtStock" runat="server" CssClass="form-control" TextMode="Number" />
                 </div>
             </div>
 
             <div class="row mb-3">
-                <label for="ddlMarca" class="col-sm-2 col-form-label">Marca:</label>
+                <label for="ddlMarca" class="col-sm-2 col-form-label">Marca: *</label>
                 <div class="col-sm-10">
                     <asp:DropDownList ID="ddlMarca" runat="server" CssClass="form-select">
                         <asp:ListItem Text="Seleccione una marca" Value="" />
@@ -56,7 +56,7 @@
             </div>
 
             <div class="row mb-3">
-                <label for="ddlCategoria" class="col-sm-2 col-form-label">Categoría:</label>
+                <label for="ddlCategoria" class="col-sm-2 col-form-label">Categoría: *</label>
                 <div class="col-sm-10">
                     <asp:DropDownList ID="ddlCategoria" runat="server" CssClass="form-select">
                         <asp:ListItem Text="Seleccione una categoría" Value="" />
@@ -65,9 +65,14 @@
             </div>
         </div>
         <div class="text-center">
+        <label for="txtCampoObligatorio" class="col-sm-2 col-form-label" style="color: #FF0000">(*) Campo Obligatorio</label>
+
             <asp:Button Text="Volver" ID="btnVolver" OnClick="btnVolver_Click" CssClass="btn btn-secondary mx-2" runat="server" />
             <asp:Button Text="Agregar" ID="btnAgregar" OnClick="btnAgregar_Click" CssClass="btn btn-success mx-2" runat="server" />
         </div>
+            <div class="text-center">
+    <asp:Label ID="lblError" runat="server" CssClass="text-danger" Visible="false"></asp:Label>
+</div>
     </div>
 
 </asp:Content>

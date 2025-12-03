@@ -28,11 +28,21 @@ namespace TPC_Comercio_Eq_14.ABM_Proveedores
 
             try
             {
+                if (string.IsNullOrWhiteSpace(txtRazonSocial.Text) ||
+                    string.IsNullOrWhiteSpace(txtCUIT.Text) ||
+                    string.IsNullOrWhiteSpace(txtTelefono.Text) ||
+                    string.IsNullOrWhiteSpace(txtEmail.Text) ||
+                    string.IsNullOrWhiteSpace(txtDireccion.Text))
+                {
+                    lblError.Text = "Complete los datos obligatorios.";
+                    lblError.Visible = true;
+                    return;
+                }
                 nuevo.RazonSocial = txtRazonSocial.Text;
-                nuevo.CUIT = string.IsNullOrWhiteSpace(txtCUIT.Text) ? "Sin Datos" : txtCUIT.Text;
-                nuevo.Telefono = string.IsNullOrWhiteSpace(txtTelefono.Text) ? "Sin Datos" : txtTelefono.Text;
-                nuevo.Email = string.IsNullOrWhiteSpace(txtEmail.Text) ? "Sin Datos" : txtEmail.Text;
-                nuevo.Direccion = string.IsNullOrWhiteSpace(txtDireccion.Text) ? "Sin Datos" : txtDireccion.Text;
+                nuevo.CUIT = txtCUIT.Text;
+                nuevo.Telefono = txtTelefono.Text;
+                nuevo.Email = txtEmail.Text;
+                nuevo.Direccion = txtDireccion.Text;
                 nuevo.Activo = true;
 
                 negocio.Agregar(nuevo);
