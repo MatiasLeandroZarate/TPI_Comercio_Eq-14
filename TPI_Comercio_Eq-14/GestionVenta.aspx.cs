@@ -152,6 +152,13 @@ namespace TPC_Comercio_Eq_14
 
                         int idArticulo = int.Parse(gvGestionVenta.DataKeys[row.RowIndex].Values["IDArticulo"].ToString());
                         decimal precio = decimal.Parse(gvGestionVenta.DataKeys[row.RowIndex].Values["PrecioVenta"].ToString());
+                        int stockActual = int.Parse(gvGestionVenta.DataKeys[row.RowIndex].Values["StockActual"].ToString());
+
+                        if (cant > stockActual)
+                        {
+                            lblMensaje.Text = "La cantidad vendida no debe ser mayor al stock actual.";
+                            return;
+                        }
 
                         subtotal += precio * cant;
                         cant = cant * -1;
@@ -160,7 +167,7 @@ namespace TPC_Comercio_Eq_14
                 }
 
                 // Calculo de descuentos según cantidad total de unidades
-                int totalUnidades = detalles.Sum(d => d.Cantidad);
+                int totalUnidades = detalles.Sum(d => Math.Abs(d.Cantidad));
                 decimal descuento = 0m;
                 if (totalUnidades >= 1000)
                     descuento = subtotal * 0.10m;

@@ -47,7 +47,7 @@
             <div class="container">
                 <asp:GridView ID="gvGestionVenta" runat="server" AutoGenerateColumns="False"
                     CssClass="table table-hover table-sm table-bordered border-primary-subtle"
-                    DataKeyNames="IDArticulo,PrecioVenta">
+                    DataKeyNames="IDArticulo,PrecioVenta,StockActual">
 
                     <Columns>
 
