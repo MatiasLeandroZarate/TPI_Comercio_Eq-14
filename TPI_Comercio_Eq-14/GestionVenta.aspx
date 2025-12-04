@@ -102,6 +102,9 @@
 
         <asp:Button Text="Efectuar Venta" ID="btnVenta" OnClick="btnVenta_Click" CssClass="btn btn-success mx-2" runat="server" />
     </div>
+    <%--<asp:TextBox ID="txtCodigoAutorizacion" runat="server" CssClass="form-control mt-2"
+    Visible="false" Placeholder="Ingrese código de autorización"></asp:TextBox>--%>
+
     <asp:Label ID="lblMensaje" runat="server" CssClass="text-warning fw-bold"></asp:Label>
 
 </asp:Content>

@@ -122,6 +122,11 @@ namespace TPC_Comercio_Eq_14
                     return;
                 }
 
+                //Usuarios usuarioActual = (Usuarios)Session["usuario"];
+                //bool esAdmin = Seguridad.esAdmin(usuarioActual);
+                //bool requiereAutorizacion = false;
+
+
                 Ventas venta = new Ventas();
                 venta.IdCliente = idCliente;
                 venta.Fecha = DateTime.Now;
@@ -183,6 +188,10 @@ namespace TPC_Comercio_Eq_14
                                           ? precioModificado
                                           : precioOriginal;
 
+                    //if (!esAdmin && !string.IsNullOrEmpty(strPrecioMod))
+                    //{
+                    //    requiereAutorizacion = true;
+                    //}
 
                     if (!string.IsNullOrEmpty(strPrecioMod) && precioModEsValido)
                     {
@@ -198,6 +207,23 @@ namespace TPC_Comercio_Eq_14
                         PrecioUnitario = precioFinal
                     });
                 }
+
+                //if (requiereAutorizacion)
+                //{
+                //    txtCodigoAutorizacion.Visible = true;
+                //    if (string.IsNullOrEmpty(txtCodigoAutorizacion.Text))
+                //    {
+                //        lblMensaje.Text = "Falta autorización para modificar el precio.";
+                //        return;
+                //    }
+
+                //    if (txtCodigoAutorizacion.Text.Trim() != "admin")
+                //    {
+                //        lblMensaje.Text = "Código de autorización incorrecto.";
+                //        return;
+                //    }
+                //}
+
 
                 int totalUnidades = detalles.Sum(d => d.Cantidad);
                 decimal descuento = 0;
