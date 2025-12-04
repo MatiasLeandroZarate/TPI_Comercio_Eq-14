@@ -101,24 +101,13 @@ namespace TPC_Comercio_Eq_14
         {
             TextBox txt = (TextBox)sender;
             GridViewRow row = (GridViewRow)txt.NamingContainer;
-
-            int cantidad = 0;
-            int.TryParse(txt.Text, out cantidad);
-
-            decimal precioVenta = Convert.ToDecimal(gvGestionVenta.DataKeys[row.RowIndex]["PrecioVenta"]);
-
-            decimal subtotal = cantidad * precioVenta;
-            decimal total = subtotal;
-
-            ((Label)row.FindControl("lblSubtotal")).Text = subtotal.ToString("N2");
-            ((Label)row.FindControl("lblTotal")).Text = total.ToString("N2");
+            RecalcularFila(row);
         }
 
         protected void btnVolver_Click(object sender, EventArgs e)
         {
             Response.Redirect("/ABM_Artículos/PageArticulos.aspx", false);
         }
-
         protected void btnVenta_Click(object sender, EventArgs e)
         {
             try
@@ -133,7 +122,6 @@ namespace TPC_Comercio_Eq_14
                     return;
                 }
 
-                // Preparar venta y detalles
                 Ventas venta = new Ventas();
                 venta.IdCliente = idCliente;
                 venta.Fecha = DateTime.Now;
@@ -144,31 +132,76 @@ namespace TPC_Comercio_Eq_14
                 foreach (GridViewRow row in gvGestionVenta.Rows)
                 {
                     TextBox txtCant = (TextBox)row.FindControl("txtCantidad");
-                    if (!string.IsNullOrEmpty(txtCant.Text))
+                    TextBox txtPrecioMod = (TextBox)row.FindControl("txtPrecioModificado");
+
+                    string strCant = txtCant.Text.Trim();
+                    string strPrecioMod = txtPrecioMod.Text.Trim();
+
+
+                    if (string.IsNullOrEmpty(strCant))
                     {
-                        int cant = 0;
-                        if (!int.TryParse(txtCant.Text, out cant)) continue;
-                        if (cant <= 0) continue;
+                        lblMensaje.Text = "Debe ingresar cantidad en todos los artículos listados.";
+                        return;
+                    }
 
-                        int idArticulo = int.Parse(gvGestionVenta.DataKeys[row.RowIndex].Values["IDArticulo"].ToString());
-                        decimal precio = decimal.Parse(gvGestionVenta.DataKeys[row.RowIndex].Values["PrecioVenta"].ToString());
-                        int stockActual = int.Parse(gvGestionVenta.DataKeys[row.RowIndex].Values["StockActual"].ToString());
+                    int cantidad;
+                    if (!int.TryParse(strCant, out cantidad) || cantidad <= 0)
+                    {
+                        lblMensaje.Text = "La cantidad debe ser un número mayor a 0.";
+                        return;
+                    }
 
-                        if (cant > stockActual)
+                    decimal precioModificado = 0;
+                    bool precioModEsValido = true;
+
+                    if (!string.IsNullOrEmpty(strPrecioMod))
+                    {
+                        precioModEsValido = decimal.TryParse(
+                            strPrecioMod.Replace(",", "."),
+                            System.Globalization.NumberStyles.AllowDecimalPoint,
+                            System.Globalization.CultureInfo.InvariantCulture,
+                            out precioModificado);
+
+                        if (!precioModEsValido || precioModificado < 0)
                         {
-                            lblMensaje.Text = "La cantidad vendida no debe ser mayor al stock actual.";
+                            lblMensaje.Text = "El precio modificado debe ser un número válido y no negativo.";
                             return;
                         }
-
-                        subtotal += precio * cant;
-                        cant = cant * -1;
-                        detalles.Add(new VentaDetalle { IDArticulo = idArticulo, Cantidad = cant, PrecioUnitario = precio });
                     }
+
+                    int idArticulo = int.Parse(gvGestionVenta.DataKeys[row.RowIndex].Values["IDArticulo"].ToString());
+                    decimal precioOriginal = decimal.Parse(gvGestionVenta.DataKeys[row.RowIndex].Values["PrecioVenta"].ToString());
+                    int stockActual = int.Parse(gvGestionVenta.DataKeys[row.RowIndex].Values["StockActual"].ToString());
+
+                    if (cantidad > stockActual)
+                    {
+                        lblMensaje.Text = "La cantidad vendida no debe ser mayor al stock actual.";
+                        return;
+                    }
+
+                    decimal precioFinal = (!string.IsNullOrEmpty(strPrecioMod) && precioModEsValido)
+                                          ? precioModificado
+                                          : precioOriginal;
+
+
+                    if (!string.IsNullOrEmpty(strPrecioMod) && precioModEsValido)
+                    {
+                        ArticulosNegocio artNeg = new ArticulosNegocio();
+                        artNeg.ModificarPrecioVenta(idArticulo, precioModificado);
+                    }
+                    subtotal += cantidad * precioFinal;
+
+                    detalles.Add(new VentaDetalle
+                    {
+                        IDArticulo = idArticulo,
+                        Cantidad = cantidad,   // en ventas NO va negativo
+                        PrecioUnitario = precioFinal
+                    });
                 }
 
-                // Calculo de descuentos según cantidad total de unidades
-                int totalUnidades = detalles.Sum(d => Math.Abs(d.Cantidad));
-                decimal descuento = 0m;
+                int totalUnidades = detalles.Sum(d => d.Cantidad);
+                decimal descuento = 0;
+
                 if (totalUnidades >= 1000)
                     descuento = subtotal * 0.10m;
                 else if (totalUnidades >= 100)
@@ -178,13 +211,10 @@ namespace TPC_Comercio_Eq_14
                 venta.SubTotal = subtotal;
                 venta.Total = subtotal - descuento;
 
-                // OBTENER NRO DE COMPROBANTE: USAR LA CAPA DE NEGOCIO (mejor) o AccesoBD directo
                 EfectuarVentaNegocio negocio = new EfectuarVentaNegocio();
-                // Obtener último (max) y sumar 1:
-                int ultimo = negocio.ObtenerUltimoNroComprobante(); // en tu clase devuelve MAX(NroComprobante)
+                int ultimo = negocio.ObtenerUltimoNroComprobante();
                 venta.NroComprobante = ultimo + 1;
 
-                // Ejecutar venta
                 negocio.EfectuarVenta(venta, detalles);
 
                 lblMensaje.Text = "Venta efectuada correctamente. Nº " + venta.NroComprobante;
@@ -194,6 +224,33 @@ namespace TPC_Comercio_Eq_14
                 Session.Add("Error", ex);
                 Response.Redirect("~/Error.aspx");
             }
+        }
+                        protected void txtPrecioModificado_TextChanged(object sender, EventArgs e)
+        {
+            TextBox txt = (TextBox)sender;
+            GridViewRow fila = (GridViewRow)txt.NamingContainer;
+            RecalcularFila(fila);
+        }
+
+        private void RecalcularFila(GridViewRow row)
+        {
+            TextBox txtCant = (TextBox)row.FindControl("txtCantidad");
+            int cant = 0;
+            int.TryParse(txtCant.Text, out cant);
+
+            decimal precioOriginal = Convert.ToDecimal(gvGestionVenta.DataKeys[row.RowIndex]["PrecioVenta"]);
+
+            TextBox txtMod = (TextBox)row.FindControl("txtPrecioModificado");
+            decimal precioMod;
+            bool tieneMod = decimal.TryParse(txtMod.Text.Replace(",", "."), System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out precioMod);
+
+            decimal precio = tieneMod ? precioMod : precioOriginal;
+
+            decimal subtotal = cant * precio;
+
+            ((Label)row.FindControl("lblSubtotal")).Text = subtotal.ToString("N2");
+            ((Label)row.FindControl("lblTotal")).Text = subtotal.ToString("N2");
+
         }
     }
 }

@@ -216,6 +216,25 @@ namespace Negocio
                 datos.cerrarConexion();
             }
         }
+        public void ModificarPrecioVenta(int idArticulo, decimal nuevoPrecio)
+        {
+            AccesoBD datos = new AccesoBD();
+            try
+            {
+                datos.setearQuery("UPDATE Articulos SET PrecioVenta = @precio WHERE IDArticulo = @id");
+                datos.setearParametro("@precio", nuevoPrecio);
+                datos.setearParametro("@id", idArticulo);
+                datos.ejecutarAccion();
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+            finally
+            {
+                datos.cerrarConexion();
+            }
+        }
 
     }
 }

@@ -71,7 +71,7 @@ namespace Negocio
                     datos.limpiarParametros();
 
                     datos.setearQuery(@"UPDATE Articulos 
-                                SET Stock = Stock + @cant 
+                                SET Stock = Stock - @cant 
                                 WHERE IDArticulo = @idart");
 
                     datos.setearParametro("@cant", det.Cantidad);

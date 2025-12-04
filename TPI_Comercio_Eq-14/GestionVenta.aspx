@@ -48,6 +48,7 @@
                 <asp:GridView ID="gvGestionVenta" runat="server" AutoGenerateColumns="False"
                     CssClass="table table-hover table-sm table-bordered border-primary-subtle"
                     DataKeyNames="IDArticulo,PrecioVenta,StockActual">
+                 
 
                     <Columns>
 
@@ -56,6 +57,14 @@
 
                         <asp:BoundField DataField="PrecioVenta" HeaderText="Precio Venta"
                             DataFormatString="{0:N2}" />
+                        <asp:TemplateField HeaderText="PrecioModificado">
+                            <ItemTemplate>
+                                <asp:TextBox ID="txtPrecioModificado" runat="server"
+                                    CssClass="form-control"  Min="0" Width="150px"
+                                    oninput="this.value=this.value.replace(',', '.');"
+                                    OnTextChanged="txtPrecioModificado_TextChanged"/>
+                            </ItemTemplate>
+                        </asp:TemplateField>
                         <asp:BoundField DataField="StockActual" HeaderText="Stock" />
 
                         <asp:TemplateField HeaderText="Cantidad">
@@ -93,6 +102,6 @@
 
         <asp:Button Text="Efectuar Venta" ID="btnVenta" OnClick="btnVenta_Click" CssClass="btn btn-success mx-2" runat="server" />
     </div>
-        <asp:Label ID="lblMensaje" runat="server" CssClass="text-warning fw-bold"></asp:Label>
+    <asp:Label ID="lblMensaje" runat="server" CssClass="text-warning fw-bold"></asp:Label>
 
 </asp:Content>
