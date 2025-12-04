@@ -97,7 +97,7 @@ namespace TPC_Comercio_Eq_14
                 lblClienteSeleccionado.Text = "Cliente elegido: " + Session["NombreClienteSeleccionado"].ToString();
         }
 
-        protected void txtStockSolicitado_TextChanged(object sender, EventArgs e)
+        protected void txtCantidad_TextChanged(object sender, EventArgs e)
         {
             TextBox txt = (TextBox)sender;
             GridViewRow row = (GridViewRow)txt.NamingContainer;
@@ -143,7 +143,7 @@ namespace TPC_Comercio_Eq_14
 
                 foreach (GridViewRow row in gvGestionVenta.Rows)
                 {
-                    TextBox txtCant = (TextBox)row.FindControl("txtStockSolicitado");
+                    TextBox txtCant = (TextBox)row.FindControl("txtCantidad");
                     if (!string.IsNullOrEmpty(txtCant.Text))
                     {
                         int cant = 0;

@@ -35,7 +35,7 @@
                     <li class="nav-item"><a class="nav-link" runat="server" href="~/PageVentas.aspx">Ventas</a></li>
                     <% if (Negocio.Seguridad.esAdmin(Session["user"])) { %>
                         <li class="nav-item">
-                            <a class="nav-link" runat="server" href="~/PageUsuarios.aspx">Usuarios</a>
+                            <a class="nav-link" runat="server" href="~/ABM_Usuarios/PageUsuarios.aspx">Usuarios</a>
                         </li>
                     <% } %>
                 </ul>

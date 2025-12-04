@@ -8,9 +8,10 @@ namespace Dominio
 {
     public class Usuarios
     {
-        public int IdUsuario { get; set; }
+        public int IDUsuario { get; set; }
         public string Rol { get; set; }
         public string Email { get; set; }
         public string Contraseña { get; set; }
+        public bool Activo { get; set; }
     }
 }

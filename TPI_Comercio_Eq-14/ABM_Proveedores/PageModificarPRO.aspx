@@ -51,11 +51,11 @@
         </div>
     </div>
     <div class="row mb-3">
-    <label for="txtActivo" class="col-sm-2 col-form-label">Activo:</label>
-    <div class="col-sm-10">
-        <asp:TextBox ID="txtActivo" runat="server" CssClass="form-control"/>
+        <label for="txtActivo" class="col-sm-2 col-form-label">Activo:</label>
+        <div class="col-sm-10">
+            <asp:TextBox ID="txtActivo" runat="server" CssClass="form-control"/>
+        </div>
     </div>
-</div>
 
 
     <div class="text-center">

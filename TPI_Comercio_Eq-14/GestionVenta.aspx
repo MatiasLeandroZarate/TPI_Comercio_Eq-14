@@ -58,12 +58,12 @@
                             DataFormatString="{0:N2}" />
                         <asp:BoundField DataField="StockActual" HeaderText="Stock" />
 
-                        <asp:TemplateField HeaderText="Stock Solicitado">
+                        <asp:TemplateField HeaderText="Cantidad">
                             <ItemTemplate>
-                                <asp:TextBox ID="txtStockSolicitado" runat="server"
+                                <asp:TextBox ID="txtCantidad" runat="server"
                                     CssClass="form-control" TextMode="Number" Min="1" Width="100px"
                                     AutoPostBack="true"
-                                    OnTextChanged="txtStockSolicitado_TextChanged" />
+                                    OnTextChanged="txtCantidad_TextChanged" />
                             </ItemTemplate>
                         </asp:TemplateField>
 
