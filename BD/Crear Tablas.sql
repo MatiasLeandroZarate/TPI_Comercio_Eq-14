@@ -61,6 +61,7 @@ Create Table Usuarios(
 	Rol nvarchar (25) not null,
 	Email nvarchar (50) not null,
 	Contraseña nvarchar (50) not null,
+	Activo bit DEFAULT 1 not null
 )
 go
 

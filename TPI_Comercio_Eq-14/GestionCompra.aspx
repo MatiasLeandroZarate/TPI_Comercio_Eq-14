@@ -55,6 +55,14 @@
 
                         <asp:BoundField DataField="PrecioCompra" HeaderText="Precio Compra"
                             DataFormatString="{0:N2}" />
+                        <asp:TemplateField HeaderText="PrecioModificado">
+                            <ItemTemplate>
+                                <asp:TextBox ID="txtPrecioModificado" runat="server"
+                                    CssClass="form-control" Min="0" Width="150px"
+                                    oninput="this.value=this.value.replace(',', '.');"
+                                    OnTextChanged="txtPrecioModificado_TextChanged" />
+                            </ItemTemplate>
+                        </asp:TemplateField>
                         <asp:BoundField DataField="StockActual" HeaderText="Stock" />
 
                         <asp:TemplateField HeaderText="Stock Solicitado">
@@ -92,6 +100,6 @@
 
         <asp:Button Text="Efectuar Compra" ID="btnComprar" OnClick="btnComprar_Click" CssClass="btn btn-success mx-2" runat="server" />
     </div>
-        <asp:Label ID="lblMensaje" runat="server" CssClass="text-warning fw-bold"></asp:Label>
+    <asp:Label ID="lblMensaje" runat="server" CssClass="text-warning fw-bold"></asp:Label>
 
 </asp:Content>

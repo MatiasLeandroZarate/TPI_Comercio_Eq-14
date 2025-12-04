@@ -15,13 +15,13 @@ namespace TPC_Comercio_Eq_14
     {
 
         /// <summary>
-        /// Control lblFiltroProveedor.
+        /// Control lblFiltroProv.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Label lblFiltroProveedor;
+        protected global::System.Web.UI.WebControls.Label lblFiltroProv;
 
         /// <summary>
         /// Control txtFiltroProv.
@@ -33,7 +33,7 @@ namespace TPC_Comercio_Eq_14
         protected global::System.Web.UI.WebControls.TextBox txtFiltroProv;
 
         /// <summary>
-        /// Control gvCProveedors.
+        /// Control gvProveedores.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
@@ -78,13 +78,13 @@ namespace TPC_Comercio_Eq_14
         protected global::System.Web.UI.WebControls.Button btnVolver;
 
         /// <summary>
-        /// Control btnCompra.
+        /// Control btnComprar.
         /// </summary>
         /// <remarks>
         /// Campo generado automáticamente.
         /// Para modificarlo, mueva la declaración del campo del archivo del diseñador al archivo de código subyacente.
         /// </remarks>
-        protected global::System.Web.UI.WebControls.Button btnCompra;
+        protected global::System.Web.UI.WebControls.Button btnComprar;
 
         /// <summary>
         /// Control lblMensaje.

@@ -64,10 +64,10 @@ INSERT INTO Articulos (Nombre, Descripcion, PrecioCompra, PrecioVenta, Stock, ID
 GO
 
 -- Usuarios
-INSERT INTO Usuarios (Rol,Email, Contraseña) VALUES
-('Admin','admin@tpc.com', 'admin'),
-('Colaborador','vendedor1@tpc.com', 'vend1'),
-('Colaborador','vendedor2@tpc.com', 'vend2');
+INSERT INTO Usuarios (Rol,Email, Contraseña,Activo) VALUES
+('Admin','admin@tpc.com', 'admin',1),
+('Colaborador','vendedor1@tpc.com', 'vend1',1),
+('Colaborador','vendedor2@tpc.com', 'vend2',1);
 GO
 
 -- Compras

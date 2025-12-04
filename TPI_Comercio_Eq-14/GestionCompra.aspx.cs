@@ -46,7 +46,7 @@ namespace TPC_Comercio_Eq_14
             gvGestionCompra.DataSource = lista;
             gvGestionCompra.DataBind();
         }
- 
+
         private void CargarProveedores(string filtro = "")
         {
             gvProveedores.DataSource = provNegocio.ListarConFiltro(filtro);
@@ -102,16 +102,8 @@ namespace TPC_Comercio_Eq_14
             TextBox txt = (TextBox)sender;
             GridViewRow row = (GridViewRow)txt.NamingContainer;
 
-            int cantidad = 0;
-            int.TryParse(txt.Text, out cantidad);
+            RecalcularFila(row);
 
-            decimal precioCompra = Convert.ToDecimal(gvGestionCompra.DataKeys[row.RowIndex]["PrecioCompra"]);
-
-            decimal subtotal = cantidad * precioCompra;
-            decimal total = subtotal;
-
-            ((Label)row.FindControl("lblSubtotal")).Text = subtotal.ToString("N2");
-            ((Label)row.FindControl("lblTotal")).Text = total.ToString("N2");
         }
 
 
@@ -119,7 +111,6 @@ namespace TPC_Comercio_Eq_14
         {
             Response.Redirect("/ABM_Artículos/PageArticulos.aspx", false);
         }
-
         protected void btnComprar_Click(object sender, EventArgs e)
         {
             try
@@ -134,7 +125,6 @@ namespace TPC_Comercio_Eq_14
                     return;
                 }
 
-                // Preparar compra y detalles
                 Compras compra = new Compras();
                 compra.IdProveedor = idProveedor;
                 compra.Fecha = DateTime.Now;
@@ -142,26 +132,84 @@ namespace TPC_Comercio_Eq_14
                 decimal subtotal = 0;
                 List<CompraDetalle> detalles = new List<CompraDetalle>();
 
+                bool hayAlMenosUnArticulo = false;
+
                 foreach (GridViewRow row in gvGestionCompra.Rows)
                 {
                     TextBox txtCant = (TextBox)row.FindControl("txtStockSolicitado");
+
                     if (!string.IsNullOrEmpty(txtCant.Text))
                     {
                         int cant = 0;
-                        if (!int.TryParse(txtCant.Text, out cant)) continue;
-                        if (cant <= 0) continue;
+                        if (!int.TryParse(txtCant.Text, out cant))
+                        {
+                            lblMensaje.Text = "La cantidad solicitada debe ser un número entero.";
+                            return;
+                        }
+                        if (cant <= 0)
+                            continue;
+
+                        hayAlMenosUnArticulo = true;
 
                         int idArticulo = int.Parse(gvGestionCompra.DataKeys[row.RowIndex].Values["IDArticulo"].ToString());
-                        decimal precio = decimal.Parse(gvGestionCompra.DataKeys[row.RowIndex].Values["PrecioCompra"].ToString());
+                        decimal precioOriginal = decimal.Parse(gvGestionCompra.DataKeys[row.RowIndex].Values["PrecioCompra"].ToString());
+
+                        TextBox txtPrecioMod = (TextBox)row.FindControl("txtPrecioModificado");
+                        decimal precioModificado = 0;
+                        bool tieneMod = true;
+
+                        if (!string.IsNullOrWhiteSpace(txtPrecioMod.Text))
+                        {
+                            tieneMod = decimal.TryParse(
+                                txtPrecioMod.Text.Replace(",", "."),
+                                System.Globalization.NumberStyles.AllowDecimalPoint,
+                                System.Globalization.CultureInfo.InvariantCulture,
+                                out precioModificado
+                            );
+
+                            if (!tieneMod)
+                            {
+                                lblMensaje.Text = "El precio modificado debe ser numérico.";
+                                return;
+                            }
+
+                            if (precioModificado < 0)
+                            {
+                                lblMensaje.Text = "El precio modificado no puede ser negativo.";
+                                return;
+                            }
+                        }
+
+                        decimal precio = (!string.IsNullOrWhiteSpace(txtPrecioMod.Text) && tieneMod)
+                         ? precioModificado
+                         : precioOriginal;
 
                         subtotal += precio * cant;
-                        detalles.Add(new CompraDetalle { IDArticulo = idArticulo, Cantidad = cant, PrecioUnitario = precio });
+
+                        detalles.Add(new CompraDetalle
+                        {
+                            IDArticulo = idArticulo,
+                            Cantidad = cant,
+                            PrecioUnitario = precio
+                        });
+
+                        if (!string.IsNullOrWhiteSpace(txtPrecioMod.Text) && tieneMod)
+                        {
+                            ArticulosNegocio artNeg = new ArticulosNegocio();
+                            artNeg.ModificarPrecioCompra(idArticulo, precioModificado);
+                        }
                     }
                 }
 
-                // Calculo de descuentos según cantidad total de unidades
+                if (!hayAlMenosUnArticulo)
+                {
+                    lblMensaje.Text = "Debe ingresar al menos un artículo para efectuar la compra.";
+                    return;
+                }
+
                 int totalUnidades = detalles.Sum(d => d.Cantidad);
                 decimal descuento = 0m;
+
                 if (totalUnidades >= 1000)
                     descuento = subtotal * 0.10m;
                 else if (totalUnidades >= 100)
@@ -171,13 +219,11 @@ namespace TPC_Comercio_Eq_14
                 compra.SubTotal = subtotal;
                 compra.Total = subtotal - descuento;
 
-                // OBTENER NRO DE COMPROBANTE: USAR LA CAPA DE NEGOCIO (mejor) o AccesoBD directo
+
                 EfectuarCompraNegocio negocio = new EfectuarCompraNegocio();
-                // Obtener último (max) y sumar 1:
-                int ultimo = negocio.ObtenerUltimoNroComprobante(); // en tu clase devuelve MAX(NroComprobante)
+                int ultimo = negocio.ObtenerUltimoNroComprobante();
                 compra.NroComprobante = ultimo + 1;
 
-                // Ejecutar compra
                 negocio.EfectuarCompra(compra, detalles);
 
                 lblMensaje.Text = "Compra efectuada correctamente. Nº " + compra.NroComprobante;
@@ -189,5 +235,31 @@ namespace TPC_Comercio_Eq_14
             }
         }
 
+        protected void txtPrecioModificado_TextChanged(object sender, EventArgs e)
+        {
+            TextBox txt = (TextBox)sender;
+            GridViewRow row = (GridViewRow)txt.NamingContainer;
+
+            RecalcularFila(row);
+        }
+        private void RecalcularFila(GridViewRow row)
+        {
+            TextBox txtCant = (TextBox)row.FindControl("txtStockSolicitado");
+            int cant = 0;
+            int.TryParse(txtCant.Text, out cant);
+            
+            decimal precioOriginal = Convert.ToDecimal(gvGestionCompra.DataKeys[row.RowIndex]["PrecioCompra"]);
+
+            TextBox txtMod = (TextBox)row.FindControl("txtPrecioModificado");
+            decimal precioMod;
+            bool tieneMod = decimal.TryParse(txtMod.Text.Replace(",", "."), System.Globalization.NumberStyles.Any, System.Globalization.CultureInfo.InvariantCulture, out precioMod);
+
+            decimal precio = tieneMod ? precioMod : precioOriginal;
+
+            decimal subtotal = cant * precio;
+
+            ((Label)row.FindControl("lblSubtotal")).Text = subtotal.ToString("N2");
+            ((Label)row.FindControl("lblTotal")).Text = subtotal.ToString("N2");
+        }
     }
 }
